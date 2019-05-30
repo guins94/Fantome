@@ -37,38 +37,46 @@ FantomeState::FantomeState(){
     this->quitRequested = false;
     this->started = false;
 
-    GameObject* initial_screen = new GameObject();
-    CameraFollower* cameraFollower = new CameraFollower(initial_screen);
+    //GameObject* background_screen = new GameObject();
+    //CameraFollower* cameraFollower = new CameraFollower(background_screen);
+    //background_screen->box.x = 0;
+    //background_screen->box.y = 0;
+    //background_screen->GameObject::AddComponent(cameraFollower);
+    //this->objectArray.emplace_back(background_screen);
 
-    initial_screen->box.x = 0;
-    initial_screen->box.y = 0;
-    initial_screen->GameObject::AddComponent(cameraFollower);
-    this->objectArray.emplace_back(initial_screen);
+    GameObject* backGround1 = new GameObject();
+    backGround1->box.x = -850;
+    backGround1->box.y = 0;
+    Sprite* backGround1_sprite = new Sprite(backGround1);
+    backGround1_sprite->Open("assets/img/bg_test_pequeno.png");
+    backGround1->GameObject::AddComponent(backGround1_sprite);
+    this->objectArray.emplace_back(backGround1);
 
     GameObject* ground = new GameObject();
-    ground->box.w = 2000;
+    ground->box.w = 1000;
     ground->box.h = 5;
     ground->box.x = 0;
     ground->box.y = 500;
-    //Ground* ground_component = new Ground(ground);
-    //ground->GameObject::AddComponent(ground_component);
-    TileSet* tile_set = new TileSet(64,64,"assets/img/tileset.png");
-    TileMap* tile_map = new TileMap(ground,"assets/map/tileMap.txt",tile_set);
-    ground->GameObject::AddComponent(tile_map);
     Collider* ground_collider = new Collider(ground);
     ground->GameObject::AddComponent(ground_collider);
+
+    TileSet* tile_set = new TileSet(316, 143,"assets/fan_img/floor_tileset.png");
+    TileMap* tile_map = new TileMap(ground,"assets/fan_map/tileMap.txt",tile_set);
+    ground->GameObject::AddComponent(tile_map);
+
     this->objectArray.emplace_back(ground);
 
     GameObject* fantome = new GameObject();
-    fantome->box.w = 146;
-    fantome->box.h = 163;
+    fantome->box.w = 115;
+    fantome->box.h = 140;
     fantome->box.x = 200;
-    fantome->box.y = 0;
+    fantome->box.y = -500;
     Fantome* fantome_component = new Fantome(fantome);
     fantome->GameObject::AddComponent(fantome_component);
     Collider* fantome_collider = new Collider(fantome);
     fantome->GameObject::AddComponent(fantome_collider);
     this->objectArray.emplace_back(fantome);
+
 /*
     GameObject* backGround1 = new GameObject();
     Sprite* sprite = new Sprite(backGround1);
@@ -93,6 +101,26 @@ FantomeState::FantomeState(){
     sprite2->Open("assets/img/bg_test_4_pequeno.png");
     backGround4->GameObject::AddComponent(sprite4);
     this->objectArray.emplace_back(backGround4);
+*/
+    //GameObject* ground = new GameObject();
+    //ground->box.w = 2000;
+    //ground->box.h = 5;
+    //ground->box.x = 0;
+    //ground->box.y = 500;
+
+    //Ground* ground_component = new Ground(ground);
+    //ground->GameObject::AddComponent(ground_component);
+
+    //TileSet* tile_set = new TileSet(64,64,"assets/img/tileset.png");
+    //TileMap* tile_map = new TileMap(ground,"assets/map/tileMap.txt",tile_set);
+    //ground->GameObject::AddComponent(tile_map);
+    //Collider* ground_collider = new Collider(ground);
+    //ground->GameObject::AddComponent(ground_collider);
+    //this->objectArray.emplace_back(ground);
+
+
+
+
 /*
     GameObject* new_tile = new GameObject();
     new_tile->box.w = 30;

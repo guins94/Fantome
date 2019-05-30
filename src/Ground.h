@@ -5,6 +5,11 @@
 #include"Component.h"
 #include"Vec2.h"
 #include"GameObject.h"
+#include"Camera.h"
+#include"Sprite.h"
+#include"Bullet.h"
+#include"GAME.h"
+#include"Collider.h"
 
 class Ground : public Component{
   private:
@@ -17,8 +22,6 @@ class Ground : public Component{
     void Render();
   public:
     bool Is(std::string type);
-  public:
-    void Shoot(Vec2 target);
   public:
     void Start();
   public:

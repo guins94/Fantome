@@ -1,13 +1,3 @@
-#include"Minion.h"
-#include"Vec2.h"
-#include"GameObject.h"
-#include"InputManager.h"
-#include"Camera.h"
-#include"Sprite.h"
-#include"Bullet.h"
-#include"GAME.h"
-#include"Collider.h"
-
 #include"Ground.h"
 
 #include<queue>
@@ -37,9 +27,6 @@ bool Ground::Is(std::string type){
     return false;
 }
 
-void Ground::Shoot(Vec2 target){
-
-}
 
 void Ground::Start(){
 

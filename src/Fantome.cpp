@@ -16,7 +16,7 @@ Fantome::Fantome(GameObject* associated){
   this->associated = associated;
   this->falling = true;
   Sprite* sprite = new Sprite(this->associated);
-  sprite->Open("assets/img/alien.png");
+  sprite->Open("assets/fan_img/fantasma_fantome.png");
   //std::cout << "width = "<<sprite->GetWidth() << std::endl;
   //this->associated->box.w = sprite->GetWidth();
   //this->associated->box.h = sprite->GetHeight();

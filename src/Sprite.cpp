@@ -91,14 +91,14 @@ void Sprite::Update(float dt){
   }
   if(inputManager->KeyRelease(SDLK_d) == false){
     this->associated->box.x = this->associated->box.x - dt;
-  }
+  }/*
   if(inputManager->KeyRelease(SDLK_w) == false){
     this->associated->box.y = this->associated->box.y + dt;
   }
   if(inputManager->KeyRelease(SDLK_s) == false){
     this->associated->box.y = this->associated->box.y - dt;
   }
-	
+*/
 	this->timeElapsed = this->timeElapsed + dt;
 	if(this->timeElapsed >= this->frameTime){
 		this->timeElapsed = 0;

@@ -74,7 +74,7 @@ void TileMap::Render(){
 	//for(; i<=this->mapDepth;i++){
 		//RenderLayer(i,camera->pos.x, camera->pos.y);
 	//}
-  RenderLayer(1,camera->pos.x*.7, camera->pos.y*.7);
+  RenderLayer(1,camera->pos.x, camera->pos.y);
   RenderLayer(2,camera->pos.x, camera->pos.y);
 }
 
@@ -95,7 +95,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 				index = At(i,j,0);
 				if(*(index) != (-1)){
 					//std::cout << "camada i: " << i<< "camadaj:"<<j <<std::endl;
-					this->tileSet->RenderTile(*(index),(j*64) + cameraX,(i*64) + CameraY);
+					this->tileSet->RenderTile(*(index),(j*316) + cameraX,(i*143) + CameraY + 500);
 				}
 			}
 		}
@@ -104,7 +104,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 			for(j=0;j<=24; j++){
 				index = At(i,j,0);
 				if(*(index) != -1){
-					this->tileSet->RenderTile(*(index),((j)*64) + cameraX,(i-24)*64 + CameraY);
+					this->tileSet->RenderTile(*(index),((j)*316) + cameraX,(i-24)*143 + CameraY +500);
 				}
 			}
 		}
@@ -112,7 +112,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 }
 
 void TileMap::Update(float dx){
-  //this->associated->box.x = 
+  //this->associated->box.x =
 }
 
 bool TileMap::Is(std::string type){

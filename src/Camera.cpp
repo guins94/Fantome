@@ -34,13 +34,13 @@ void Camera::Update(float dt){
   }
   if(inputManager->KeyRelease(SDLK_d) == false){
     this->pos.x= (this->pos.x - dt);
-  }
+  }/*/
   if(inputManager->KeyRelease(SDLK_w) == false){
     this->pos.y= (this->pos.y + dt);
   }
   if(inputManager->KeyRelease(SDLK_s) == false){
     this->pos.y= (this->pos.y - dt);
-  }
+  }*/
 
 
   this->speed = Vec2(0,0);

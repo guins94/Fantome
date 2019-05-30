@@ -55,7 +55,7 @@ FantomeState::FantomeState(){
     GameObject* backGround1 = new GameObject();
     backGround1->box.x = 0;
     backGround1->box.y = 0;
-    ParallaxScrolling* parallax_background = new ParallaxScrolling(backGround1,0.6,"assets/fan_img/bg_test_2_pequeno.png","assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallax_background = new ParallaxScrolling(backGround1,0.4,"assets/fan_img/bg_test_2_pequeno.png","assets/fan_map/backgroundMap.txt");
     backGround1->GameObject::AddComponent(parallax_background);
     this->objectArray.emplace_back(backGround1);
 
@@ -69,7 +69,7 @@ FantomeState::FantomeState(){
     GameObject* backGround3 = new GameObject();
     backGround3->box.x = 0;
     backGround3->box.y = 0;
-    ParallaxScrolling* parallax_background_3 = new ParallaxScrolling(backGround3,0.8,"assets/fan_img/bg_test_4_pequeno.png","assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallax_background_3 = new ParallaxScrolling(backGround3,0.9,"assets/fan_img/bg_test_4_pequeno.png","assets/fan_map/backgroundMap.txt");
     backGround3->GameObject::AddComponent(parallax_background_3);
     this->objectArray.emplace_back(backGround3);
 

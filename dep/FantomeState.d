@@ -6,7 +6,7 @@ bin/FantomeState.o: src/FantomeState.cpp include/FantomeState.h \
  include/StageState.h include/CameraFollower.h include/Alien.h \
  include/Bullet.h include/PenguinBody.h include/PenguinCannon.h \
  include/Collider.h include/EndState.h include/TitleState.h src/Ground.h \
- include/Fantome.h
+ include/Fantome.h include/ParallaxScrolling.h
 
 include/FantomeState.h:
 
@@ -61,3 +61,5 @@ include/TitleState.h:
 src/Ground.h:
 
 include/Fantome.h:
+
+include/ParallaxScrolling.h:

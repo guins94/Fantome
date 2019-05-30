@@ -25,6 +25,7 @@
 #include"TitleState.h"
 #include"Ground.h"
 #include"Fantome.h"
+#include"ParallaxScrolling.h"
 
 
 #include"SDL2/SDL.h"
@@ -37,20 +38,40 @@ FantomeState::FantomeState(){
     this->quitRequested = false;
     this->started = false;
 
-    //GameObject* background_screen = new GameObject();
-    //CameraFollower* cameraFollower = new CameraFollower(background_screen);
-    //background_screen->box.x = 0;
-    //background_screen->box.y = 0;
-    //background_screen->GameObject::AddComponent(cameraFollower);
-    //this->objectArray.emplace_back(background_screen);
-
+    GameObject* background_screen = new GameObject();
+    CameraFollower* cameraFollower = new CameraFollower(background_screen);
+    background_screen->box.x = 0;
+    background_screen->box.y = 0;
+    background_screen->GameObject::AddComponent(cameraFollower);
+    this->objectArray.emplace_back(background_screen);
+/*
+  GameObject* backGround = new GameObject();
+  backGround->box.x = 0;
+  backGround->box.y = 0;
+  ParallaxScrolling* parallax_background_0 = new ParallaxScrolling(backGround,0.55,"assets/fan_img/bg_test.png","assets/fan_map/backgroundMap.txt");
+  backGround->GameObject::AddComponent(parallax_background_0);
+  this->objectArray.emplace_back(backGround);
+*/
     GameObject* backGround1 = new GameObject();
-    backGround1->box.x = -850;
+    backGround1->box.x = 0;
     backGround1->box.y = 0;
-    Sprite* backGround1_sprite = new Sprite(backGround1);
-    backGround1_sprite->Open("assets/img/bg_test_pequeno.png");
-    backGround1->GameObject::AddComponent(backGround1_sprite);
+    ParallaxScrolling* parallax_background = new ParallaxScrolling(backGround1,0.6,"assets/fan_img/bg_test_2_pequeno.png","assets/fan_map/backgroundMap.txt");
+    backGround1->GameObject::AddComponent(parallax_background);
     this->objectArray.emplace_back(backGround1);
+
+    GameObject* backGround2 = new GameObject();
+    backGround2->box.x = 0;
+    backGround2->box.y = 0;
+    ParallaxScrolling* parallax_background_2 = new ParallaxScrolling(backGround2,0.7,"assets/fan_img/bg_test_3_pequeno.png","assets/fan_map/backgroundMap.txt");
+    backGround2->GameObject::AddComponent(parallax_background_2);
+    this->objectArray.emplace_back(backGround2);
+
+    GameObject* backGround3 = new GameObject();
+    backGround3->box.x = 0;
+    backGround3->box.y = 0;
+    ParallaxScrolling* parallax_background_3 = new ParallaxScrolling(backGround3,0.8,"assets/fan_img/bg_test_4_pequeno.png","assets/fan_map/backgroundMap.txt");
+    backGround3->GameObject::AddComponent(parallax_background_3);
+    this->objectArray.emplace_back(backGround3);
 
     GameObject* ground = new GameObject();
     ground->box.w = 1000;

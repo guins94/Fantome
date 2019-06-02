@@ -95,7 +95,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 				index = At(i,j,0);
 				if(*(index) != (-1)){
 					//std::cout << "camada i: " << i<< "camadaj:"<<j <<std::endl;
-					this->tileSet->RenderTile(*(index),(j*316) + cameraX,(i*143) + CameraY + 500);
+					this->tileSet->RenderTile(*(index),(j*316) + cameraX,(i*143) + CameraY + 357);
 				}
 			}
 		}
@@ -104,7 +104,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 			for(j=0;j<=24; j++){
 				index = At(i,j,0);
 				if(*(index) != -1){
-					this->tileSet->RenderTile(*(index),((j)*316) + cameraX,(i-24)*143 + CameraY +500);
+					this->tileSet->RenderTile(*(index),((j)*316) + cameraX,(i-24)*143 + CameraY +357);
 				}
 			}
 		}

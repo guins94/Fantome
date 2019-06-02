@@ -26,7 +26,8 @@
 #include"Ground.h"
 #include"Fantome.h"
 #include"ParallaxScrolling.h"
-
+#include"Surface.h"
+#include"Grave.h"
 
 #include"SDL2/SDL.h"
 #include"SDL2/SDL_image.h"
@@ -77,15 +78,50 @@ FantomeState::FantomeState(){
     ground->box.w = 1000;
     ground->box.h = 5;
     ground->box.x = 0;
-    ground->box.y = 500;
-    Collider* ground_collider = new Collider(ground);
-    ground->GameObject::AddComponent(ground_collider);
-
+    ground->box.y = 0;
+    //Collider* ground_collider = new Collider(ground);
+    //ground->GameObject::AddComponent(ground_collider);
     TileSet* tile_set = new TileSet(316, 143,"assets/fan_img/floor_tileset.png");
     TileMap* tile_map = new TileMap(ground,"assets/fan_map/tileMap.txt",tile_set);
     ground->GameObject::AddComponent(tile_map);
 
     this->objectArray.emplace_back(ground);
+
+    GameObject* surface = new GameObject();
+    surface->box.w = 2250;
+    surface->box.h = 10;
+    surface->box.x = 0;
+    surface->box.y = 500;
+    Surface* surface_component = new Surface(surface);
+    surface->GameObject::AddComponent(surface_component);
+    Collider* surface_collider = new Collider(surface);
+    surface->GameObject::AddComponent(surface_collider);
+    this->objectArray.emplace_back(surface);
+
+    GameObject* surface2 = new GameObject();
+    surface2->box.w = 1000;
+    surface2->box.h = 2;
+    surface2->box.x = 2250;
+    surface2->box.y = 357;
+    Surface* surface_component2 = new Surface(surface2);
+    surface2->GameObject::AddComponent(surface_component2);
+    Collider* surface_collider2 = new Collider(surface2);
+    surface2->GameObject::AddComponent(surface_collider2);
+    this->objectArray.emplace_back(surface2);
+
+    GameObject* grave = new GameObject();
+    grave->box.w = 140;
+    grave->box.h = 140;
+    grave->box.x = 1000;
+    grave->box.y = -66;//-60;
+    Grave* grave_component = new Grave(grave);
+    grave->GameObject::AddComponent(grave_component);
+    Sprite* gravesprite = new Sprite(grave);
+    gravesprite->Open("assets/img/alien.png");
+    grave->GameObject::AddComponent(gravesprite);
+    Collider* grave_collider = new Collider(grave);
+    grave->GameObject::AddComponent(grave_collider);
+    this->objectArray.emplace_back(grave);
 
     GameObject* fantome = new GameObject();
     fantome->box.w = 115;
@@ -98,31 +134,6 @@ FantomeState::FantomeState(){
     fantome->GameObject::AddComponent(fantome_collider);
     this->objectArray.emplace_back(fantome);
 
-/*
-    GameObject* backGround1 = new GameObject();
-    Sprite* sprite = new Sprite(backGround1);
-    sprite->Open("assets/img/bg_test_pequeno.png");
-    backGround1->GameObject::AddComponent(sprite);
-    this->objectArray.emplace_back(backGround1);
-
-    GameObject* backGround2 = new GameObject();
-    Sprite* sprite2 = new Sprite(backGround2);
-    sprite2->Open("assets/img/bg_test_2_pequeno.png");
-    backGround2->GameObject::AddComponent(sprite2);
-    this->objectArray.emplace_back(backGround2);
-
-    GameObject* backGround3 = new GameObject();
-    Sprite* sprite3 = new Sprite(backGround3);
-    sprite3->Open("assets/img/bg_test_3_pequeno.png");
-    backGround3->GameObject::AddComponent(sprite3);
-    this->objectArray.emplace_back(backGround3);
-
-    GameObject* backGround4 = new GameObject();
-    Sprite* sprite4 = new Sprite(backGround4);
-    sprite2->Open("assets/img/bg_test_4_pequeno.png");
-    backGround4->GameObject::AddComponent(sprite4);
-    this->objectArray.emplace_back(backGround4);
-*/
     //GameObject* ground = new GameObject();
     //ground->box.w = 2000;
     //ground->box.h = 5;
@@ -360,12 +371,6 @@ void FantomeState::Update(){
 	//for(std::vector<std::shared_ptr<GameObject>>::iterator it = this->objectArray.begin(); it!=this->objectArray.end(); it++){
 		//(*it)->Update(dt);
 	//}
-
-  for(int x = 0; x<=this->objectArray.size() - 1; x++){
-    objectArray[x]->Update(dt);
-  }
-
-
   Collider* collider_object;
   Collider* second_object;
   for(int i = 0; i<=this->objectArray.size() - 1; i++){
@@ -384,6 +389,10 @@ void FantomeState::Update(){
         }
       }
     }
+  }
+
+  for(int x = 0; x<=this->objectArray.size() - 1; x++){
+    objectArray[x]->Update(dt);
   }
 
 	std::vector<std::shared_ptr<GameObject>>::reverse_iterator iti = this->objectArray.rbegin();

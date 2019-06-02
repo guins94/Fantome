@@ -9,6 +9,7 @@
 #include"Bullet.h"
 #include"PenguinBody.h"
 #include"Fantome.h"
+#include"Grave.h"
 
 #include<queue>
 
@@ -37,6 +38,7 @@ void Fantome::Update(float dt){
     this->associated->box.y = this->associated->box.y + dt;
   }
 
+  this->falling = true;
   InputManager* inputManager = InputManager::GetInstance();
   if(inputManager->KeyRelease(SDLK_a) == false){
     this->associated->box.x = this->associated->box.x - dt;
@@ -51,22 +53,32 @@ void Fantome::Render(){
 }
 
 bool Fantome::Is (std::string type){
-  if(type == "Fantome"){
-    return true;
-  }
-  else
-    return false;
+  return (type == "Fantome");
 }
 
 
 
 void Fantome::NotifyCollision(GameObject& other){
 	if(other.GetComponent("Ground") != nullptr){
-    std::cout << "colliding with ground" << std::endl;
     this->falling = false;
   }
-  if(other.GetComponent("Tile") != nullptr){
-    std::cout << "colliding with ground" << std::endl;
+  if(other.GetComponent("Surface") != nullptr){
+    float dt = Game::getInstance()->GetDeltaTime();
+    this->falling = false;
+    /*InputManager* inputManager = InputManager::GetInstance();
+    if(inputManager->KeyRelease(SDLK_a) == false){
+      this->associated->box.x = this->associated->box.x + dt;
+    }
+    if(inputManager->KeyRelease(SDLK_d) == false){
+      this->associated->box.x = this->associated->box.x - dt;
+    }*/
+  }
+  if(other.GetComponent("Grave") != nullptr){
+    InputManager* inputManager = InputManager::GetInstance();
+    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+      //(Grave*)other.GetComponent("Grave")->playing == true;
+      this->associated->RequestDelete();
+    }
     this->falling = false;
   }
   //if(other.GetComponent("Bullet") != nullptr){

@@ -9,6 +9,7 @@
 #include"Grave.h"
 #include"Fantome.h"
 #include"Collider.h"
+#include"Possession.h"
 
 #include<queue>
 
@@ -17,6 +18,8 @@ Grave::Grave(GameObject* associated){
   this->falling = true;
   this->playing = false;
   Timer* timer = new Timer();
+  this->restTimer = timer;
+  this->possessionTimer = new Timer();
 }
 
 Grave::~Grave(){
@@ -28,6 +31,7 @@ void Grave::Start(){
 }
 
 void Grave::Update(float dt){
+  this->possessionTimer->Update(dt);
   if(this->falling == true){
     this->associated->box.y = this->associated->box.y + dt;
   }
@@ -35,29 +39,37 @@ void Grave::Update(float dt){
   this->falling = false;
   if(this->playing == true){
     InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_a) == false){
-      this->associated->box.x = this->associated->box.x - dt;
-    }
-    if(inputManager->KeyRelease(SDLK_d) == false){
-      this->associated->box.x = this->associated->box.x + dt;
-    }
 
-    if((inputManager->KeyRelease(SDLK_SPACE) == false) && (inputManager->KeyRelease(SDLK_w) == false)){
-      GameObject* fantome = new GameObject();
-      fantome->box.w = 115;
-      fantome->box.h = 140;
-      fantome->box.x = this->associated->box.x;
-      fantome->box.y = this->associated->box.y - 141;
-      Fantome* fantome_component = new Fantome(fantome);
-      fantome->GameObject::AddComponent(fantome_component);
-      Collider* fantome_collider = new Collider(fantome);
-      fantome->GameObject::AddComponent(fantome_collider);
-      Game::getInstance()->getStageState()->AddObject(fantome);
+      if(inputManager->KeyRelease(SDLK_a) == false){
+        this->restTimer->Update(dt);
+        //if(this->restTimer->Get() >= 45){
+          this->associated->box.x = this->associated->box.x - dt;
+          this->restTimer->Restart();
+        //}
+      }
+      if(inputManager->KeyRelease(SDLK_d) == false){
+        this->restTimer->Update(dt);
+        //if(this->restTimer->Get() >= 45){
+          this->associated->box.x = this->associated->box.x + dt;
+          //this->restTimer->Restart();
+        //}
+      }
+    if(this->possessionTimer->Get() >= 300 && (inputManager->KeyRelease(SDLK_SPACE) == false) && (inputManager->KeyRelease(SDLK_w) == false)){
+      GameObject* possession = new GameObject();
+      possession->box.w = 30;
+      possession->box.h = 30;
+      possession->box.x = this->associated->box.x;
+      possession->box.y = this->associated->box.y;
+      possession->GameObject::AddComponent(new Possession(possession,2));
+      Collider* possession_collider = new Collider(possession);
+      possession->GameObject::AddComponent(possession_collider);
+      Game::getInstance()->getStageState()->AddObject(possession);
       //game->getStageState()->AddObject(minion_go)
       this->playing = false;
+      this->possessionTimer->Restart();
     }
-
   }
+
 }
 
 void Grave::Render(){
@@ -69,7 +81,7 @@ bool Grave::Is (std::string type){
 }
 
 void Grave::NotifyCollision(GameObject& other){
-	if(other.GetComponent("Fantome") != nullptr){
+	if(this->possessionTimer->Get() >= 300 && other.GetComponent("Fantome") != nullptr){
     InputManager* inputManager = InputManager::GetInstance();
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       this->playing = true;

@@ -18,11 +18,13 @@ Fantome::Fantome(GameObject* associated){
   this->falling = true;
   Sprite* sprite = new Sprite(this->associated);
   sprite->Open("assets/fan_img/fantasma_fantome.png");
+  //sprite->SetClip(0,100,sprite->GetWidth,sprite->GetHeight);
+  sprite->SetClip(0, 0, sprite->Sprite::GetHeight(),sprite->Sprite::GetWidth() + 350);
   //std::cout << "width = "<<sprite->GetWidth() << std::endl;
-  //this->associated->box.w = sprite->GetWidth();
   //this->associated->box.h = sprite->GetHeight();
   associated->GameObject::AddComponent(sprite);
   Timer* timer = new Timer();
+  this->restTimer = timer;
 }
 
 Fantome::~Fantome(){

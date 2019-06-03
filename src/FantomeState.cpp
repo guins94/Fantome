@@ -125,12 +125,14 @@ FantomeState::FantomeState(){
 
     GameObject* fantome = new GameObject();
     fantome->box.w = 115;
-    fantome->box.h = 140;
+    fantome->box.h = 14;
     fantome->box.x = 200;
-    fantome->box.y = -500;
+    fantome->box.y = -300;
     Fantome* fantome_component = new Fantome(fantome);
     fantome->GameObject::AddComponent(fantome_component);
     Collider* fantome_collider = new Collider(fantome);
+    Vec2 offset = Vec2(0,130);
+    fantome_collider->SetOffset(offset);
     fantome->GameObject::AddComponent(fantome_collider);
     this->objectArray.emplace_back(fantome);
 

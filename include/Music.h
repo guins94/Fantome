@@ -1,7 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include "SDL2/SDL_mixer.h"
-#include<iostream>
+#ifndef MUSIC_HEADER
+#define MUSIC_HEADER
 
 class Music{
 	private:
@@ -12,6 +15,8 @@ class Music{
 	public:
 		Music(std::string file);
 	public:
+		~Music();
+	public:
 		void Play(int times = -1);
 	public:
 		void Stop(int msToStop = 1500);
@@ -20,3 +25,5 @@ class Music{
 	public:
 		bool IsOpen();
 };
+
+#endif

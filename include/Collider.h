@@ -1,12 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<memory>
-
-#include"Component.h"
-#include"Vec2.h"
-#include"GameObject.h"
-
-#include <cmath>
+#ifndef COLLIDER_HEADER
+#define COLLIDER_HEADER
 
 class Collider : public Component{
   private:
@@ -27,6 +25,6 @@ class Collider : public Component{
     void SetScale(Vec2 scale);
   public:
     void SetOffset(Vec2 offset);
-  public:
-    static inline bool IsColliding(Rect& a, Rect& b, float angleOfA, float angleOfB);
 };
+
+#endif

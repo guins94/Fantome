@@ -1,9 +1,12 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<iostream>
-#include<string>
+#ifndef COMP_HEADER
+#define COMP_HEADER
 
-#include"GameObject.h"
+class GameObject;
 
 class Component{
 	protected:
@@ -26,3 +29,5 @@ class Component{
 	public:
 		void virtual NotifyCollision(GameObject& other);
 };
+
+#endif

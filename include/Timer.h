@@ -1,10 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<memory>
-
-#include"Component.h"
-#include"Vec2.h"
-#include"GameObject.h"
+#ifndef TIMER_HEADER
+#define TIMER_HEADER
 
 class Timer{
   private:
@@ -18,3 +18,5 @@ class Timer{
   public:
     float Get();
 };
+
+#endif

@@ -1,24 +1,23 @@
-#pragma once
-#include"Vec2.h"
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include"GameObject.h"
-#include"Component.h"
+#ifndef CAMERA_HEADER
+#define CAMERA_HEADER
 
 class Camera{
   private:
-    GameObject* focus;
+    static GameObject* focus;
   public:
-    Vec2 pos  = Vec2(0,0);
-    Vec2 speed = Vec2(0,0);
+    static Vec2 pos;
+    static Vec2 speed;
   public:
-    Camera();
+    static void Follow(GameObject* newFocus);
   public:
-    void Follow(GameObject* focus);
+    static void Unfollow();
   public:
-    void Unfollow();
-  public:
-    void Update(float dt);
-  public:
-    static Camera* GetInstance();
-
+    static void Update(float dt);
 };
+
+#endif

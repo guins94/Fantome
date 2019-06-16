@@ -1,33 +1,4 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-#include<map>
-#include<queue>
-#include<algorithm>
-
 #include"State.h"
-#include"Face.h"
-#include"Vec2.h"
-#include"Sound.h"
-#include"TileMap.h"
-#include"InputManager.h"
-#include"Camera.h"
-#include"GAME.h"
-#include"CameraFollower.h"
-#include"Alien.h"
-#include"Minion.h"
-#include"Bullet.h"
-#include"PenguinBody.h"
-#include"PenguinCannon.h"
-#include"Collider.h"
-
-
-#include"SDL2/SDL.h"
-#include"SDL2/SDL_image.h"
-#include"SDL2/SDL_mixer.h"
-#include"SDL2/SDL_ttf.h"
-
 
 State::State(){
   this->popRequested = false;

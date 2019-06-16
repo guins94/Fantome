@@ -1,13 +1,4 @@
-#include<iostream>
-#include<iomanip>
-#include<fstream>
-#include<vector>
-#include<memory>
-#include<string>
-
-#include"Sprite.h"
-#include"ParallaxScrolling.h"
-#include"Camera.h"
+#include "ParallaxScrolling.h"
 
 ParallaxScrolling::ParallaxScrolling(GameObject* associated,float multiplier,std::string sprite_file, std::string file){
   this->associated = associated;
@@ -67,10 +58,9 @@ int* ParallaxScrolling::At(int x,int y, int z){
 }
 
 void ParallaxScrolling::Render(){
-  Camera* camera = Camera::GetInstance();
   //RenderLayer(1,camera->pos.x, camera->pos.y);
   this->tileSet->SetClip(0,0,this->tileSet->GetHeight() ,600);
-  this->tileSet->Render(multiplier*camera->pos.x,multiplier*camera->pos.y);
+  this->tileSet->Render(multiplier*Camera::pos.x,multiplier*Camera::pos.y);
 }
 
 

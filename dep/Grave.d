@@ -1,44 +1,81 @@
-bin/Grave.o: src/Grave.cpp include/InputManager.h include/Camera.h \
- include/Vec2.h include/GameObject.h include/Rect.h include/Component.h \
- include/Sprite.h include/Timer.h include/Minion.h include/GAME.h \
- include/StageState.h include/Music.h include/State.h include/Bullet.h \
- include/PenguinBody.h include/Grave.h include/Fantome.h \
- include/Collider.h include/Possession.h
+bin/Grave.o: src/Grave.cpp include/Grave.h include/AllHeaders.h \
+ include/Vec2.h include/Rect.h include/Music.h include/Component.h \
+ include/GameObject.h include/Sound.h include/Timer.h include/Sprite.h \
+ include/State.h include/ParallaxScrolling.h include/Surface.h \
+ include/Possession.h include/Grave.h include/Fantome.h \
+ include/Collision.h include/FantomeState.h include/Bullet.h \
+ include/Camera.h include/CameraFollower.h include/Collider.h \
+ include/Game.h include/InputManager.h include/Resources.h \
+ include/TileSet.h include/TileMap.h include/StageState.h \
+ include/TitleState.h include/Text.h include/EndState.h include/Ground.h \
+ include/GameData.h include/BoneFrog.h include/Chains.h
 
-include/InputManager.h:
+include/Grave.h:
 
-include/Camera.h:
+include/AllHeaders.h:
 
 include/Vec2.h:
 
-include/GameObject.h:
-
 include/Rect.h:
-
-include/Component.h:
-
-include/Sprite.h:
-
-include/Timer.h:
-
-include/Minion.h:
-
-include/GAME.h:
-
-include/StageState.h:
 
 include/Music.h:
 
+include/Component.h:
+
+include/GameObject.h:
+
+include/Sound.h:
+
+include/Timer.h:
+
+include/Sprite.h:
+
 include/State.h:
 
-include/Bullet.h:
+include/ParallaxScrolling.h:
 
-include/PenguinBody.h:
+include/Surface.h:
+
+include/Possession.h:
 
 include/Grave.h:
 
 include/Fantome.h:
 
+include/Collision.h:
+
+include/FantomeState.h:
+
+include/Bullet.h:
+
+include/Camera.h:
+
+include/CameraFollower.h:
+
 include/Collider.h:
 
-include/Possession.h:
+include/Game.h:
+
+include/InputManager.h:
+
+include/Resources.h:
+
+include/TileSet.h:
+
+include/TileMap.h:
+
+include/StageState.h:
+
+include/TitleState.h:
+
+include/Text.h:
+
+include/EndState.h:
+
+include/Ground.h:
+
+include/GameData.h:
+
+include/BoneFrog.h:
+
+include/Chains.h:

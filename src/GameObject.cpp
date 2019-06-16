@@ -1,11 +1,4 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-#include<algorithm>
-
-#include"GameObject.h"
-#include"Component.h"
+#include "GameObject.h"
 
 GameObject::GameObject(){
 	this->isDead = false;
@@ -67,12 +60,6 @@ void GameObject::RemoveComponent(Component* cpt){
 }
 
 Component* GameObject::GetComponent(std::string type){
-	//for(std::vector <Component*>::iterator it = this->components.begin(); it!=this->components.end(); it++){
-		//if((*it)->Is(type) == true){
-			//return (*it);
-		//}
-	//}
-	//return nullptr;
 	for(int x = 0; x<=this->components.size() - 1; x++){
 		if(components[x]->Is(type) == true){
 			return components[x];

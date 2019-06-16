@@ -1,5 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
+#ifndef PARALLAX_HEADER
+#define PARALLAX_HEADER
 
 class ParallaxScrolling : public Component{
 	private:
@@ -30,3 +35,5 @@ class ParallaxScrolling : public Component{
   public:
     void RenderTile(unsigned index,float x,float y );
 };
+
+#endif

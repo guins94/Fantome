@@ -1,19 +1,4 @@
-#include"Minion.h"
-#include"Vec2.h"
-#include"GameObject.h"
-#include"InputManager.h"
-#include"Camera.h"
-#include"Sprite.h"
-#include"Minion.h"
-#include"Bullet.h"
-#include"GAME.h"
 #include"Collider.h"
-
-#include<queue>
-#include <iostream>
-#include<string>
-#include <algorithm>
-
 
 Collider::Collider(GameObject* associated, Vec2 scale, Vec2 offset){
   scale = Vec2(1,1);
@@ -24,26 +9,34 @@ Collider::Collider(GameObject* associated, Vec2 scale, Vec2 offset){
 }
 
 void Collider::Update(float dt){
-  this->box = this->associated->box;
-  this->box.x = this->box.x + offset.x;
-  this->box.y = this->box.y + offset.y;
+  //this->box = this->associated->box;
+  this->box.x = this->associated->box.x + offset.x;
+  this->box.y = this->associated->box.y + offset.y;
   this->angleDeg = this->associated->angleDeg;
 }
 
 void Collider::Render(){
-  	SDL_Point points[5];
+  Vec2 center = this->box.GetCenter();
 
-  	points[0] = {(int)this->box.x, (int)this->box.y};
-  	points[4] = {(int)this->box.x, (int)this->box.y};
+  SDL_Point points[5];
 
-  	points[1] = {(int)this->box.x + this->box.w, (int)this->box.y};
+  float angle = this->associated->angleDeg/(180/PI);
 
-  	points[2] = {(int)this->box.x + this->box.w, (int)this->box.y + this->box.h};
+  Vec2 point = (Vec2(this->box.x, this->box.y) - center).GetRotated(angle) + center + Camera::pos;
+  points[0] = {(int)point.x, (int)point.y};
+  points[4] = {(int)point.x, (int)point.y};
 
-  	points[3] = {(int)this->box.x, (int)this->box.y + this->box.h};
+  point = (Vec2(this->box.x + this->box.w, this->box.y) - center).GetRotated(angle)	+ center + Camera::pos;
+  points[1] = {(int)point.x, (int)point.y};
 
-  	SDL_SetRenderDrawColor(Game::getInstance()->getRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
-  	SDL_RenderDrawLines(Game::getInstance()->getRenderer(), points, 5);
+  point = (Vec2(this->box.x + this->box.w, this->box.y + this->box.h) - center).GetRotated(angle)	+ center + Camera::pos;
+  points[2] = {(int)point.x, (int)point.y};
+
+  point = (Vec2(this->box.x, this->box.y + this->box.h) - center).GetRotated(angle) + center + Camera::pos;
+  points[3] = {(int)point.x, (int)point.y};
+
+  SDL_SetRenderDrawColor(Game::GetInstance()->GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
+  SDL_RenderDrawLines(Game::GetInstance()->GetRenderer(), points, 5);
 }
 
 bool Collider::Is(std::string type){

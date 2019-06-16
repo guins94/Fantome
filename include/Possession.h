@@ -1,13 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include"Component.h"
-#include"Vec2.h"
-#include"Timer.h"
-
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<queue>
+#ifndef POSSESSION_HEADER
+#define POSSESSION_HEADER
 
 enum Direction {LEFT=1, RIGHT =0, UP = 2,DOWN = 3};
 
@@ -37,3 +34,5 @@ class Possession : public Component{
     void NotifyCollision(GameObject& other);
 
 };
+
+#endif

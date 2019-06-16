@@ -1,30 +1,10 @@
-#include"Alien.h"
-
-#include"InputManager.h"
-#include"Camera.h"
-#include"Sprite.h"
-#include"Minion.h"
-#include"GAME.h"
-#include"StageState.h"
-#include"Bullet.h"
-#include"PenguinBody.h"
-#include"Fantome.h"
-#include"Grave.h"
-
-#include<queue>
+#include "Fantome.h"
 
 Fantome::Fantome(GameObject* associated){
   this->associated = associated;
-  this->falling = true;
-  Sprite* sprite = new Sprite(this->associated);
-  sprite->Open("assets/fan_img/fantasma_fantome.png");
-  //sprite->SetClip(0,100,sprite->GetWidth,sprite->GetHeight);
-  sprite->SetClip(0, 0, sprite->Sprite::GetHeight(),sprite->Sprite::GetWidth() + 350);
-  //std::cout << "width = "<<sprite->GetWidth() << std::endl;
-  //this->associated->box.h = sprite->GetHeight();
-  associated->GameObject::AddComponent(sprite);
   Timer* timer = new Timer();
   this->restTimer = timer;
+  this->associated->futureBox = this->associated->box;
 }
 
 Fantome::~Fantome(){
@@ -36,36 +16,82 @@ void Fantome::Start(){
 }
 
 void Fantome::Update(float dt){
-  if(this->falling == true){
-    this->associated->box.y = this->associated->box.y + dt;
+
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+
+  Rect auxBox = this->associated->futureBox;
+
+  /* Calculando eixo y da futura posição do Fantome */
+  this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y;
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+    this->associated->box.y = this->associated->futureBox.y;
+  this->associated->futureBox = auxBox;
+
+  /* Calculando eixo x da futura posição do Fantome */
+  InputManager* inputManager = InputManager::GetInstance();
+  if(!inputManager->KeyRelease(SDLK_a)){
+    this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
+    if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      this->associated->box.x = this->associated->futureBox.x;
+    this->associated->futureBox = auxBox;
+  }
+  if(!inputManager->KeyRelease(SDLK_d)){
+    this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
+    if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      this->associated->box.x = this->associated->futureBox.x;
+    this->associated->futureBox = auxBox;
   }
 
-  this->falling = true;
-  InputManager* inputManager = InputManager::GetInstance();
-  if(inputManager->KeyRelease(SDLK_a) == false){
-    this->associated->box.x = this->associated->box.x - dt;
-  }
-  if(inputManager->KeyRelease(SDLK_d) == false){
-    this->associated->box.x = this->associated->box.x + dt;
-  }
+  this->associated->futureBox = this->associated->box;
 }
 
 void Fantome::Render(){
 
 }
 
-bool Fantome::Is (std::string type){
+bool Fantome::Is(std::string type){
   return (type == "Fantome");
 }
 
-
-
 void Fantome::NotifyCollision(GameObject& other){
-	if(other.GetComponent("Ground") != nullptr){
-    this->falling = false;
+
+  /* Tratamento de colisão caso Fantome colida com o chão */
+	if(other.GetComponent("Collider") && other.GetComponent("Ground")){
+    std::cout << "COLIDIU COM O CHÃO" << '\n';
+    //this->falling = false;
   }
-  if(other.GetComponent("Surface") != nullptr){
-    float dt = Game::getInstance()->GetDeltaTime();
+
+  if(other.GetComponent("Grave")){
+    InputManager* inputManager = InputManager::GetInstance();
+    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+      //(Grave*)other.GetComponent("Grave")->playing == true;
+      Camera::Follow(nullptr);
+      this->associated->RequestDelete();
+    }
+  }
+
+  if(other.GetComponent("BoneFrog")){
+    InputManager* inputManager = InputManager::GetInstance();
+    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+      //(Grave*)other.GetComponent("Grave")->playing == true;
+      Camera::Follow(nullptr);
+      this->associated->RequestDelete();
+    }
+  }
+
+  if(other.GetComponent("Chains")){
+    InputManager* inputManager = InputManager::GetInstance();
+    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+      //(Grave*)other.GetComponent("Grave")->playing == true;
+      Camera::Follow(nullptr);
+      this->associated->RequestDelete();
+    }
+  }
+
+}
+
+/*   if(other.GetComponent("Surface")){
+    float dt = Game::GetInstance()->GetDeltaTime();
     this->falling = false;
     /*InputManager* inputManager = InputManager::GetInstance();
     if(inputManager->KeyRelease(SDLK_a) == false){
@@ -73,20 +99,5 @@ void Fantome::NotifyCollision(GameObject& other){
     }
     if(inputManager->KeyRelease(SDLK_d) == false){
       this->associated->box.x = this->associated->box.x - dt;
-    }*/
-  }
-  if(other.GetComponent("Grave") != nullptr){
-    InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_SPACE) == false){
-      //(Grave*)other.GetComponent("Grave")->playing == true;
-      this->associated->RequestDelete();
     }
-    this->falling = false;
-  }
-  //if(other.GetComponent("Bullet") != nullptr){
-    //Bullet* bullet = (Bullet*)other.GetComponent("Bullet");
-    //if(bullet->targetsPlayer == true){
-      //this->hp = this->hp - 10;
-    //}
-  //}
-}
+*/

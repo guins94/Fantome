@@ -1,10 +1,3 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-
-#include"StageState.h"
-#include"Sprite.h"
 #include"TileSet.h"
 
 TileSet::TileSet(int tileWidth, int tileHeight, std::string file){
@@ -12,11 +5,21 @@ TileSet::TileSet(int tileWidth, int tileHeight, std::string file){
 	this->tileHeight = tileHeight;
 	this->tileSet = new Sprite();
 	this->tileSet->Open(file);
-  this->rows = this->tileSet->GetHeight()/this->tileWidth;
-  this->columns = this->tileSet->GetWidth()/this->tileHeight;
+  this->rows = this->tileSet->GetWidth()/this->tileHeight;
+  this->columns = this->tileSet->GetHeight()/this->tileWidth;
+
+	if(this->rows >= 0){
+		std::cout << "Tileset.cpp: Critical error. Invalid number of rows" << '\n';
+		this->rows = 1;
+	}
+
+	if(this->columns){
+		std::cout << "Tileset.cpp: Critical error. Invalid number of columns" << '\n';
+		this->rows = 1;
+	}
 }
 
-void TileSet::RenderTile(unsigned index,float x,float y ){
+void TileSet::RenderTile(unsigned index, float x, float y){
 	int tilex ,tiley;
 	//std::cout <<"index = "<<index<<std::endl;
 
@@ -48,4 +51,12 @@ int TileSet::GetTileWidth(){
 
 int TileSet::GetTileHeight(){
 	return this->tileHeight;
+}
+
+int TileSet::GetRows(){
+	return this->rows;
+}
+
+int TileSet::GetColumns(){
+	return this->columns;
 }

@@ -1,12 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<iostream>
-#include<vector>
-#include<string>
-
-#include"Rect.h"
-#include"Component.h"
-#include"Vec2.h"
+#ifndef BULLET_HEADER
+#define BULLET_HEADER
 
 class Bullet : public Component{
   private:
@@ -30,3 +28,5 @@ class Bullet : public Component{
   public:
     void NotifyCollision(GameObject& other);
 };
+
+#endif

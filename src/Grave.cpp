@@ -1,17 +1,4 @@
-#include"InputManager.h"
-#include"Camera.h"
-#include"Sprite.h"
-#include"Minion.h"
-#include"GAME.h"
-#include"StageState.h"
-#include"Bullet.h"
-#include"PenguinBody.h"
-#include"Grave.h"
-#include"Fantome.h"
-#include"Collider.h"
-#include"Possession.h"
-
-#include<queue>
+#include "Grave.h"
 
 Grave::Grave(GameObject* associated){
   this->associated = associated;
@@ -32,29 +19,31 @@ void Grave::Start(){
 
 void Grave::Update(float dt){
   this->possessionTimer->Update(dt);
-  if(this->falling == true){
-    this->associated->box.y = this->associated->box.y + dt;
-  }
+  //if(this->falling == true){
+    //this->associated->box.y = this->associated->box.y + dt;
+  //}
 
-  this->falling = false;
+  //this->falling = false;
   if(this->playing == true){
+
     InputManager* inputManager = InputManager::GetInstance();
 
       if(inputManager->KeyRelease(SDLK_a) == false){
         this->restTimer->Update(dt);
         //if(this->restTimer->Get() >= 45){
-          this->associated->box.x = this->associated->box.x - dt;
+          this->associated->box.x = this->associated->box.x - dt* GameData::fantomeSpeed.x;
           this->restTimer->Restart();
         //}
       }
       if(inputManager->KeyRelease(SDLK_d) == false){
         this->restTimer->Update(dt);
         //if(this->restTimer->Get() >= 45){
-          this->associated->box.x = this->associated->box.x + dt;
-          //this->restTimer->Restart();
+        this->associated->box.x = this->associated->box.x + dt* GameData::fantomeSpeed.x;
+        this->restTimer->Restart();
         //}
       }
-    if(this->possessionTimer->Get() >= 300 && (inputManager->KeyRelease(SDLK_SPACE) == false) && (inputManager->KeyRelease(SDLK_w) == false)){
+    if(this->possessionTimer->Get() >= 1 && (inputManager->KeyRelease(SDLK_SPACE) == false) && (inputManager->KeyRelease(SDLK_w) == false)){
+
       GameObject* possession = new GameObject();
       possession->box.w = 30;
       possession->box.h = 30;
@@ -63,8 +52,8 @@ void Grave::Update(float dt){
       possession->GameObject::AddComponent(new Possession(possession,2));
       Collider* possession_collider = new Collider(possession);
       possession->GameObject::AddComponent(possession_collider);
-      Game::getInstance()->getStageState()->AddObject(possession);
-      //game->getStageState()->AddObject(minion_go)
+      Game::GetInstance()->GetCurrentState()->AddObject(possession);
+      //game->GetCurrentState()->AddObject(minion_go)
       this->playing = false;
       this->possessionTimer->Restart();
     }
@@ -81,10 +70,11 @@ bool Grave::Is (std::string type){
 }
 
 void Grave::NotifyCollision(GameObject& other){
-	if(this->possessionTimer->Get() >= 300 && other.GetComponent("Fantome") != nullptr){
+	if(this->possessionTimer->Get() >= 1 && other.GetComponent("Fantome") != nullptr){
     InputManager* inputManager = InputManager::GetInstance();
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       this->playing = true;
+      Camera::Follow(this->associated);
     }
   }
 }

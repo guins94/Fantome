@@ -19,6 +19,8 @@ void Fantome::Update(float dt){
 
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
+  fantomeState->fantomeExist = true;
+
   Rect auxBox = this->associated->futureBox;
 
   /* Calculando eixo y da futura posição do Fantome */
@@ -54,6 +56,7 @@ bool Fantome::Is(std::string type){
 }
 
 void Fantome::NotifyCollision(GameObject& other){
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
   /* Tratamento de colisão caso Fantome colida com o chão */
 	if(other.GetComponent("Collider") && other.GetComponent("Ground")){
@@ -67,6 +70,7 @@ void Fantome::NotifyCollision(GameObject& other){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
       this->associated->RequestDelete();
+      fantomeState->fantomeExist = false;
     }
   }
 
@@ -76,6 +80,7 @@ void Fantome::NotifyCollision(GameObject& other){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
       this->associated->RequestDelete();
+      fantomeState->fantomeExist = false;
     }
   }
 
@@ -85,6 +90,7 @@ void Fantome::NotifyCollision(GameObject& other){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
       this->associated->RequestDelete();
+      fantomeState->fantomeExist = false;
     }
   }
 

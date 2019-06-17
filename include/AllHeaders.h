@@ -102,3 +102,7 @@
 #include "BoneFrog.h"
 
 #include "Chains.h"
+
+#include "DeathGhost.h"
+
+#include"BonePile.h"

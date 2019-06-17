@@ -19,29 +19,35 @@ void Grave::Start(){
 
 void Grave::Update(float dt){
   this->possessionTimer->Update(dt);
-  //if(this->falling == true){
-    //this->associated->box.y = this->associated->box.y + dt;
-  //}
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
-  //this->falling = false;
+  fantomeState->fantomeExist = true;
+
+  Rect auxBox = this->associated->futureBox;
+
+  /* Calculando eixo y da futura posição do Fantome */
+  this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y;
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+    this->associated->box.y = this->associated->futureBox.y;
+  this->associated->futureBox = auxBox;
+
+  /* Calculando eixo x da futura posição do Fantome */
+
   if(this->playing == true){
-
     InputManager* inputManager = InputManager::GetInstance();
+    if(!inputManager->KeyRelease(SDLK_a)){
+      this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+        this->associated->box.x = this->associated->futureBox.x;
+      this->associated->futureBox = auxBox;
+    }
+    if(!inputManager->KeyRelease(SDLK_d)){
+      this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+        this->associated->box.x = this->associated->futureBox.x;
+      this->associated->futureBox = auxBox;
+    }
 
-      if(inputManager->KeyRelease(SDLK_a) == false){
-        this->restTimer->Update(dt);
-        //if(this->restTimer->Get() >= 45){
-          this->associated->box.x = this->associated->box.x - dt* GameData::fantomeSpeed.x;
-          this->restTimer->Restart();
-        //}
-      }
-      if(inputManager->KeyRelease(SDLK_d) == false){
-        this->restTimer->Update(dt);
-        //if(this->restTimer->Get() >= 45){
-        this->associated->box.x = this->associated->box.x + dt* GameData::fantomeSpeed.x;
-        this->restTimer->Restart();
-        //}
-      }
     if(this->possessionTimer->Get() >= 1 && (inputManager->KeyRelease(SDLK_SPACE) == false) && (inputManager->KeyRelease(SDLK_w) == false)){
 
       GameObject* possession = new GameObject();
@@ -58,7 +64,7 @@ void Grave::Update(float dt){
       this->possessionTimer->Restart();
     }
   }
-
+  this->associated->futureBox = this->associated->box;
 }
 
 void Grave::Render(){

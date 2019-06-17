@@ -16,6 +16,8 @@ class FantomeState : public State
 		bool popRequested;
 		std::vector<std::shared_ptr<GameObject>> objectArray;
 	public:
+    Vec2 PlayerPosition = Vec2(0,0);
+    bool fantomeExist = false;
 		int nAliens = 2;
   private:
 		void StartArray();

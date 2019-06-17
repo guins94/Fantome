@@ -20,21 +20,21 @@ FantomeState::FantomeState(){
     GameObject* backgroundScreen1 = new GameObject();
     backgroundScreen1->box.x = 0;
     backgroundScreen1->box.y = 0;
-    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.01, "assets/fan_img/bg_final_1.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.1, "assets/fan_img/bg_final_1.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen1->AddComponent(parallaxScrolling1);
     this->objectArray.emplace_back(backgroundScreen1);
 
     GameObject* backgroundScreen2 = new GameObject();
     backgroundScreen2->box.x = 0;
     backgroundScreen2->box.y = 0;
-    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.02, "assets/fan_img/bg_final_2.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.2, "assets/fan_img/bg_final_2.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen2->AddComponent(parallaxScrolling2);
     this->objectArray.emplace_back(backgroundScreen2);
 
     GameObject* backgroundScreen3 = new GameObject();
     backgroundScreen3->box.x = 0;
     backgroundScreen3->box.y = 0;
-    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.04, "assets/fan_img/bg_final_3.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.3, "assets/fan_img/bg_final_3.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen3->AddComponent(parallaxScrolling3);
     this->objectArray.emplace_back(backgroundScreen3);
 
@@ -70,9 +70,9 @@ FantomeState::FantomeState(){
 
     GameObject* grave = new GameObject();
     grave->box.w = 130;
-    grave->box.h = 195;
-    grave->box.x = 1000;
-    grave->box.y = 455;
+    grave->box.h = 135;
+    grave->box.x = 2200;
+    grave->box.y = 320;
     Grave* grave_component = new Grave(grave);
     grave->GameObject::AddComponent(grave_component);
     Sprite* gravesprite = new Sprite(grave);
@@ -124,6 +124,28 @@ FantomeState::FantomeState(){
     chains_component->Chains::LinkChains(chains_component2,chains2);
     //chains_component2->Chains::LinkChains(chains_component,chains);
 
+    GameObject* deathGhost = new GameObject();
+    deathGhost->box.w = 173;
+    deathGhost->box.h = 158;
+    deathGhost->box.x = 1000;
+    deathGhost->box.y = 480;
+    DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);
+    deathGhost->GameObject::AddComponent(deathGhost_component);
+    Collider* deathGhost_collider = new Collider(deathGhost);
+    deathGhost->GameObject::AddComponent(deathGhost_collider);
+    this->objectArray.emplace_back(deathGhost);
+
+    GameObject* BonePilego = new GameObject();
+    BonePilego->box.w = 50;
+    BonePilego->box.h = 5;
+    BonePilego->box.x = 1800;
+    BonePilego->box.y = 550;
+    BonePile* bonePile_component = new BonePile(BonePilego,300);
+    BonePilego->GameObject::AddComponent(bonePile_component);
+    Collider* BonePile_collider = new Collider(BonePilego);
+    BonePilego->GameObject::AddComponent(BonePile_collider);
+    this->objectArray.emplace_back(BonePilego);
+
     /* O GameObject goFantome representa o presonagem principal do jogo */
     GameObject* goFantome = new GameObject();
     goFantome->box.x = 0;
@@ -143,6 +165,8 @@ FantomeState::FantomeState(){
     goFantome->GameObject::AddComponent(fantome_collider);
 
     this->objectArray.emplace_back(goFantome);
+
+    this->fantomeExist = true;
 
     /* Seguindo Fantome */
     Camera::Follow(goFantome); //TODO: Bug on camera -> Jitter on Fantome movement and Not Loading Ground Collider
@@ -243,6 +267,16 @@ void FantomeState::Update(){
   InputManager* inputManager = InputManager::GetInstance();
 
   Camera::Update(dt);
+
+  for(int f = 0; f<=this->objectArray.size() - 1; f++){
+    Fantome* fantome = (Fantome*)this->objectArray[f]->GetComponent("Fantome");
+    if(fantome != nullptr){
+      PlayerPosition.x = this->objectArray[f]->box.x;
+      PlayerPosition.y = this->objectArray[f]->box.y;
+    }
+  }
+
+  //std::cout << "PlayerPosition" <<PlayerPosition.x<<"    - "<<PlayerPosition.y << '\n';
 
   Collider* collider_object;
   Collider* second_object;

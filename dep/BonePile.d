@@ -1,4 +1,4 @@
-bin/Sprite.o: src/Sprite.cpp include/Sprite.h include/AllHeaders.h \
+bin/BonePile.o: src/BonePile.cpp include/BonePile.h include/AllHeaders.h \
  include/Vec2.h include/Rect.h include/Music.h include/Component.h \
  include/GameObject.h include/Sound.h include/Timer.h include/Sprite.h \
  include/State.h include/ParallaxScrolling.h include/Surface.h \
@@ -11,7 +11,7 @@ bin/Sprite.o: src/Sprite.cpp include/Sprite.h include/AllHeaders.h \
  include/GameData.h include/BoneFrog.h include/Chains.h \
  include/DeathGhost.h include/BonePile.h
 
-include/Sprite.h:
+include/BonePile.h:
 
 include/AllHeaders.h:
 

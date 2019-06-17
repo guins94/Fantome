@@ -11,6 +11,8 @@ class GameData{
     static unsigned counter;
     static Vec2 fantomeSpeed;
     static Vec2 boneFrogSpeed;
+    static Vec2 DeathGhostSpeed;
+    static float followLimit;
 };
 
 #endif

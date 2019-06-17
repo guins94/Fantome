@@ -8,7 +8,8 @@ bin/Chains.o: src/Chains.cpp include/Chains.h include/AllHeaders.h \
  include/Game.h include/InputManager.h include/Resources.h \
  include/TileSet.h include/TileMap.h include/StageState.h \
  include/TitleState.h include/Text.h include/EndState.h include/Ground.h \
- include/GameData.h include/BoneFrog.h include/Chains.h
+ include/GameData.h include/BoneFrog.h include/Chains.h \
+ include/DeathGhost.h include/BonePile.h
 
 include/Chains.h:
 
@@ -79,3 +80,7 @@ include/GameData.h:
 include/BoneFrog.h:
 
 include/Chains.h:
+
+include/DeathGhost.h:
+
+include/BonePile.h:

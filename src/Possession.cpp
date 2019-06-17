@@ -1,19 +1,4 @@
-#include"Alien.h"
-
-#include"InputManager.h"
-#include"Camera.h"
-#include"Sprite.h"
-#include"Minion.h"
-#include"GAME.h"
-#include"StageState.h"
-#include"Bullet.h"
-#include"PenguinBody.h"
-#include"Fantome.h"
-#include"Grave.h"
 #include"Possession.h"
-#include"Collider.h"
-
-#include<queue>
 
 Possession::Possession(GameObject* associated,int direction){
   this->associated = associated;
@@ -35,27 +20,30 @@ void Possession::Start(){
 
 void Possession::Update(float dt){
   this->restTimer->Update(dt);
-  InputManager* inputManager = InputManager::GetInstance();
-  if(inputManager->KeyRelease(SDLK_a) == false){
-    this->associated->box.x = this->associated->box.x + dt;
-  }
-  if(inputManager->KeyRelease(SDLK_d) == false){
-    this->associated->box.x = this->associated->box.x - dt;
-  }
-  if(this->restTimer->Get() >= 300){
-    GameObject* fantome = new GameObject();
-    fantome->box.w = 115;
-    fantome->box.h = 14;
-    fantome->box.x = this->associated->box.x;
-    fantome->box.y = this->associated->box.y - 141;
-    Fantome* fantome_component = new Fantome(fantome);
-    fantome->GameObject::AddComponent(fantome_component);
-    Collider* fantome_collider = new Collider(fantome);
-    Vec2 offset = Vec2(0,140);
+
+  if(this->restTimer->Get() >= 1){
+    GameObject* goFantome = new GameObject();
+
+    Sprite* sprite = new Sprite(goFantome, 6, 0.1);
+    sprite->Open("assets/fan_img/linha do tempo fantome 2.png");
+    goFantome->GameObject::AddComponent(sprite);
+    goFantome->box.x = this->associated->box.x;
+    goFantome->box.y = this->associated->box.y - 160;
+    goFantome->box.w = sprite->GetHeight();
+    goFantome->box.h = sprite->GetWidth();
+
+    Fantome* fantome_component = new Fantome(goFantome);
+    goFantome->GameObject::AddComponent(fantome_component);
+
+    Collider* fantome_collider = new Collider(goFantome);
+    Vec2 offset = Vec2(0,130);
     fantome_collider->SetOffset(offset);
-    fantome->GameObject::AddComponent(fantome_collider);
-    Game::getInstance()->getStageState()->AddObject(fantome);
+    goFantome->GameObject::AddComponent(fantome_collider);
+
+    Game::GetInstance()->GetCurrentState()->AddObject(goFantome);
+
     this->restTimer->Restart();
+    Camera::Follow(goFantome);
     this->associated->RequestDelete();
   }
 

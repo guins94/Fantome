@@ -1,11 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-
-#include"GameObject.h"
+#ifndef CAMFOLLOW_HEADER
+#define CAMFOLLOW_HEADER
 
 class CameraFollower : public Component{
   public:
@@ -19,3 +18,5 @@ class CameraFollower : public Component{
   public:
     bool Is(std::string type);
 };
+
+#endif

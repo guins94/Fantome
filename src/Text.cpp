@@ -1,34 +1,25 @@
-#include "SDL2/SDL_ttf.h"
-
-#include<string>
-
-#include"Component.h"
-#include"Vec2.h"
-#include"GameObject.h"
-#include"Text.h"
-#include"GAME.h"
-#include"Resource.h"
+#include "Text.h"
 
 void Text::RemakeTexture () {
   if(this->texture != nullptr){
     this->texture == nullptr;
   }
-  this->font = Resource::GetFont(this->fontFile, this->fontSize);
+  this->font = Resources::GetFont(this->fontFile, this->fontSize);
   SDL_Surface* surface;
   switch (this->style) {
     case BLENDED:
       surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->color);
-      this->texture = SDL_CreateTextureFromSurface(Game::getInstance()->getRenderer(), surface);
+      this->texture = SDL_CreateTextureFromSurface(Game::GetInstance()->GetRenderer(), surface);
       SDL_FreeSurface(surface);
       break;
     case SHADED:
       TTF_RenderText_Shaded(this->font, this->text.c_str(), this->color, this->color);
-      this->texture = SDL_CreateTextureFromSurface(Game::getInstance()->getRenderer(), surface);
+      this->texture = SDL_CreateTextureFromSurface(Game::GetInstance()->GetRenderer(), surface);
       SDL_FreeSurface(surface);
       break;
     case SOLID:
       surface = TTF_RenderText_Solid(this->font, this->text.c_str(), this->color);
-      this->texture = SDL_CreateTextureFromSurface(Game::getInstance()->getRenderer(), surface);
+      this->texture = SDL_CreateTextureFromSurface(Game::GetInstance()->GetRenderer(), surface);
       SDL_FreeSurface(surface);
       break;
     default:
@@ -66,7 +57,7 @@ void Text::Render() {
   dstrect.w = this->associated->box.w;
   dstrect.x = this->associated->box.x;
   dstrect.y = this->associated->box.y;
-  SDL_RenderCopyEx(Game::getInstance()->getRenderer(), this->texture, &clipRect, &dstrect,this->associated->angleDeg,0,SDL_FLIP_NONE);
+  SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &clipRect, &dstrect,this->associated->angleDeg,0,SDL_FLIP_NONE);
 }
 
 bool Text::Is(std::string type) {

@@ -1,23 +1,20 @@
-#include<iostream>
-#include<iomanip>
-#include<fstream>
-#include<vector>
-#include<memory>
-#include<string>
-
-#include"Sprite.h"
-#include"TileMap.h"
-#include"TileSet.h"
-#include"Camera.h"
-
-using namespace std;
-
+#include "TileMap.h"
 
 TileMap::TileMap(GameObject* associated,std::string file,TileSet* tileSet){
   this->associated = associated;
 	this->tileSet = tileSet;
+  this->goCollider = nullptr;
 	TileMap::Load(file);
+  this->createCollision = false;
+}
 
+TileMap::TileMap(GameObject* associated,std::string file, TileSet* tileSet, bool createCollision){
+  this->associated = associated;
+	this->tileSet = tileSet;
+  this->goCollider = nullptr;
+  this->createCollision = false;
+  if(createCollision) SetCollider();
+	TileMap::Load(file);
 }
 
 void TileMap::Load(std::string file){
@@ -56,7 +53,7 @@ void TileMap::SetTileSet(TileSet* tileSet){
 	this->tileSet = tileSet;
 }
 
-int* TileMap::At(int x,int y, int z){
+int* TileMap::At(int x, int y, int z){
 	if(-1 >= x || x >= 50){
 		return nullptr;
 	}
@@ -70,12 +67,12 @@ int* TileMap::At(int x,int y, int z){
 
 void TileMap::Render(){
 	//int i = 1;
-  Camera* camera = Camera::GetInstance();
 	//for(; i<=this->mapDepth;i++){
 		//RenderLayer(i,camera->pos.x, camera->pos.y);
 	//}
-  RenderLayer(1,camera->pos.x, camera->pos.y);
-  RenderLayer(2,camera->pos.x, camera->pos.y);
+  RenderLayer(1, Camera::pos.x, Camera::pos.y);
+  RenderLayer(2, Camera::pos.x, Camera::pos.y);
+  this->createCollision = false;
 }
 
 void TileMap::Start(){
@@ -89,14 +86,18 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 	//index = At(0,0,0);
 	//this->tileSet->RenderTile(*(index),0*64,0*64);
 
+  int tileWidth = this->tileSet->GetTileWidth();
+  int tileHeight = this->tileSet->GetTileHeight();
+
 	if(layer == 1){
 		for(i=0; i<=24; i++){
 			for(j=0;j<=24; j++){
 				index = At(i,j,0);
 				if(*(index) != (-1)){
 					//std::cout << "camada i: " << i<< "camadaj:"<<j <<std::endl;
-					this->tileSet->RenderTile(*(index),(j*316) + cameraX,(i*143) + CameraY + 357);
-				}
+					this->tileSet->RenderTile(*(index),(j*tileWidth) + cameraX,(i*tileHeight) + CameraY + 500);
+          if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX - 390, (i*tileHeight) + CameraY + 325);
+        }
 			}
 		}
 	}else{
@@ -104,7 +105,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 			for(j=0;j<=24; j++){
 				index = At(i,j,0);
 				if(*(index) != -1){
-					this->tileSet->RenderTile(*(index),((j)*316) + cameraX,(i-24)*143 + CameraY +357);
+					this->tileSet->RenderTile(*(index),((j)*tileWidth) + cameraX,(i-24)*tileHeight + CameraY + 500);
+          if(this->createCollision) CreateCollider(*(index),((j)*tileWidth) + cameraX,(i-24)*tileHeight + CameraY + 325);
 				}
 			}
 		}
@@ -137,4 +139,52 @@ int TileMap::GetDepth(){
 
 int ParallaxScolling(int layer){
 
+}
+
+void TileMap::CreateCollider(unsigned index, float x, float y){
+  /* Se o índice for renderizar um espaço vazio, não é necessário um Collider */
+  if(index >= this->tileSet->GetColumns()) return;
+  if(!(this->goCollider)){
+    std::cout << "Tilemap.cpp: Invalid GameObject pointer. Exiting." << '\n';
+    exit(-1);
+  }
+
+  std::cout << "index: " << index << " counter: " << GameData::counter << '\n';
+
+  /* O índice 0 indica o início do chão */
+  if(index == 0){
+    printf("OLHA O INDICE 0\n");
+    this->goCollider->box.x = x;
+    this->goCollider->box.y = y;
+  }
+
+  if(index >= 0 && index <= this->tileSet->GetColumns() - 1){
+    this->goCollider->box.w += this->tileSet->GetTileWidth();
+    this->goCollider->box.h = this->tileSet->GetTileHeight();
+  }
+
+std::cout << "BOX.W: " <<  this->goCollider->box.w << '\n';
+  if(index == this->tileSet->GetColumns() - 1){
+    printf("OLHA O INDICE 2\n");
+    /* O índice 2 indica o final do chão */
+
+    /* Adicionando chão ao vetor de objetos */
+    printf("ADICIONANDO OBJETOOOO\n");
+    this->createCollision = false;
+    Collider* tileCollider = new Collider(this->goCollider);
+    this->goCollider->AddComponent(tileCollider);
+    Ground* tileGround = new Ground(this->goCollider);
+    this->goCollider->AddComponent(tileGround);
+    Game::GetInstance()->GetCurrentState()->AddObject(this->goCollider);
+
+    SetCollider();
+  }
+}
+
+void TileMap::SetCollider(){
+  GameObject* goCollider = new GameObject();
+  this->goCollider = goCollider;
+  this->goCollider->box.w = 0;
+  this->goCollider->box.h = 0;
+  this->createCollision = true;
 }

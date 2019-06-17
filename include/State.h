@@ -1,9 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<memory>
-
-#include"Music.h"
-#include"Sprite.h"
+#ifndef STATE_HEADER
+#define STATE_HEADER
 
 class State
 {
@@ -48,3 +49,5 @@ class State
 	public:
 		void virtual Resume () = 0;
 };
+
+#endif

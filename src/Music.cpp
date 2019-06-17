@@ -1,11 +1,5 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
+#include "Music.h"
 
-#include "SDL2/SDL_mixer.h"
-#include"Music.h"
-#include"Resource.h"
 Music::Music(){
 	this->music = nullptr;
 }
@@ -14,12 +8,16 @@ Music::Music(std::string file){
 	this->Open(file);
 }
 
+Music::~Music(){
+	Stop(1500);
+	Mix_FreeMusic(this->music);
+}
+
 void Music::Play(int times){
 	if(this->music == nullptr){
-		Music *music = new Music();
-    	music->Open("assets/audio/stageStageState.ogg");
+		exit(-1);
 	}
-	Mix_PlayMusic(music, times);
+	Mix_PlayMusic(this->music, times);
 }
 
 void Music::Stop(int msToStop){
@@ -27,7 +25,7 @@ void Music::Stop(int msToStop){
 }
 
 void Music::Open(std::string file){
-	this->music = Resource::GetMusic(file);
+	this->music = Resources::GetMusic(file);
 }
 
 bool Music::IsOpen(){

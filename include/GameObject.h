@@ -1,10 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<iostream>
-#include<vector>
-#include<string>
-
-#include"Rect.h"
+#ifndef GAMEOBJECT_HEADER
+#define GAMEOBJECT_HEADER
 
 class Component;
 
@@ -17,6 +17,7 @@ class GameObject{
 		double angleDeg;
 	public:
 		Rect box;
+    Rect futureBox; /* Box para a próxima posição do GameObject */
 	public:
 		GameObject();
 	public:
@@ -42,3 +43,5 @@ class GameObject{
 	public:
 		void NotifyCollision(GameObject& other);
 };
+
+#endif

@@ -1,20 +1,23 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<memory>
+#ifndef FANTOMESTATE_HEADER
+#define FANTOMESTATE_HEADER
 
-#include"Music.h"
-#include"Sprite.h"
-#include"State.h"
-
-class FantomeState: public State{
+class FantomeState : public State
+{
 	private:
 		bool quitRequested;
-		Music* music;
+		Music backgroundMusic;
 		Sprite* bg;
 		bool started;
 		bool popRequested;
-		std::vector< std::shared_ptr<GameObject>> objectArray;
+		std::vector<std::shared_ptr<GameObject>> objectArray;
 	public:
+    Vec2 PlayerPosition = Vec2(0,0);
+    bool fantomeExist = false;
 		int nAliens = 2;
   private:
 		void StartArray();
@@ -47,4 +50,8 @@ class FantomeState: public State{
 		void Pause ();
 	public:
 		void Resume ();
+  public:
+    bool WillCollideWithGround(Rect& objectBox);
 };
+
+#endif

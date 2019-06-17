@@ -1,22 +1,7 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-
-#include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
-
-#include"InputManager.h"
-#include"Sprite.h"
-#include"GAME.h"
-#include"Resource.h"
-
+#include "Sprite.h"
 
 void Sprite::Open(std::string file){
-	this->texture = Resource::GetImage(file);
+	this->texture = Resources::GetImage(file);
 	SDL_QueryTexture(this->texture, nullptr, nullptr,&this->height ,&this->width);
 	this->height = this->height/this->frameCount;
 	//std::cout << "width = "<<this->height << std::endl;
@@ -42,7 +27,7 @@ Sprite::Sprite(std::string file){
 	Open(file);
 }
 
-Sprite::Sprite(GameObject* associated, int frameCount,float frameTime){
+Sprite::Sprite(GameObject* associated, int frameCount, float frameTime){
 	this->texture = (nullptr);
 	this->secondsToSelfDestruct = 0;
 	this->associated = associated;
@@ -58,26 +43,30 @@ Sprite::~Sprite(){
 }
 
 void Sprite::Render(){
-	Game* instace = Game::getInstance();
-  	SDL_Rect dstrect;
-  	dstrect.h = this->clipRect.h;
-  	dstrect.w = this->clipRect.w;
-  	dstrect.x = this->associated->box.x;
-  	dstrect.y = this->associated->box.y;
-  	SDL_RenderCopyEx(instace->getRenderer(), this->texture, &this->clipRect, &dstrect,this->associated->angleDeg,0,SDL_FLIP_NONE);
+  SDL_Rect dstrect;
+  dstrect.h = this->clipRect.h;
+  dstrect.w = this->clipRect.w;
+  dstrect.x = this->associated->box.x + Camera::pos.x;
+  dstrect.y = this->associated->box.y + Camera::pos.y;
 
+	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, SDL_FLIP_NONE) != 0) {
+      SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
+      exit(-1);
+  }
 }
 
 void Sprite::Render(float x, float y){
-	Game* instace = Game::getInstance();
-	//Component* componente = associated.GetComponent("");
-  SDL_Rect dstrect;
+
+	SDL_Rect dstrect;
   dstrect.h = this->clipRect.h;
   dstrect.w = this->clipRect.w;
   dstrect.x = x;
   dstrect.y = y;
 
-  SDL_RenderCopyEx(instace->getRenderer(), this->texture, &this->clipRect, &dstrect,this->associated->angleDeg,0,SDL_FLIP_NONE);
+	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, 0, nullptr, SDL_FLIP_NONE) != 0) {
+      SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
+      exit(-1);
+  }
 }
 
 void Sprite::Start(){
@@ -86,12 +75,12 @@ void Sprite::Start(){
 
 void Sprite::Update(float dt){
 	InputManager* inputManager = InputManager::GetInstance();
-	if(inputManager->KeyRelease(SDLK_a) == false){
+	/*if(inputManager->KeyRelease(SDLK_a) == false){
     this->associated->box.x = this->associated->box.x + dt;
   }
   if(inputManager->KeyRelease(SDLK_d) == false){
     this->associated->box.x = this->associated->box.x - dt;
-  }/*
+  }
   if(inputManager->KeyRelease(SDLK_w) == false){
     this->associated->box.y = this->associated->box.y + dt;
   }

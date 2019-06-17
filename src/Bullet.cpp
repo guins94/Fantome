@@ -1,13 +1,4 @@
-#include<iostream>
-#include<vector>
-#include<string>
-#include <cmath>
-
-#include"Rect.h"
-#include"Component.h"
 #include"Bullet.h"
-#include"Sprite.h"
-
 
 Bullet::Bullet(GameObject* associated, float angle, float speed, int damage, float maxDistance, std::string sprite){
   this->associated = associated;

@@ -1,15 +1,4 @@
-#include "SDL2/SDL.h"
-
-#include"InputManager.h"
-#include"StageState.h"
-#include"Face.h"
-#include"Vec2.h"
-#include"GAME.h"
-#include"GameObject.h"
-
-#include<iostream>
-#include<vector>
-#include<unordered_map>
+#include "InputManager.h"
 
 InputManager::InputManager(){
   this->updateCounter = 0;
@@ -151,9 +140,7 @@ bool InputManager::IsKeyDown(int key){
   for ( auto iti = keyUpdate.begin(); iti != keyUpdate.end(); ++iti ){
     if(keyUpdate.find(key) == iti){
       std::unordered_map<int, int>::const_iterator goti = keyUpdate.find(key);
-      if(this->updateCounter == goti->second){
-        return true;
-      }
+      return goti->second;
     }
   }
 

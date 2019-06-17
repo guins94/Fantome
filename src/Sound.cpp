@@ -1,12 +1,4 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-
-#include"SDL2/SDL_mixer.h"
-
 #include"Sound.h"
-#include"Resource.h"
 
 Sound::Sound(GameObject* associated){
 	this->associated = associated;
@@ -36,7 +28,7 @@ void Sound::Stop(){
 }
 
 void Sound::Open(std::string file){
-	this->chunk = Resource::GetSound(file);
+	this->chunk = Resources::GetSound(file);
 }
 
 bool Sound::IsOpen(){

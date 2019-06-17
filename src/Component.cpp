@@ -1,9 +1,4 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-
-#include"Component.h"
+#include "Component.h"
 
 Component::Component(GameObject* associated){
 	//this->GameObject = associated;

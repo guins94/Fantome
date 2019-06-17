@@ -1,22 +1,4 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-#include<map>
-#include<queue>
-#include<algorithm>
-#include<memory>
-
-#include"Component.h"
-#include"Vec2.h"
-#include"GameObject.h"
-#include"TitleState.h"
-#include"GameObject.h"
-#include"InputManager.h"
-#include"GAME.h"
-#include"EndState.h"
-#include"StageState.h"
-
+#include "EndState.h"
 
 EndState::EndState(){
   GameObject* Title = new GameObject();
@@ -69,7 +51,7 @@ void EndState::Update(){
   //inputManager->MousePress(SDL_BUTTON_LEFT) == true
   //inputManager->KeyRelease(SDLK_SPACE) == false
   if(inputManager->KeyRelease(SDLK_SPACE) == false){
-    Game* instance = Game::getInstance();
+    Game* instance = Game::GetInstance();
     instance->Push(new TitleState());
     //State::PopRequested();
     State::QuitRequested();

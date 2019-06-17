@@ -1,11 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<memory>
-
-#include"Component.h"
-#include"Vec2.h"
-#include"GameObject.h"
-#include"State.h"
+#ifndef TITLESTATE_HEADER
+#define TITLESTATE_HEADER
 
 class TitleState: public State{
 private:
@@ -45,3 +44,5 @@ public:
 public:
   void Resume ();
 };
+
+#endif

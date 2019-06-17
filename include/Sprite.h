@@ -1,12 +1,11 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include "SDL2/SDL_image.h"
+#ifndef SPRITE_HEADER
+#define SPRITE_HEADER
 
-#include"Component.h"
-#include"Vec2.h"
-#include"Timer.h"
-
-class Component;
 class Sprite : public Component{
 	private:
 		SDL_Texture* texture;
@@ -62,3 +61,5 @@ class Sprite : public Component{
 	 public:
 		 void SetFrameTime(float frameTime);
 };
+
+#endif

@@ -1,7 +1,11 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include"SDL2/SDL_mixer.h"
-#include"Component.h"
+#ifndef SOUND_HEADER
+#define SOUND_HEADER
+
 class Sound : public Component{
 	private:
 		Mix_Chunk* chunk;
@@ -30,3 +34,5 @@ class Sound : public Component{
 		bool Is(std::string type);
 
 };
+
+#endif

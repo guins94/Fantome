@@ -1,19 +1,14 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include"Component.h"
-#include"Vec2.h"
-#include"Timer.h"
-
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<queue>
+#ifndef FANTOME_HEADER
+#define FANTOME_HEADER
 
 class Fantome : public Component{
   private:
     Vec2 speed = Vec2(0,0);
-    bool falling;
-    int nMinions;
     int nMovements;
     int hp;
     Timer* restTimer;
@@ -34,3 +29,5 @@ class Fantome : public Component{
     void NotifyCollision(GameObject& other);
 
 };
+
+#endif

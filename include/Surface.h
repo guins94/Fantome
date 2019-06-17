@@ -1,5 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
+#ifndef SURFACE_HEADER
+#define SURFACE_HEADER
 
 class Surface : public Component{
 	public:
@@ -19,3 +24,5 @@ class Surface : public Component{
 	public:
 		bool Is(std::string type);
 };
+
+#endif

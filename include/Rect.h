@@ -1,6 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include"Vec2.h"
+#ifndef RECT_HEADER
+#define RECT_HEADER
 
 class Rect{
 public:
@@ -13,3 +17,5 @@ public:
 public:
 	Vec2 GetCenter();
 };
+
+#endif

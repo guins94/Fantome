@@ -1,11 +1,10 @@
-#pragma once
-#include "SDL2/SDL_ttf.h"
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<string>
-
-#include"Component.h"
-#include"Vec2.h"
-#include"GameObject.h"
+#ifndef TEXT_HEADER
+#define TEXT_HEADER
 
 enum TextStyle {SOLID = 2, SHADED= 1, BLENDED=0};
 
@@ -42,3 +41,5 @@ class Text : public Component{
   public:
     void SetFontFile(std::string fontFile);
 };
+
+#endif

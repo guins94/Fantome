@@ -1,4 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
+
+#ifndef TILESET_HEADER
+#define TILESET_HEADER
 
 class TileSet{
 	private:
@@ -13,7 +19,9 @@ class TileSet{
 		void RenderTile(unsigned index,float x,float y );
 	public:
 		int GetTileWidth();
-	public:
 		int GetTileHeight();
-
+    int GetRows();
+    int GetColumns();
 };
+
+#endif

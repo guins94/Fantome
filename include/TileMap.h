@@ -1,6 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include"TileSet.h"
+#ifndef TILEMAP_HEADER
+#define TILEMAP_HEADER
 
 class TileMap : public Component{
 	private:
@@ -9,8 +13,13 @@ class TileMap : public Component{
 		int mapWidth;
 		int mapHeight;
 		int mapDepth;
+
+    GameObject* goCollider;
+    bool createCollision;
+
 	public:
 		TileMap(GameObject* associated,std::string file,TileSet* tileSet);
+    TileMap(GameObject* associated,std::string file,TileSet* tileSet, bool createCollision);
 	public:
 		void Load(std::string file);
 	public:
@@ -33,4 +42,10 @@ class TileMap : public Component{
 		int GetHeight();
 	public:
 		int GetDepth();
+
+    void EnableCollision();
+    void CreateCollider(unsigned index, float x, float y);
+    void SetCollider();
 };
+
+#endif

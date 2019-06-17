@@ -1,35 +1,4 @@
-#include<vector>
-#include<iostream>
-#include<memory>
-#include<string>
-#include<map>
-#include<queue>
-#include<algorithm>
-
 #include"StageState.h"
-#include"Face.h"
-#include"Vec2.h"
-#include"Sound.h"
-#include"TileMap.h"
-#include"InputManager.h"
-#include"Camera.h"
-#include"GAME.h"
-#include"CameraFollower.h"
-#include"Alien.h"
-#include"Minion.h"
-#include"Bullet.h"
-#include"PenguinBody.h"
-#include"PenguinCannon.h"
-#include"Collider.h"
-#include"EndState.h"
-#include"Timer.h"
-#include"TitleState.h"
-
-#include"SDL2/SDL.h"
-#include"SDL2/SDL_image.h"
-#include"SDL2/SDL_mixer.h"
-#include"SDL2/SDL_ttf.h"
-
 
 StageState::StageState(){
     this->quitRequested = false;
@@ -78,54 +47,6 @@ StageState::StageState(){
     TileMap* tile_map = new TileMap(new_tile,"assets/map/tileMap.txt",tile_set);
     new_tile->GameObject::AddComponent(tile_map);
     this->objectArray.emplace_back(new_tile);
-
-    //this->music->Open("assets/audio/stageState.ogg");
-  	//this->music->Play(-1);
-    //std::cout  <<"teste 1"<< std::endl;
-    GameObject* PenguinBody_go = new GameObject();
-    //PenguinBody_go->box.x = 704;
-    //PenguinBody_go->box.y = 640;
-    PenguinBody_go->box.x = 460;
-    PenguinBody_go->box.y = 300;
-    PenguinBody_go->box.w = 100;
-    PenguinBody_go->box.h = 50;
-    PenguinBody* penguinBody = new PenguinBody(PenguinBody_go);
-    PenguinBody_go->GameObject::AddComponent(penguinBody);
-    Collider* PenguinBody_collider = new Collider(PenguinBody_go);
-    PenguinBody_go->GameObject::AddComponent(PenguinBody_collider);
-    this->objectArray.emplace_back(PenguinBody_go);
-
-
-    GameObject* alien_go = new GameObject();
-    //alien_go->box.w = 100;
-    //alien_go->box.h = 100;
-    //std::cout << "weigth alien = "<<alien_go->box.w << std::endl;
-    alien_go->box.x = 512;
-    alien_go->box.y = 300;
-    alien_go->box.w = 160;
-    alien_go->box.h = 160;
-    Alien* alien = new Alien(alien_go,5,PenguinBody_go);
-    alien_go->GameObject::AddComponent(alien);
-    Collider* alien_collider = new Collider(alien_go);
-    alien_go->GameObject::AddComponent(alien_collider);
-    AddObject(alien_go);
-
-    GameObject* alien2_go = new GameObject();
-    //alien_go->box.w = 100;
-    //alien_go->box.h = 100;
-    //std::cout << "weigth alien = "<<alien_go->box.w << std::endl;
-    alien2_go->box.x = 1000;
-    alien2_go->box.y = 300;
-    alien2_go->box.w = 160;
-    alien2_go->box.h = 160;
-    Alien* alien2 = new Alien(alien2_go,2,PenguinBody_go);
-    alien2_go->GameObject::AddComponent(alien2);
-    Collider* alien2_collider = new Collider(alien2_go);
-    alien2_go->GameObject::AddComponent(alien2_collider);
-    AddObject(alien2_go);
-
-    //Camera* camera = Camera::GetInstance();
-    //camera->Follow(PenguinBody_go);
 }
 
 StageState::~StageState(){
@@ -272,12 +193,12 @@ static inline bool IsColliding(Rect& a, Rect& b, float angleOfA, float angleOfB)
 }
 
 void StageState::Update(){
+  Game* game = Game::GetInstance();
+  float dt = game->GetDeltaTime();
+
   InputManager* inputManager = InputManager::GetInstance();
 
-  Camera* camera = Camera::GetInstance();
-  Game* game = Game::getInstance();
-  float dt = game->GetDeltaTime();
-  camera->Update(dt);
+  Camera::Update(dt);
 
 	//for(std::vector<std::shared_ptr<GameObject>>::iterator it = this->objectArray.begin(); it!=this->objectArray.end(); it++){
 		//(*it)->Update(dt);

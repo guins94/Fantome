@@ -1,27 +1,39 @@
-#include "SDL2/SDL.h"
+#include "CameraFollower.h"
 
-#include"Vec2.h"
-#include"Camera.h"
-#include"InputManager.h"
-#include"Sprite.h"
-
-#include"GameObject.h"
-#include"CameraFollower.h"
-#include"Camera.h"
 
 CameraFollower::CameraFollower(GameObject* go){
   this->associated = go;
   Sprite* sprite = new Sprite(this->associated);
-  sprite->Open("assets/fan_img/bg_test_pequeno.png");
+  sprite->Open("assets/fan_img/bg_final_1.png");
   //sprite->Open("assets/fan_img/bg_test.png");
   this->associated->GameObject::AddComponent(sprite);
 }
 
 void CameraFollower::Update(float dt){
   //Camera* camera = Camera::GetInstance();
-  this->associated->box.x = 0;
-  this->associated->box.y = 0;
-}
+  //this->associated->box.x = 0;
+  //this->associated->box.y = 0;
+
+  float deltaTime = dt * Camera::speed.x;
+
+  this->associated->box.x = - Camera::pos.x;
+  this->associated->box.y = - Camera::pos.y;
+
+  if(InputManager::GetInstance()->IsKeyDown(SDLK_RIGHT))
+  this->associated->box.x = - Camera::pos.x + deltaTime;
+  if(InputManager::GetInstance()->IsKeyDown(SDLK_LEFT))
+  this->associated->box.x = - Camera::pos.x - deltaTime;
+  if(InputManager::GetInstance()->IsKeyDown(SDLK_UP))
+  this->associated->box.y = - Camera::pos.y - deltaTime;
+  if(InputManager::GetInstance()->IsKeyDown(SDLK_DOWN))
+  this->associated->box.y = - Camera::pos.y + deltaTime;
+
+  if(InputManager::GetInstance()->IsKeyDown(SDLK_RIGHT) && InputManager::GetInstance()->IsKeyDown(SDLK_LEFT))
+  this->associated->box.x = - Camera::pos.x;
+
+  if(InputManager::GetInstance()->IsKeyDown(SDLK_DOWN) && InputManager::GetInstance()->IsKeyDown(SDLK_UP))
+  this->associated->box.y = - Camera::pos.y;
+  }
 
 void CameraFollower::Render(){
 
@@ -38,8 +50,3 @@ bool CameraFollower::Is(std::string type){
 	else
 		return false;
 }
-/*
-Camera* Camera::GetInstance(){
-  static Camera instance;
-  return &instance;
-}*/

@@ -1,10 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<memory>
-
-#include"Music.h"
-#include"Sprite.h"
-#include"State.h"
+#ifndef STAGESTATE_HEADER
+#define STAGESTATE_HEADER
 
 class StageState: public State{
 	private:
@@ -48,3 +48,5 @@ class StageState: public State{
 	public:
 		void Resume ();
 };
+
+#endif

@@ -1,58 +1,86 @@
-bin/StageState.o: src/StageState.cpp include/StageState.h include/Music.h \
- include/Sprite.h include/Component.h include/GameObject.h include/Rect.h \
- include/Vec2.h include/Timer.h include/State.h include/Face.h \
- include/Sound.h include/TileMap.h include/TileSet.h \
- include/InputManager.h include/Camera.h include/GAME.h \
- include/CameraFollower.h include/Alien.h include/Minion.h \
- include/Bullet.h include/PenguinBody.h include/PenguinCannon.h \
- include/Collider.h include/EndState.h include/TitleState.h
+bin/StageState.o: src/StageState.cpp include/StageState.h \
+ include/AllHeaders.h include/Vec2.h include/Rect.h include/Music.h \
+ include/Component.h include/GameObject.h include/Sound.h include/Timer.h \
+ include/Sprite.h include/State.h include/ParallaxScrolling.h \
+ include/Surface.h include/Possession.h include/Grave.h include/Fantome.h \
+ include/Collision.h include/FantomeState.h include/Bullet.h \
+ include/Camera.h include/CameraFollower.h include/Collider.h \
+ include/Game.h include/InputManager.h include/Resources.h \
+ include/TileSet.h include/TileMap.h include/StageState.h \
+ include/TitleState.h include/Text.h include/EndState.h include/Ground.h \
+ include/GameData.h include/BoneFrog.h include/Chains.h \
+ include/DeathGhost.h include/BonePile.h
 
 include/StageState.h:
 
-include/Music.h:
+include/AllHeaders.h:
 
-include/Sprite.h:
+include/Vec2.h:
+
+include/Rect.h:
+
+include/Music.h:
 
 include/Component.h:
 
 include/GameObject.h:
 
-include/Rect.h:
-
-include/Vec2.h:
+include/Sound.h:
 
 include/Timer.h:
 
+include/Sprite.h:
+
 include/State.h:
 
-include/Face.h:
+include/ParallaxScrolling.h:
 
-include/Sound.h:
+include/Surface.h:
 
-include/TileMap.h:
+include/Possession.h:
 
-include/TileSet.h:
+include/Grave.h:
 
-include/InputManager.h:
+include/Fantome.h:
 
-include/Camera.h:
+include/Collision.h:
 
-include/GAME.h:
-
-include/CameraFollower.h:
-
-include/Alien.h:
-
-include/Minion.h:
+include/FantomeState.h:
 
 include/Bullet.h:
 
-include/PenguinBody.h:
+include/Camera.h:
 
-include/PenguinCannon.h:
+include/CameraFollower.h:
 
 include/Collider.h:
 
-include/EndState.h:
+include/Game.h:
+
+include/InputManager.h:
+
+include/Resources.h:
+
+include/TileSet.h:
+
+include/TileMap.h:
+
+include/StageState.h:
 
 include/TitleState.h:
+
+include/Text.h:
+
+include/EndState.h:
+
+include/Ground.h:
+
+include/GameData.h:
+
+include/BoneFrog.h:
+
+include/Chains.h:
+
+include/DeathGhost.h:
+
+include/BonePile.h:

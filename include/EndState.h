@@ -1,12 +1,10 @@
-#pragma once
+#ifndef ALLHEADERS_HEADER
+#define ALLHEADERS_HEADER
+  #include "AllHeaders.h"
+#endif
 
-#include<memory>
-
-#include"Component.h"
-#include"Vec2.h"
-#include"GameObject.h"
-#include"State.h"
-#include"Music.h"
+#ifndef ENDSTATE_HEADER
+#define ENDSTATE_HEADER
 
 class EndState: public State{
 private:
@@ -46,3 +44,5 @@ public:
 public:
   void Resume ();
 };
+
+#endif

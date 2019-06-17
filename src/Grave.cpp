@@ -2,6 +2,7 @@
 
 Grave::Grave(GameObject* associated){
   this->associated = associated;
+  this->spawnGrave = Vec2(this->associated->box.x,this->associated->box.y);
   this->falling = true;
   this->playing = false;
   Timer* timer = new Timer();
@@ -27,8 +28,19 @@ void Grave::Update(float dt){
 
   /* Calculando eixo y da futura posição do Fantome */
   this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y;
-  if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
-    this->associated->box.y = this->associated->futureBox.y;
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
+      this->associated->box.y = this->associated->futureBox.y;
+      this->speed.y = this->speed.y + dt * GameData::fantomeSpeed.y;
+      std::cout << "Grave speed"<< this->speed.y << '\n';
+  }else{
+  /* Implementação da caixa quebrando ao coliddir com chão */
+    if(this->speed.y>=200){
+      RespawnGrave();
+      //this->associated->RequestDelete();
+    }
+      this->speed.y = 0;
+  }
+
   this->associated->futureBox = auxBox;
 
   /* Calculando eixo x da futura posição do Fantome */
@@ -83,4 +95,24 @@ void Grave::NotifyCollision(GameObject& other){
       Camera::Follow(this->associated);
     }
   }
+}
+
+void Grave::RespawnGrave(){
+  //std::cout << "RespawnGrave" << '\n';
+  GameObject* possession = new GameObject();
+  possession->box.w = 30;
+  possession->box.h = 30;
+  possession->box.x = this->associated->box.x;
+  possession->box.y = this->associated->box.y;
+  possession->GameObject::AddComponent(new Possession(possession,2));
+  Collider* possession_collider = new Collider(possession);
+  possession->GameObject::AddComponent(possession_collider);
+  Game::GetInstance()->GetCurrentState()->AddObject(possession);
+  Camera::Follow(possession);
+  //game->GetCurrentState()->AddObject(minion_go)
+  this->playing = false;
+  this->possessionTimer->Restart();
+  this->associated->box.x = this->spawnGrave.x;
+  this->associated->box.y = this->spawnGrave.y;
+
 }

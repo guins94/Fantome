@@ -39,8 +39,9 @@ void BoneFrog::Update(float dt){
     /* Calculando eixo x da futura posição do Fantome */
     if(!inputManager->KeyRelease(SDLK_a)){
       this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
         this->associated->box.x = this->associated->futureBox.x;
+      }
       this->associated->futureBox = auxBox;
     }
     if(!inputManager->KeyRelease(SDLK_d)){

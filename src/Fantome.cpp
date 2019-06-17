@@ -93,17 +93,10 @@ void Fantome::NotifyCollision(GameObject& other){
       fantomeState->fantomeExist = false;
     }
   }
-
+/*
+  if(other.GetComponent("HolyLight")){
+      Camera::Follow(nullptr);
+      this->associated->RequestDelete();
+      fantomeState->fantomeExist = false;
+  }*/
 }
-
-/*   if(other.GetComponent("Surface")){
-    float dt = Game::GetInstance()->GetDeltaTime();
-    this->falling = false;
-    /*InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_a) == false){
-      this->associated->box.x = this->associated->box.x + dt;
-    }
-    if(inputManager->KeyRelease(SDLK_d) == false){
-      this->associated->box.x = this->associated->box.x - dt;
-    }
-*/

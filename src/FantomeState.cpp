@@ -71,8 +71,8 @@ FantomeState::FantomeState(){
     GameObject* grave = new GameObject();
     grave->box.w = 130;
     grave->box.h = 135;
-    grave->box.x = 2200;
-    grave->box.y = 320;
+    grave->box.x = 3000;
+    grave->box.y = 250;
     Grave* grave_component = new Grave(grave);
     grave->GameObject::AddComponent(grave_component);
     Sprite* gravesprite = new Sprite(grave);
@@ -83,11 +83,26 @@ FantomeState::FantomeState(){
     grave->GameObject::AddComponent(grave_collider);
     this->objectArray.emplace_back(grave);
 
+    GameObject* grave2 = new GameObject();
+    grave2->box.w = 130;
+    grave2->box.h = 135;
+    grave2->box.x = 0;
+    grave2->box.y = 592;
+    Grave* grave_component2 = new Grave(grave2);
+    grave2->GameObject::AddComponent(grave_component2);
+    Sprite* gravesprite2 = new Sprite(grave2);
+    gravesprite2->Open("assets/fan_img/tomb_1.png");
+    gravesprite2->SetClip(0,0, gravesprite2->Sprite::GetHeight(),gravesprite2->Sprite::GetWidth());
+    grave2->GameObject::AddComponent(gravesprite2);
+    Collider* grave_collider2 = new Collider(grave2);
+    grave2->GameObject::AddComponent(grave_collider2);
+    this->objectArray.emplace_back(grave2);
+
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
     boneFrog->box.x = 1200;
-    boneFrog->box.y = 590;
+    boneFrog->box.y = 800;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     Sprite* boneFrogsprite = new Sprite(boneFrog);
@@ -97,12 +112,11 @@ FantomeState::FantomeState(){
     boneFrog->GameObject::AddComponent(boneFrog_collider);
     this->objectArray.emplace_back(boneFrog);
 
-
     GameObject* chains = new GameObject();
     chains->box.w = 30;
     chains->box.h = 10;
     chains->box.x = 600;
-    chains->box.y = 590;
+    chains->box.y = 290;
     Chains* chains_component = new Chains(chains,0);
     chains->GameObject::AddComponent(chains_component);
     Collider* chains_collider = new Collider(chains);
@@ -114,7 +128,7 @@ FantomeState::FantomeState(){
     chains2->box.w = 30;
     chains2->box.h = 10;
     chains2->box.x = 720;
-    chains2->box.y = 590;
+    chains2->box.y = 290;
     Chains* chains_component2 = new Chains(chains2,0);
     chains2->GameObject::AddComponent(chains_component2);
     Collider* chains_collider2 = new Collider(chains2);
@@ -128,18 +142,29 @@ FantomeState::FantomeState(){
     deathGhost->box.w = 173;
     deathGhost->box.h = 158;
     deathGhost->box.x = 1000;
-    deathGhost->box.y = 480;
+    deathGhost->box.y = 300;
     DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);
     deathGhost->GameObject::AddComponent(deathGhost_component);
     Collider* deathGhost_collider = new Collider(deathGhost);
     deathGhost->GameObject::AddComponent(deathGhost_collider);
     this->objectArray.emplace_back(deathGhost);
 
+    GameObject* deathGhost2 = new GameObject();
+    deathGhost2->box.w = 173;
+    deathGhost2->box.h = 158;
+    deathGhost2->box.x = 3700;
+    deathGhost2->box.y = 1300;
+    DeathGhost* deathGhost_component2 = new DeathGhost(deathGhost2,0);
+    deathGhost2->GameObject::AddComponent(deathGhost_component2);
+    Collider* deathGhost_collider2 = new Collider(deathGhost2);
+    deathGhost2->GameObject::AddComponent(deathGhost_collider2);
+    this->objectArray.emplace_back(deathGhost2);
+
     GameObject* BonePilego = new GameObject();
     BonePilego->box.w = 50;
     BonePilego->box.h = 5;
-    BonePilego->box.x = 1800;
-    BonePilego->box.y = 550;
+    BonePilego->box.x = 2500;
+    BonePilego->box.y = 700;
     BonePile* bonePile_component = new BonePile(BonePilego,300);
     BonePilego->GameObject::AddComponent(bonePile_component);
     Collider* BonePile_collider = new Collider(BonePilego);
@@ -149,7 +174,7 @@ FantomeState::FantomeState(){
     /* O GameObject goFantome representa o presonagem principal do jogo */
     GameObject* goFantome = new GameObject();
     goFantome->box.x = 0;
-    goFantome->box.y = 0;
+    goFantome->box.y = -300;
 
     Sprite* sprite = new Sprite(goFantome, 6, 0.1);
     sprite->Open("assets/fan_img/linha do tempo fantome 2.png");

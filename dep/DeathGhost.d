@@ -9,7 +9,7 @@ bin/DeathGhost.o: src/DeathGhost.cpp include/DeathGhost.h \
  include/TileSet.h include/TileMap.h include/StageState.h \
  include/TitleState.h include/Text.h include/EndState.h include/Ground.h \
  include/GameData.h include/BoneFrog.h include/Chains.h \
- include/DeathGhost.h include/BonePile.h
+ include/DeathGhost.h include/BonePile.h include/HolyLight.h
 
 include/DeathGhost.h:
 
@@ -84,3 +84,5 @@ include/Chains.h:
 include/DeathGhost.h:
 
 include/BonePile.h:
+
+include/HolyLight.h:

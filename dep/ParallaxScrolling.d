@@ -10,7 +10,7 @@ bin/ParallaxScrolling.o: src/ParallaxScrolling.cpp \
  include/TileMap.h include/StageState.h include/TitleState.h \
  include/Text.h include/EndState.h include/Ground.h include/GameData.h \
  include/BoneFrog.h include/Chains.h include/DeathGhost.h \
- include/BonePile.h
+ include/BonePile.h include/HolyLight.h
 
 include/ParallaxScrolling.h:
 
@@ -85,3 +85,5 @@ include/Chains.h:
 include/DeathGhost.h:
 
 include/BonePile.h:
+
+include/HolyLight.h:

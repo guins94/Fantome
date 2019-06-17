@@ -3,20 +3,22 @@
   #include "AllHeaders.h"
 #endif
 
-#ifndef DEATHGHOST_HEADER
-#define DEATHGHOST_HEADER
+#ifndef HOLYLIGHT_HEADER
+#define HOLYLIGHT_HEADER
 
-class DeathGhost : public Component{
+class HolyLight : public Component{
   private:
-    Vec2 spawnGhost = Vec2(0,0);
-
+    Vec2 speed = Vec2(0,0);
+    Vec2 colliderSize = Vec2(0,0);
+    float hitTime;
     bool falling;
     int hp;
     Timer* restTimer;
+    GameObject* player;
   public:
-    DeathGhost(GameObject* associated, int direction);
+    HolyLight(GameObject* associated,int weigth,int height,float hitTime);
   public:
-    ~DeathGhost();
+    ~HolyLight();
   public:
     void Start();
   public:
@@ -27,8 +29,7 @@ class DeathGhost : public Component{
     bool Is (std::string type);
   public:
     void NotifyCollision(GameObject& other);
-  public:
-    void GhostAttack();
+
 };
 
 #endif

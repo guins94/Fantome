@@ -106,3 +106,5 @@
 #include "DeathGhost.h"
 
 #include"BonePile.h"
+
+#include"HolyLight.h"

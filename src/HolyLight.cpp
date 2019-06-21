@@ -1,6 +1,6 @@
 #include"HolyLight.h"
 
-HolyLight::HolyLight(GameObject* associated,int weigth,int height,float hitTime){
+HolyLight::HolyLight(GameObject* associated,int weigth,int height,int hitTime){
   this->associated = associated;
   this->colliderSize = Vec2(weigth,height);
   this->hitTime == hitTime;
@@ -23,7 +23,7 @@ void HolyLight::Update(float dt){
   }else{
 
   }*/
-  if(this->restTimer->Get() <= this->hitTime){
+  if(this->restTimer->Get() >= 1){
     this->associated->RequestDelete();
   }
 

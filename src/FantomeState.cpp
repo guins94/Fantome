@@ -174,7 +174,7 @@ FantomeState::FantomeState(){
     /* O GameObject goFantome representa o presonagem principal do jogo */
     GameObject* goFantome = new GameObject();
     goFantome->box.x = 0;
-    goFantome->box.y = -300;
+    goFantome->box.y = -250;
 
     Sprite* sprite = new Sprite(goFantome, 6, 0.1);
     sprite->Open("assets/fan_img/linha do tempo fantome 2.png");

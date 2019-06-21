@@ -57,7 +57,7 @@ bool BonePile::Is (std::string type){
 
 
 void BonePile::NotifyCollision(GameObject& other){
-	if(other.GetComponent("Grave") != nullptr){
+	if(other.GetComponent("Grave")){
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
@@ -71,6 +71,8 @@ void BonePile::NotifyCollision(GameObject& other){
     Collider* boneFrog_collider = new Collider(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_collider);
     Game::GetInstance()->GetCurrentState()->AddObject(boneFrog);
+
+
     this->associated->RequestDelete();
   }
 }

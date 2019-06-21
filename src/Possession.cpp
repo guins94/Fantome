@@ -28,7 +28,7 @@ void Possession::Update(float dt){
     sprite->Open("assets/fan_img/linha do tempo fantome 2.png");
     goFantome->GameObject::AddComponent(sprite);
     goFantome->box.x = this->associated->box.x;
-    goFantome->box.y = this->associated->box.y - 160;
+    goFantome->box.y = this->associated->box.y - 250;
     goFantome->box.w = sprite->GetHeight();
     goFantome->box.h = sprite->GetWidth();
 
@@ -36,8 +36,8 @@ void Possession::Update(float dt){
     goFantome->GameObject::AddComponent(fantome_component);
 
     Collider* fantome_collider = new Collider(goFantome);
-    Vec2 offset = Vec2(0,130);
-    fantome_collider->SetOffset(offset);
+    //Vec2 offset = Vec2(0,130);
+    //fantome_collider->SetOffset(offset);
     goFantome->GameObject::AddComponent(fantome_collider);
 
     Game::GetInstance()->GetCurrentState()->AddObject(goFantome);

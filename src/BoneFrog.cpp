@@ -13,28 +13,24 @@ BoneFrog::BoneFrog(GameObject* associated){
 
 void BoneFrog::Update(float dt){
   this->possessionTimer->Update(dt);
-  //if(this->falling == true){
-    //this->associated->box.y = this->associated->box.y + dt;
-  //}
+  InputManager* inputManager = InputManager::GetInstance();
 
-  //this->falling = false;
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+
+  Rect auxBox = this->associated->futureBox;
+
+  /* Calculando eixo y da futura posição do Fantome */
+
+  if(this->falling == true){
+    this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed;
+    this->fallingSpeed = this->fallingSpeed + this->gravity;
+  }
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
+      this->associated->box.y = this->associated->futureBox.y;
+  }
+  this->associated->futureBox = auxBox;
+
   if(this->playing == true){
-    InputManager* inputManager = InputManager::GetInstance();
-
-    FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-
-    Rect auxBox = this->associated->futureBox;
-
-    /* Calculando eixo y da futura posição do Fantome */
-
-    if(this->falling == true){
-      this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed;
-      this->fallingSpeed = this->fallingSpeed + this->gravity;
-    }
-    if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
-        this->associated->box.y = this->associated->futureBox.y;
-    }
-    this->associated->futureBox = auxBox;
 
     /* Calculando eixo x da futura posição do Fantome */
     if(!inputManager->KeyRelease(SDLK_a)){

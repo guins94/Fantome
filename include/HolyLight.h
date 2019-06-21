@@ -10,13 +10,13 @@ class HolyLight : public Component{
   private:
     Vec2 speed = Vec2(0,0);
     Vec2 colliderSize = Vec2(0,0);
-    float hitTime;
+    int hitTime;
     bool falling;
     int hp;
     Timer* restTimer;
     GameObject* player;
   public:
-    HolyLight(GameObject* associated,int weigth,int height,float hitTime);
+    HolyLight(GameObject* associated,int weigth,int height,int hitTime);
   public:
     ~HolyLight();
   public:

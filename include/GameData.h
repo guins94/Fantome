@@ -13,6 +13,16 @@ class GameData{
     static Vec2 boneFrogSpeed;
     static Vec2 DeathGhostSpeed;
     static float followLimit;
+
+    static GameObject* ctrlObject;
+
+    static float DegToRad(int deg){
+      return(deg*(PI/180));
+    }
+
+    static int RadToDeg(float rad){
+      return(rad*(180/PI));
+    }
 };
 
 #endif

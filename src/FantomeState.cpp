@@ -72,7 +72,7 @@ FantomeState::FantomeState(){
     grave->box.w = 130;
     grave->box.h = 135;
     grave->box.x = 3000;
-    grave->box.y = 250;
+    grave->box.y = 150;
     Grave* grave_component = new Grave(grave);
     grave->GameObject::AddComponent(grave_component);
     Sprite* gravesprite = new Sprite(grave);
@@ -87,7 +87,7 @@ FantomeState::FantomeState(){
     grave2->box.w = 130;
     grave2->box.h = 135;
     grave2->box.x = 0;
-    grave2->box.y = 592;
+    grave2->box.y = 580;
     Grave* grave_component2 = new Grave(grave2);
     grave2->GameObject::AddComponent(grave_component2);
     Sprite* gravesprite2 = new Sprite(grave2);
@@ -101,8 +101,8 @@ FantomeState::FantomeState(){
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
-    boneFrog->box.x = 1200;
-    boneFrog->box.y = 800;
+    boneFrog->box.x = 1000;
+    boneFrog->box.y = 700;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     Sprite* boneFrogsprite = new Sprite(boneFrog);
@@ -111,33 +111,7 @@ FantomeState::FantomeState(){
     Collider* boneFrog_collider = new Collider(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_collider);
     this->objectArray.emplace_back(boneFrog);
-
-    GameObject* chains = new GameObject();
-    chains->box.w = 30;
-    chains->box.h = 10;
-    chains->box.x = 600;
-    chains->box.y = 290;
-    Chains* chains_component = new Chains(chains,0);
-    chains->GameObject::AddComponent(chains_component);
-    Collider* chains_collider = new Collider(chains);
-    chains->GameObject::AddComponent(chains_collider);
-    this->objectArray.emplace_back(chains);
-
-
-    GameObject* chains2 = new GameObject();
-    chains2->box.w = 30;
-    chains2->box.h = 10;
-    chains2->box.x = 720;
-    chains2->box.y = 290;
-    Chains* chains_component2 = new Chains(chains2,0);
-    chains2->GameObject::AddComponent(chains_component2);
-    Collider* chains_collider2 = new Collider(chains2);
-    chains2->GameObject::AddComponent(chains_collider2);
-    this->objectArray.emplace_back(chains2);
-
-    chains_component->Chains::LinkChains(chains_component2,chains2);
-    //chains_component2->Chains::LinkChains(chains_component,chains);
-
+/*
     GameObject* deathGhost = new GameObject();
     deathGhost->box.w = 173;
     deathGhost->box.h = 158;
@@ -148,12 +122,12 @@ FantomeState::FantomeState(){
     Collider* deathGhost_collider = new Collider(deathGhost);
     deathGhost->GameObject::AddComponent(deathGhost_collider);
     this->objectArray.emplace_back(deathGhost);
-
+*/
     GameObject* deathGhost2 = new GameObject();
     deathGhost2->box.w = 173;
     deathGhost2->box.h = 158;
     deathGhost2->box.x = 3700;
-    deathGhost2->box.y = 1300;
+    deathGhost2->box.y = 1100;
     DeathGhost* deathGhost_component2 = new DeathGhost(deathGhost2,0);
     deathGhost2->GameObject::AddComponent(deathGhost_component2);
     Collider* deathGhost_collider2 = new Collider(deathGhost2);
@@ -164,30 +138,47 @@ FantomeState::FantomeState(){
     BonePilego->box.w = 50;
     BonePilego->box.h = 5;
     BonePilego->box.x = 2500;
-    BonePilego->box.y = 700;
+    BonePilego->box.y = 500;
     BonePile* bonePile_component = new BonePile(BonePilego,300);
     BonePilego->GameObject::AddComponent(bonePile_component);
     Collider* BonePile_collider = new Collider(BonePilego);
     BonePilego->GameObject::AddComponent(BonePile_collider);
     this->objectArray.emplace_back(BonePilego);
 
+    /* Adding ChainHead (Beginning) */
+GameObject* goChainHead = new GameObject();
+goChainHead->box.x = 300 - goChainHead->box.w/2;
+goChainHead->box.y = 500 - goChainHead->box.h/2;
+ChainHead* chainHead = new ChainHead(goChainHead, 15, 0);
+goChainHead->AddComponent(chainHead);
+this->objectArray.emplace_back(goChainHead);
+
+/* Adding ChainTail (End)*/
+GameObject* goChainTail = new GameObject();
+ChainTail* chainTail = new ChainTail(goChainTail, chainHead->GetAngle());
+goChainTail->AddComponent(chainTail);
+goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
+goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
+this->objectArray.emplace_back(goChainTail);
+
     /* O GameObject goFantome representa o presonagem principal do jogo */
     GameObject* goFantome = new GameObject();
-    goFantome->box.x = 0;
-    goFantome->box.y = -250;
+    goFantome->box.x = 300;
+    goFantome->box.y = 290;
 
     Sprite* sprite = new Sprite(goFantome, 6, 0.1);
     sprite->Open("assets/fan_img/linha do tempo fantome 2.png");
-    goFantome->GameObject::AddComponent(sprite);
 
+    goFantome->GameObject::AddComponent(sprite);
     goFantome->box.w = sprite->GetHeight();
     goFantome->box.h = sprite->GetWidth();
-
     Fantome* fantome_component = new Fantome(goFantome);
     goFantome->GameObject::AddComponent(fantome_component);
 
     Collider* fantome_collider = new Collider(goFantome);
     goFantome->GameObject::AddComponent(fantome_collider);
+    //Vec2 offset = Vec2(0,120);
+    //fantome_collider->SetOffset(offset);
 
     this->objectArray.emplace_back(goFantome);
 

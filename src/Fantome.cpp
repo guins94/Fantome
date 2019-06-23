@@ -45,6 +45,7 @@ void Fantome::Update(float dt){
   }
 
   this->associated->futureBox = this->associated->box;
+
 }
 
 void Fantome::Render(){

@@ -1,4 +1,4 @@
-bin/Timer.o: src/Timer.cpp include/Timer.h include/AllHeaders.h \
+bin/Chain.o: src/Chain.cpp include/Chain.h include/AllHeaders.h \
  include/Vec2.h include/Rect.h include/Music.h include/Component.h \
  include/GameObject.h include/Sound.h include/Timer.h include/Sprite.h \
  include/State.h include/ParallaxScrolling.h include/Surface.h \
@@ -12,7 +12,7 @@ bin/Timer.o: src/Timer.cpp include/Timer.h include/AllHeaders.h \
  include/DeathGhost.h include/BonePile.h include/HolyLight.h \
  include/Chain.h include/ChainHead.h include/ChainTail.h
 
-include/Timer.h:
+include/Chain.h:
 
 include/AllHeaders.h:
 

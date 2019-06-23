@@ -31,12 +31,13 @@ void Possession::Update(float dt){
     goFantome->box.y = this->associated->box.y - 250;
     goFantome->box.w = sprite->GetHeight();
     goFantome->box.h = sprite->GetWidth();
+    //goFantome->box.h = 50;
 
     Fantome* fantome_component = new Fantome(goFantome);
     goFantome->GameObject::AddComponent(fantome_component);
 
     Collider* fantome_collider = new Collider(goFantome);
-    //Vec2 offset = Vec2(0,130);
+    //Vec2 offset = Vec2(0,120);
     //fantome_collider->SetOffset(offset);
     goFantome->GameObject::AddComponent(fantome_collider);
 

@@ -28,8 +28,8 @@ void Grave::Update(float dt){
 
   /* Calculando eixo y da futura posição do Fantome */
   this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y;
-  if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
-      this->associated->box.y = this->associated->futureBox.y;
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox)&& !fantomeState->WillCollideWithGrave(this->associated->futureBox)){
+      this->associated->box.y += dt * GameData::fantomeSpeed.y;
       this->speed.y = this->speed.y + dt * GameData::fantomeSpeed.y;
       std::cout << "Grave speed"<< this->speed.y << '\n';
   }else{
@@ -45,7 +45,7 @@ void Grave::Update(float dt){
 
   /* Calculando eixo x da futura posição do Fantome */
 
-  if(this->playing == true){
+  if(this->playing){
     InputManager* inputManager = InputManager::GetInstance();
     if(!inputManager->KeyRelease(SDLK_a)){
       this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
@@ -76,7 +76,10 @@ void Grave::Update(float dt){
       this->possessionTimer->Restart();
     }
   }
-  this->associated->futureBox = this->associated->box;
+  this->associated->futureBox.x = this->associated->box.x;
+  this->associated->futureBox.y = this->associated->box.y + 150;
+  this->associated->futureBox.h = 0.1;
+  this->associated->futureBox.w = this->associated->box.w;
 }
 
 void Grave::Render(){

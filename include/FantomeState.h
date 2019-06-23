@@ -52,6 +52,8 @@ class FantomeState : public State
 		void Resume ();
   public:
     bool WillCollideWithGround(Rect& objectBox);
+  public:
+    bool WillCollideWithGrave(Rect& objectBox);
 };
 
 #endif

@@ -9,6 +9,7 @@
 class Fantome : public Component{
   private:
     Vec2 speed = Vec2(0,0);
+    float fallingSpeed = 0;
     int nMovements;
     int hp;
     Timer* restTimer;
@@ -27,6 +28,7 @@ class Fantome : public Component{
     bool Is (std::string type);
   public:
     void NotifyCollision(GameObject& other);
+  public:
 
 };
 

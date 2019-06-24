@@ -3,10 +3,10 @@
   #include "AllHeaders.h"
 #endif
 
-#ifndef HOLYLIGHT_HEADER
-#define HOLYLIGHT_HEADER
+#ifndef BLADE_HEADER
+#define BLADE_HEADER
 
-class HolyLight : public Component{
+class Blade : public Component{
   private:
     Vec2 speed = Vec2(0,0);
     Vec2 colliderSize = Vec2(0,0);
@@ -15,11 +15,10 @@ class HolyLight : public Component{
     int hp;
     Timer* restTimer;
     GameObject* player;
-    Sound* lightSound;
   public:
-    HolyLight(GameObject* associated,int weigth,int height,int hitTime);
+    Blade(GameObject* associated,int weigth,int height,int hitTime);
   public:
-    ~HolyLight();
+    ~Blade();
   public:
     void Start();
   public:

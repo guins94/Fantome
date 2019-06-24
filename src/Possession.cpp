@@ -26,6 +26,9 @@ void Possession::Update(float dt){
   this->associated->box.y -= 5;
 
   if(this->restTimer->Get() >= 1){
+    FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+
+    fantomeState->fantomeExist = true;
     GameObject* goFantome = new GameObject();
 
     Sprite* sprite = new Sprite(goFantome, 6, 0.1);

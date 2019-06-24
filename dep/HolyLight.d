@@ -10,7 +10,8 @@ bin/HolyLight.o: src/HolyLight.cpp include/HolyLight.h \
  include/TitleState.h include/Text.h include/EndState.h include/Ground.h \
  include/GameData.h include/BoneFrog.h include/Chains.h \
  include/DeathGhost.h include/BonePile.h include/HolyLight.h \
- include/Chain.h include/ChainHead.h include/ChainTail.h
+ include/Chain.h include/ChainHead.h include/ChainTail.h include/Fire.h \
+ include/Blade.h include/FirePlace.h
 
 include/HolyLight.h:
 
@@ -93,3 +94,9 @@ include/Chain.h:
 include/ChainHead.h:
 
 include/ChainTail.h:
+
+include/Fire.h:
+
+include/Blade.h:
+
+include/FirePlace.h:

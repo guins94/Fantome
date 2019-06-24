@@ -25,7 +25,7 @@ void DeathGhost::Update(float dt){
   //std::cout << "PlayerPosition" <<fantomeState->PlayerPosition.x<<"    - "<<fantomeState->PlayerPosition.y << '\n';
   float distanceFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
   if(fabs(distanceFantome) <= GameData::followLimit && fantomeState->fantomeExist == true){
-    std::cout << "following" << '\n';
+    //std::cout << "following" << '\n';
     if(distanceFantome < 0){
       this->associated->box.x = this->associated->box.x - dt* GameData::DeathGhostSpeed.x;
     }else{
@@ -65,8 +65,8 @@ void DeathGhost::GhostAttack(){
     sprite->Open("assets/img/penguin.png");
     Attack->GameObject::AddComponent(sprite);
 
-    HolyLight* holyLight_component = new HolyLight(Attack,100,100,1);
-    Attack->GameObject::AddComponent(holyLight_component);
+    Blade* blade_component = new Blade(Attack,100,100,1);
+    Attack->GameObject::AddComponent(blade_component);
 
     Collider* holyLight_collider = new Collider(Attack);
     //Vec2 offset = Vec2(200,-50);

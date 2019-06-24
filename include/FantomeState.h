@@ -18,7 +18,9 @@ class FantomeState : public State
 	public:
     Vec2 PlayerPosition = Vec2(0,0);
     bool fantomeExist = false;
-		int nAliens = 2;
+    bool isAlive = true;
+		int nFire = 0;
+    int checkID = 0;
   private:
 		void StartArray();
 	  void UpdateArray(float dt);

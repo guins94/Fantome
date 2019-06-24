@@ -5,6 +5,7 @@ Fantome::Fantome(GameObject* associated){
   Timer* timer = new Timer();
   this->restTimer = timer;
   this->associated->futureBox = this->associated->box;
+
 }
 
 Fantome::~Fantome(){
@@ -19,7 +20,6 @@ void Fantome::Update(float dt){
 
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
-  fantomeState->fantomeExist = true;
 
   Rect auxBox = this->associated->futureBox;
 
@@ -77,8 +77,9 @@ void Fantome::NotifyCollision(GameObject& other){
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
-      this->associated->RequestDelete();
       fantomeState->fantomeExist = false;
+      this->associated->RequestDelete();
+
     }
   }
 
@@ -87,8 +88,8 @@ void Fantome::NotifyCollision(GameObject& other){
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
-      this->associated->RequestDelete();
       fantomeState->fantomeExist = false;
+      this->associated->RequestDelete();
     }
   }
 
@@ -97,8 +98,9 @@ void Fantome::NotifyCollision(GameObject& other){
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
-      this->associated->RequestDelete();
       fantomeState->fantomeExist = false;
+      this->associated->RequestDelete();
+
     }
   }
 
@@ -107,14 +109,32 @@ void Fantome::NotifyCollision(GameObject& other){
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
-      this->associated->RequestDelete();
       fantomeState->fantomeExist = false;
+      this->associated->RequestDelete();
     }
   }
-/*
-  if(other.GetComponent("HolyLight")){
+  if(other.GetComponent("Blade")){
       Camera::Follow(nullptr);
-      this->associated->RequestDelete();
       fantomeState->fantomeExist = false;
-  }*/
+      fantomeState->isAlive = false;
+      this->associated->RequestDelete();
+  }
+
+  if(other.GetComponent("Fire")){
+    InputManager* inputManager = InputManager::GetInstance();
+    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+      //(Grave*)other.GetComponent("Grave")->playing == true;
+      Camera::Follow(nullptr);
+      fantomeState->fantomeExist = false;
+      this->associated->RequestDelete();
+
+    }
+  }
+
+  if(other.GetComponent("HolyLight")){
+    Camera::Follow(nullptr);
+    fantomeState->fantomeExist = false;
+    fantomeState->isAlive = false;
+    this->associated->RequestDelete();
+  }
 }

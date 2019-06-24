@@ -10,7 +10,8 @@ bin/Ground.o: src/Ground.cpp include/Ground.h include/AllHeaders.h \
  include/TitleState.h include/Text.h include/EndState.h include/Ground.h \
  include/GameData.h include/BoneFrog.h include/Chains.h \
  include/DeathGhost.h include/BonePile.h include/HolyLight.h \
- include/Chain.h include/ChainHead.h include/ChainTail.h
+ include/Chain.h include/ChainHead.h include/ChainTail.h include/Fire.h \
+ include/Blade.h include/FirePlace.h
 
 include/Ground.h:
 
@@ -93,3 +94,9 @@ include/Chain.h:
 include/ChainHead.h:
 
 include/ChainTail.h:
+
+include/Fire.h:
+
+include/Blade.h:
+
+include/FirePlace.h:

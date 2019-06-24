@@ -1,4 +1,4 @@
-bin/CameraFollower.o: src/CameraFollower.cpp include/CameraFollower.h \
+bin/FirePlace.o: src/FirePlace.cpp include/FirePlace.h \
  include/AllHeaders.h include/Vec2.h include/Rect.h include/Music.h \
  include/Component.h include/GameObject.h include/Sound.h include/Timer.h \
  include/Sprite.h include/State.h include/ParallaxScrolling.h \
@@ -13,7 +13,7 @@ bin/CameraFollower.o: src/CameraFollower.cpp include/CameraFollower.h \
  include/Chain.h include/ChainHead.h include/ChainTail.h include/Fire.h \
  include/Blade.h include/FirePlace.h
 
-include/CameraFollower.h:
+include/FirePlace.h:
 
 include/AllHeaders.h:
 

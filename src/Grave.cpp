@@ -25,9 +25,6 @@ void Grave::Start(){
 void Grave::Update(float dt){
   this->possessionTimer->Update(dt);
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-
-  fantomeState->fantomeExist = true;
-
   Rect auxBox = this->associated->futureBox;
 
   /* Calculando eixo y da futura posição do Fantome */

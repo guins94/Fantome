@@ -3,23 +3,22 @@
   #include "AllHeaders.h"
 #endif
 
-#ifndef HOLYLIGHT_HEADER
-#define HOLYLIGHT_HEADER
+#ifndef FIREPLACE_HEADER
+#define FIREPLACE_HEADER
 
-class HolyLight : public Component{
+class FirePlace : public Component{
   private:
     Vec2 speed = Vec2(0,0);
-    Vec2 colliderSize = Vec2(0,0);
-    int hitTime;
+    Vec2 respawnPosition = Vec2(300,290);
     bool falling;
-    int hp;
     Timer* restTimer;
     GameObject* player;
-    Sound* lightSound;
+    Sound* fireSound;
+    int checkID;
   public:
-    HolyLight(GameObject* associated,int weigth,int height,int hitTime);
+    FirePlace(GameObject* associated,int checkID);
   public:
-    ~HolyLight();
+    ~FirePlace();
   public:
     void Start();
   public:

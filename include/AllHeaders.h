@@ -114,3 +114,9 @@
 #include"ChainHead.h"
 
 #include"ChainTail.h"
+
+#include"Fire.h"
+
+#include"Blade.h"
+
+#include"FirePlace.h"

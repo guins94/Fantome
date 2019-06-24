@@ -166,20 +166,59 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(BonePilego);
 
     /* Adding ChainHead (Beginning) */
-GameObject* goChainHead = new GameObject();
-goChainHead->box.x = 300 - goChainHead->box.w/2;
-goChainHead->box.y = 500 - goChainHead->box.h/2;
-ChainHead* chainHead = new ChainHead(goChainHead, 15, 0);
-goChainHead->AddComponent(chainHead);
-this->objectArray.emplace_back(goChainHead);
+    GameObject* goChainHead = new GameObject();
+    goChainHead->box.x = 300 - goChainHead->box.w/2;
+    goChainHead->box.y = 500 - goChainHead->box.h/2;
+    ChainHead* chainHead = new ChainHead(goChainHead, 15, 0);
+  goChainHead->AddComponent(chainHead);
+  this->objectArray.emplace_back(goChainHead);
 
 /* Adding ChainTail (End)*/
-GameObject* goChainTail = new GameObject();
-ChainTail* chainTail = new ChainTail(goChainTail, chainHead->GetAngle());
-goChainTail->AddComponent(chainTail);
-goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
-goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
-this->objectArray.emplace_back(goChainTail);
+  GameObject* goChainTail = new GameObject();
+  ChainTail* chainTail = new ChainTail(goChainTail, chainHead->GetAngle());
+  goChainTail->AddComponent(chainTail);
+  goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
+  goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
+  this->objectArray.emplace_back(goChainTail);
+
+    GameObject* fire = new GameObject();
+    fire->box.w = 500;
+    fire->box.h = 2000;
+    fire->box.x = 4300;
+    fire->box.y = 700;
+    HolyLight* fire_component = new HolyLight(fire,100,100,1);
+    fire->GameObject::AddComponent(fire_component);
+    Collider* fire_collider = new Collider(fire);
+    //Vec2 offset_fire = Vec2(0,-60);
+    //fire_collider->SetOffset(offset_fire);
+    fire->GameObject::AddComponent(fire_collider);
+    this->objectArray.emplace_back(fire);
+
+    GameObject* fireplace = new GameObject();
+    fireplace->box.w = 50;
+    fireplace->box.h = 50;
+    fireplace->box.x = 150;
+    fireplace->box.y = 600;
+    FirePlace* fireplace_component = new FirePlace(fireplace,0);
+    fireplace->GameObject::AddComponent(fireplace_component);
+    Collider* fireplace_collider = new Collider(fireplace);
+    //Vec2 offset_fireplace = Vec2(0,-60);
+    //fire_collider->SetOffset(offset_fireplace);
+    fireplace->GameObject::AddComponent(fireplace_collider);
+    this->objectArray.emplace_back(fireplace);
+
+    GameObject* fireplace2 = new GameObject();
+    fireplace2->box.w = 50;
+    fireplace2->box.h = 50;
+    fireplace2->box.x = 3500;
+    fireplace2->box.y = 200;
+    FirePlace* fireplace_component2 = new FirePlace(fireplace2,1);
+    fireplace2->GameObject::AddComponent(fireplace_component2);
+    Collider* fireplace_collider2 = new Collider(fireplace2);
+    //Vec2 offset_fireplace = Vec2(0,-60);
+    //fire_collider->SetOffset(offset_fireplace);
+    fireplace2->GameObject::AddComponent(fireplace_collider2);
+    this->objectArray.emplace_back(fireplace2);
 
     /* O GameObject goFantome representa o presonagem principal do jogo */
     GameObject* goFantome = new GameObject();

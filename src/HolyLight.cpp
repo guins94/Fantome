@@ -6,6 +6,8 @@ HolyLight::HolyLight(GameObject* associated,int weigth,int height,int hitTime){
   this->hitTime == hitTime;
   Timer* timer = new Timer();
   this->restTimer = timer;
+  Sound* sound = new Sound(this->associated,"assets/SFX/light.ogg");
+  this->lightSound = sound;
 }
 
 HolyLight::~HolyLight(){
@@ -18,13 +20,14 @@ void HolyLight::Start(){
 
 void HolyLight::Update(float dt){
   this->restTimer->Update(dt);
-  /*if(this->hitTime == -1){
-
-  }else{
-
-  }*/
-  if(this->restTimer->Get() >= 1){
-    this->associated->RequestDelete();
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+  float distanceFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
+  std::cout << "FANTOME EXIST" <<fantomeState->fantomeExist << '\n';
+  if(fabs(distanceFantome) <= 300 && fantomeState->fantomeExist == true){
+    if(this->restTimer->Get() >= 6){
+      this->lightSound->Play(1);
+      this->restTimer->Restart();
+    }
   }
 
 
@@ -41,7 +44,5 @@ bool HolyLight::Is (std::string type){
 
 
 void HolyLight::NotifyCollision(GameObject& other){
-	if(other.GetComponent("Ground") != nullptr){
-    this->falling = false;
-  }
+
 }

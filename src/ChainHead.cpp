@@ -97,7 +97,6 @@ void ChainHead::Update(float dt)
 
   /* Setting Fantome Flag */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-  fantomeState->fantomeExist = true;
 
   /* Getting InputManager Instance */
   InputManager* inputManager = InputManager::GetInstance();

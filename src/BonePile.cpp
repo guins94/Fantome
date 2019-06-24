@@ -61,6 +61,8 @@ void BonePile::NotifyCollision(GameObject& other){
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
+    boneFrog->box.x = this->associated->box.x;
+    boneFrog->box.y = 700;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     Sprite* boneFrogsprite = new Sprite(boneFrog);

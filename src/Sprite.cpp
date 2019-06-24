@@ -15,6 +15,8 @@ Sprite::Sprite(){
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
 	this->frameTime = 1;
+	this->isRenderEnabled = true;
+	this->isFlipped = false;
 }
 
 Sprite::Sprite(std::string file){
@@ -24,6 +26,8 @@ Sprite::Sprite(std::string file){
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
 	this->frameTime = 1;
+	this->isRenderEnabled = true;
+	this->isFlipped = false;
 	Open(file);
 }
 
@@ -35,6 +39,8 @@ Sprite::Sprite(GameObject* associated, int frameCount, float frameTime){
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
 	this->frameTime = frameTime;
+	this->isRenderEnabled = true;
+	this->isFlipped = false;
 }
 
 
@@ -43,19 +49,26 @@ Sprite::~Sprite(){
 }
 
 void Sprite::Render(){
+
+	/* If render is not enabled, return */
+	if(!isRenderEnabled) return;
+
   SDL_Rect dstrect;
   dstrect.h = this->clipRect.h;
   dstrect.w = this->clipRect.w;
   dstrect.x = this->associated->box.x + Camera::pos.x;
   dstrect.y = this->associated->box.y + Camera::pos.y;
 
-	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, SDL_FLIP_NONE) != 0) {
+	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, SDL_FLIP_HORIZONTAL) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
       exit(-1);
   }
 }
 
 void Sprite::Render(float x, float y){
+
+	/* If render is not enabled, return */
+	if(!isRenderEnabled) return;
 
 	SDL_Rect dstrect;
   dstrect.h = this->clipRect.h;

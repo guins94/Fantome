@@ -68,7 +68,7 @@ void Fantome::NotifyCollision(GameObject& other){
 
   /* Tratamento de colisão caso Fantome colida com o chão */
 	if(other.GetComponent("Collider") && other.GetComponent("Ground")){
-    std::cout << "COLIDIU COM O CHÃO" << '\n';
+    //std::cout << "COLIDIU COM O CHÃO" << '\n';
     //this->falling = false;
   }
 

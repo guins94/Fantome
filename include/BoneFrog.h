@@ -15,6 +15,8 @@ class BoneFrog : public Component{
     Timer* possessionTimer;
     float fallingSpeed;
     float gravity;
+    Sound* frogJump;
+    Sound* frogLand;
   public:
     bool playing;
   public:

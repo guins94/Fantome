@@ -8,6 +8,8 @@ DeathGhost::DeathGhost(GameObject* associated,int direction){
   this->associated->GameObject::AddComponent(sprite);
   Timer* timer = new Timer();
   this->restTimer = timer;
+  Sound* sound = new Sound(this->associated,"assets/SFX/blade.ogg");
+  this->blade = sound;
 }
 
 DeathGhost::~DeathGhost(){
@@ -52,6 +54,7 @@ void DeathGhost::Update(float dt){
 
 void DeathGhost::GhostAttack(){
   if(this->restTimer->Get() >= 2){
+    this->blade->Play(1);
     GameObject* Attack = new GameObject();
 
     Attack->box.x = this->associated->box.x + 200;

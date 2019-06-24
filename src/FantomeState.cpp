@@ -6,7 +6,7 @@ FantomeState::FantomeState(){
     this->started = false;
 
     /* Adicionando música */
-    this->backgroundMusic.Open("assets/fan_audio/Super Mario 64 - First Level (Super Mario 64 Theme).ogg");
+    this->backgroundMusic.Open("assets/fan_audio/FantomeBackGroundMusic.ogg");
     this->backgroundMusic.Play(-1);
 
     /* Adicionando imagens de fundo */
@@ -72,14 +72,15 @@ FantomeState::FantomeState(){
     grave->box.w = 130;
     grave->box.h = 135;
     grave->box.x = 3000;
-    grave->box.y = 150;
+    grave->box.y = 100;
     Grave* grave_component = new Grave(grave);
     grave->GameObject::AddComponent(grave_component);
     Sprite* gravesprite = new Sprite(grave);
     gravesprite->Open("assets/fan_img/tomb_1.png");
     gravesprite->SetClip(0,0, gravesprite->Sprite::GetHeight(),gravesprite->Sprite::GetWidth());
     grave->GameObject::AddComponent(gravesprite);
-    Collider* grave_collider = new Collider(grave);
+    Vec2 graveScale = Vec2(0,-100);
+    Collider* grave_collider = new Collider(grave,graveScale);
     grave->GameObject::AddComponent(grave_collider);
     this->objectArray.emplace_back(grave);
 
@@ -94,8 +95,8 @@ FantomeState::FantomeState(){
     gravesprite2->Open("assets/fan_img/tomb_1.png");
     gravesprite2->SetClip(0,0, gravesprite2->Sprite::GetHeight(),gravesprite2->Sprite::GetWidth());
     grave2->GameObject::AddComponent(gravesprite2);
-    Vec2 graveScale = Vec2(0,-100);
-    Collider* grave_collider2 = new Collider(grave2,graveScale);
+    Vec2 graveScale2 = Vec2(0,-100);
+    Collider* grave_collider2 = new Collider(grave2,graveScale2);
     grave2->GameObject::AddComponent(grave_collider2);
     this->objectArray.emplace_back(grave2);
 
@@ -110,8 +111,8 @@ FantomeState::FantomeState(){
     gravesprite3->Open("assets/fan_img/tomb_1.png");
     gravesprite3->SetClip(0,0, gravesprite3->Sprite::GetHeight(),gravesprite3->Sprite::GetWidth());
     grave2->GameObject::AddComponent(gravesprite3);
-    //Vec2 graveScale = Vec2(0,-100);
-    Collider* grave_collider3 = new Collider(grave3,graveScale);
+    Vec2 graveScale3 = Vec2(0,-100);
+    Collider* grave_collider3 = new Collider(grave3,graveScale3);
     grave3->GameObject::AddComponent(grave_collider3);
     this->objectArray.emplace_back(grave3);
 
@@ -119,7 +120,7 @@ FantomeState::FantomeState(){
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
     boneFrog->box.x = 1000;
-    boneFrog->box.y = 700;
+    boneFrog->box.y = 600;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     Sprite* boneFrogsprite = new Sprite(boneFrog);
@@ -159,6 +160,8 @@ FantomeState::FantomeState(){
     BonePile* bonePile_component = new BonePile(BonePilego,300);
     BonePilego->GameObject::AddComponent(bonePile_component);
     Collider* BonePile_collider = new Collider(BonePilego);
+    Vec2 offset_bonepile = Vec2(0,-60);
+    BonePile_collider->SetOffset(offset_bonepile);
     BonePilego->GameObject::AddComponent(BonePile_collider);
     this->objectArray.emplace_back(BonePilego);
 
@@ -184,8 +187,7 @@ this->objectArray.emplace_back(goChainTail);
     goFantome->box.y = 290;
 
     Sprite* sprite = new Sprite(goFantome, 6, 0.1);
-    sprite->Open("assets/fan_img/linha do tempo fantome 2.png");
-
+    sprite->Open("assets/fan_img/FANTOME PARADO - quadro de  96 px.png");
     goFantome->GameObject::AddComponent(sprite);
     goFantome->box.w = sprite->GetHeight();
     goFantome->box.h = sprite->GetWidth();

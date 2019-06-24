@@ -15,6 +15,8 @@ class Grave : public Component{
     Timer* restTimer;
     Timer* possessionTimer;
     GameObject* player;
+    Sound* breakBox;
+    Sound* arrastaBox;
   public:
     bool playing;
   public:

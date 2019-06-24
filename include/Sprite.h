@@ -18,6 +18,7 @@ class Sprite : public Component{
 		float timeElapsed;
 		float frameTime;
 		Timer selfDestructCount;
+    bool isRenderEnabled, isFlipped;
 	public:
 		float secondsToSelfDestruct;
 	public:

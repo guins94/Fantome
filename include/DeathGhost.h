@@ -9,7 +9,7 @@
 class DeathGhost : public Component{
   private:
     Vec2 spawnGhost = Vec2(0,0);
-
+    Sound* blade;
     bool falling;
     int hp;
     Timer* restTimer;

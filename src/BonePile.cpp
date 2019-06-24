@@ -25,11 +25,11 @@ void BonePile::Update(float dt){
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
   switch (this->direction) {
     case MOVERIGHT:
-      std::cout << "walking right" << '\n';
+      //std::cout << "walking right" << '\n';
       this->associated->box.x = this->associated->box.x + dt* GameData::fantomeSpeed.x;
       break;
     case MOVELEFT:
-      std::cout << "walking left" << '\n';
+      //std::cout << "walking left" << '\n';
       this->associated->box.x = this->associated->box.x - dt* GameData::fantomeSpeed.x;
       break;
     default:
@@ -61,8 +61,6 @@ void BonePile::NotifyCollision(GameObject& other){
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
-    boneFrog->box.x = this->associated->box.x;
-    boneFrog->box.y = this->associated->box.y;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     Sprite* boneFrogsprite = new Sprite(boneFrog);

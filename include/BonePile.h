@@ -17,6 +17,7 @@ class BonePile : public Component{
     int direction;
     int hp;
     Timer* restTimer;
+    Sound* frogJump;
   public:
     BonePile(GameObject* associated, int walkLimit);
   public:

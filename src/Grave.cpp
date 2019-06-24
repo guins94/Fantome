@@ -8,6 +8,10 @@ Grave::Grave(GameObject* associated){
   Timer* timer = new Timer();
   this->restTimer = timer;
   this->possessionTimer = new Timer();
+  Sound* sound = new Sound(this->associated,"assets/SFX/breakbox.ogg");
+  this->breakBox = sound;
+  Sound* sound2 = new Sound(this->associated,"assets/SFX/arrastabox.ogg");
+  this->arrastaBox = sound2;
 }
 
 Grave::~Grave(){
@@ -31,7 +35,7 @@ void Grave::Update(float dt){
   if(!fantomeState->WillCollideWithGround(this->associated->futureBox)&& !fantomeState->WillCollideWithGrave(this->associated->futureBox)){
       this->associated->box.y += dt * GameData::fantomeSpeed.y;
       this->speed.y = this->speed.y + dt * GameData::fantomeSpeed.y;
-      std::cout << "Grave speed"<< this->speed.y << '\n';
+      //std::cout << "Grave speed"<< this->speed.y << '\n';
   }else{
   /* Implementação da caixa quebrando ao coliddir com chão */
     if(this->speed.y>=200){
@@ -46,17 +50,30 @@ void Grave::Update(float dt){
   /* Calculando eixo x da futura posição do Fantome */
 
   if(this->playing){
+    this->restTimer->Update(dt);
     InputManager* inputManager = InputManager::GetInstance();
     if(!inputManager->KeyRelease(SDLK_a)){
       this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
+
         this->associated->box.x = this->associated->futureBox.x;
+        if(this->restTimer->Get() >= 1){
+          this->arrastaBox->Play(1);
+          this->restTimer->Restart();
+        }
+
+      }
       this->associated->futureBox = auxBox;
     }
     if(!inputManager->KeyRelease(SDLK_d)){
       this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
         this->associated->box.x = this->associated->futureBox.x;
+        if(this->restTimer->Get() >= 1){
+          this->arrastaBox->Play(1);
+          this->restTimer->Restart();
+        }
+      }
       this->associated->futureBox = auxBox;
     }
 
@@ -101,6 +118,7 @@ void Grave::NotifyCollision(GameObject& other){
 }
 
 void Grave::RespawnGrave(){
+  this->breakBox->Play(1);
   //std::cout << "RespawnGrave" << '\n';
   GameObject* possession = new GameObject();
   possession->box.w = 30;

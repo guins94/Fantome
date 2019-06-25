@@ -15,9 +15,12 @@ class ChainHead : public Component
     Vec2 lastChainPosition;
     Timer* playingTimer;
     Timer* possessionTimer;
-    std::vector<std::weak_ptr<GameObject>> chainArray;
+    Timer* travelCooldown;
 
   public:
+    int currentChain;
+    std::vector<std::weak_ptr<GameObject>> chainArray;
+
     ChainHead(GameObject* associated, int nChains, float angleRad);
     ~ChainHead();
 

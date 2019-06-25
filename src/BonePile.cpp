@@ -58,20 +58,20 @@ bool BonePile::Is (std::string type){
 
 void BonePile::NotifyCollision(GameObject& other){
 	if(other.GetComponent("Grave")){
-    GameObject* boneFrog = new GameObject();
-    boneFrog->box.w = 100;
-    boneFrog->box.h = 30;
-    boneFrog->box.x = this->associated->box.x;
-    boneFrog->box.y = 700;
-    BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
-    boneFrog->GameObject::AddComponent(boneFrog_component);
-    Sprite* boneFrogsprite = new Sprite(boneFrog);
+    /*GameObject* boneFrog2 = new GameObject();
+    boneFrog2->box.w = 100;
+    boneFrog2->box.h = 30;
+    boneFrog2->box.x = this->associated->box.x;
+    boneFrog2->box.y = this->associated->box.y;
+    BoneFrog* boneFrog_component = new BoneFrog(boneFrog2);
+    boneFrog2->GameObject::AddComponent(boneFrog_component);
+    Sprite* boneFrogsprite = new Sprite(boneFrog2);
     boneFrogsprite->Open("assets/img/cubngun.png");
-    boneFrog->GameObject::AddComponent(boneFrogsprite);
-    Collider* boneFrog_collider = new Collider(boneFrog);
-    boneFrog->GameObject::AddComponent(boneFrog_collider);
-    Game::GetInstance()->GetCurrentState()->AddObject(boneFrog);
-
+    boneFrog2->GameObject::AddComponent(boneFrogsprite);
+    Collider* boneFrog_collider = new Collider(boneFrog2);
+    boneFrog2->GameObject::AddComponent(boneFrog_collider);
+    Game::GetInstance()->GetCurrentState()->AddObject(boneFrog2);
+*/
 
     this->associated->RequestDelete();
   }

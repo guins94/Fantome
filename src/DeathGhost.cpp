@@ -54,7 +54,7 @@ void DeathGhost::Update(float dt){
 
 void DeathGhost::GhostAttack(){
   if(this->restTimer->Get() >= 2){
-    this->blade->Play(1);
+    //this->blade->Play(1);
     GameObject* Attack = new GameObject();
 
     Attack->box.x = this->associated->box.x + 200;

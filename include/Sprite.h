@@ -49,6 +49,10 @@ class Sprite : public Component{
 		bool IsOpen();
 	public:
 		bool Is(std::string type);
+    void EnableRender();
+    void DisableRender();
+    void EnableFlip();
+    void DisableFlip();
 	public:
 		void SetScaleX(float scaleX);
 	public:

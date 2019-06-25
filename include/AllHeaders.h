@@ -28,6 +28,7 @@
   #define UP_LIMIT 500
   #define COOLDOWN 3
   #define PROPORTION 0.2
+  #define CHAIN_TRAVEL_LIMIT 1
 
   #define LEFT_ARROW_KEY SDLK_LEFT
   #define RIGHT_ARROW_KEY SDLK_RIGHT
@@ -105,15 +106,15 @@
 
 #include "DeathGhost.h"
 
-#include"BonePile.h"
+#include "BonePile.h"
 
 #include"HolyLight.h"
-
-#include"Chain.h"
 
 #include"ChainHead.h"
 
 #include"ChainTail.h"
+
+#include"Chain.h"
 
 #include"Fire.h"
 

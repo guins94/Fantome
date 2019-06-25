@@ -4,9 +4,11 @@ ChainHead::ChainHead(GameObject* associated, int nChains, float angleRad) : Comp
 {
   this->associated = associated;
   this->nChains = nChains;
+  this->currentChain = -1;
   this->playing = false;
   this->playingTimer = new Timer();
   this->possessionTimer = new Timer();
+  this->travelCooldown = new Timer();
 
   /* Adding Chain Head Sprite */
   Sprite* sprite = new Sprite(associated, 1, 0);
@@ -25,7 +27,7 @@ ChainHead::ChainHead(GameObject* associated, int nChains, float angleRad) : Comp
 
   /* Storing Chain Width and Height */
   GameObject* goChain = new GameObject();
-  Chain* chain = new Chain(goChain);
+  Chain* chain = new Chain(goChain, nullptr, -1);
   this->chainWidth = goChain->box.w;
   this->chainHeight = goChain->box.h;
 
@@ -95,7 +97,7 @@ void ChainHead::Update(float dt)
   /* Updating Possession Timer */
   this->possessionTimer->Update(dt);
 
-  /* Setting Fantome Flag */
+  /* Getting Fantome State */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
   /* Getting InputManager Instance */
@@ -103,8 +105,15 @@ void ChainHead::Update(float dt)
 
   if(!this->playing)
   {
+    Sprite* sprite = (Sprite*) this->associated->GetComponent("Sprite");
+    sprite->SetScaleX(1); sprite->SetScaleY(1);
     this->playingTimer->Update(dt);
+    this->travelCooldown->Restart();
     return;
+  }
+  else
+  {
+    this->travelCooldown->Update(dt);
   }
 
   if(this->possessionTimer->Get() >= 1 && (!inputManager->KeyRelease(SDLK_SPACE)) && (!inputManager->KeyRelease(SDLK_w)))
@@ -143,7 +152,7 @@ void ChainHead::Start()
     GameObject* goChain = new GameObject();
 
     /* Criando Chain */
-    Chain* chain = new Chain(goChain);
+    Chain* chain = new Chain(goChain, this->associated, i);
 
     /* Setando as dimensões da Chain */
     goChain->box.x = this->associated->box.x + this->associated->box.w + goChain->box.w * (i);
@@ -153,7 +162,6 @@ void ChainHead::Start()
     Vec2 associatedCenter = this->associated->box.GetCenter();
     Vec2 chainCenter = goChain->box.GetCenter();
     Vec2 distance = chainCenter - associatedCenter;
-    //std::cerr << "i: " << i << " X: " << distance.x << " Y: " << distance.y << '\n';
     Vec2 result = distance.GetRotated(this->angleRad);
     goChain->box.x = result.x + this->associated->box.x + goChain->box.w;
     goChain->box.y = result.y + this->associated->box.y + this->associated->box.h/2;
@@ -181,6 +189,9 @@ void ChainHead::NotifyCollision(GameObject& other)
   /* Getting InputManager Instance */
   InputManager* inputManager = InputManager::GetInstance();
 
+  /* Getting FantomeState */
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+
   /* Resolving ChainHead Collision With Fantome */
   if(other.GetComponent("Fantome"))
   {
@@ -192,6 +203,54 @@ void ChainHead::NotifyCollision(GameObject& other)
         this->playingTimer->Restart();
       }
       Camera::Follow(this->associated);
+      Sprite* sprite = (Sprite*) this->associated->GetComponent("Sprite");
+      sprite->SetScaleX(1.1); sprite->SetScaleY(1.1);
     }
+  }
+
+  /* Resolving ChainHead Collision With Chain */
+  if(Chain* chain = (Chain*) other.GetComponent("Chain"))
+  {
+    /* If ChainHead Is Being Controlled by Fantome */
+    if(this->playing)
+    {
+      /* If The Player Presses The D Key (Right) */
+      if(!inputManager->KeyRelease(SDLK_d) && this->travelCooldown->Get() >= CHAIN_TRAVEL_LIMIT)
+      {
+        /* Restarting Travel Cooldown Timer */
+        this->travelCooldown->Restart();
+
+        /* Increments currentChain value */
+        this->currentChain++;
+
+        /* If currentChain is a valid value for a chain */
+        if(this->currentChain >= 0 && this->currentChain < this->chainArray.size())
+        {
+          //Chain* chain = (Chain*) this->chainArray[i].get()->GetComponent("Chain");
+          Sprite* sprite = (Sprite*) this->chainArray[this->currentChain].lock().get()->GetComponent("Sprite");
+          sprite->SetScaleX(1.2); sprite->SetScaleY(1.2);
+
+          this->playing = false;
+          chain->isPlaying = true;
+          Camera::Follow(&other);
+        }
+      }
+    }
+
+    /* If Fantome Comes From the Chain to the ChainHead */
+    if(!inputManager->KeyRelease(SDLK_a) && this->currentChain == 0 && chain->travelCooldown->Get() >= CHAIN_TRAVEL_LIMIT)
+    {
+      /* Restarting Travel Cooldown Timer */
+      this->travelCooldown->Restart();
+
+      /* Decrements currentChain value */
+      this->currentChain--;
+
+      this->playing = true;
+      chain->isPlaying = false;
+      this->playingTimer->Restart();
+      Camera::Follow(this->associated);
+    }
+
   }
 }

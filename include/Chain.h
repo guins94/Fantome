@@ -9,11 +9,18 @@
 class Chain : public Component
 {
   private:
-    GameObject* chainHead;
+    ChainHead* chainHead;         // Pointer to Store From Which ChainHead This Chain Belongs To
+    int chainCode;                // Chain ID
+    bool wasCurrentChainModified; // Flag That Limits The Number Of Times The Chain Can Modify Current Chain Value
 
   public:
-    Chain(GameObject* associated);
+    Timer* travelCooldown;  // Timer To Limit Travel Between Chains
+    bool isPlaying;         // Flag That Shows Wether The Chain Is Being Controlled Or Not
+
+    Chain(GameObject* associated, GameObject* chainHead, int chainCode);
     ~Chain();
+
+    int GetChainCode();
 
     void Update(float dt);
     void Render();

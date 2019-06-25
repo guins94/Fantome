@@ -1,11 +1,14 @@
 #include "ChainTail.h"
 
-ChainTail::ChainTail(GameObject* associated, float angleRad) : Component(associated)
+ChainTail::ChainTail(GameObject* associated, GameObject* chainHead, float angleRad) : Component(associated)
 {
   this->associated = associated;
   this->playing = false;
   this->playingTimer = new Timer();
   this->possessionTimer = new Timer();
+
+  if(chainHead)
+  this->chainHead = (ChainHead*) chainHead->GetComponent("ChainHead");
 
   /* Adding Chain Head Sprite */
   Sprite* sprite = new Sprite(associated, 1, 0);
@@ -110,6 +113,33 @@ void ChainTail::NotifyCollision(GameObject& other)
         this->playingTimer->Restart();
       }
       Camera::Follow(this->associated);
+    }
+  }
+
+  /* Resolving ChainTail Collision With Chain */
+  if(Chain* chain = (Chain*) other.GetComponent("Chain"))
+  {
+    /* If ChainTail Is Being Controlled by Fantome */
+    if(this->playing)
+    {
+      /* If The Player Presses The A Key (Left) */
+      if(!inputManager->KeyRelease(SDLK_a))
+      {
+        /* Decrements currentChain value */
+        this->chainHead->currentChain--;
+
+        /* If currentChain is a valid value for a chain */
+        if(this->chainHead->currentChain >= 0 && this->chainHead->currentChain < this->chainHead->chainArray.size())
+        {
+          //Chain* chain = (Chain*) this->chainArray[i].get()->GetComponent("Chain");
+          Sprite* sprite = (Sprite*) this->chainHead->chainArray[this->chainHead->currentChain].lock().get()->GetComponent("Sprite");
+          sprite->SetScaleX(1.2); sprite->SetScaleY(1.2);
+
+          this->playing = false;
+          chain->isPlaying = true;
+          Camera::Follow(&other);
+        }
+      }
     }
   }
 }

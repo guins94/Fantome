@@ -36,12 +36,16 @@ void Fantome::Update(float dt){
   /* Calculando eixo x da futura posição do Fantome */
   InputManager* inputManager = InputManager::GetInstance();
   if(!inputManager->KeyRelease(SDLK_a)){
+    /* If the player is going left, the sprite is flipped */
+    Sprite* sprite = (Sprite*) this->associated->GetComponent("Sprite"); sprite->EnableFlip();
     this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
     if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
       this->associated->box.x -= dt * GameData::fantomeSpeed.x;
     this->associated->futureBox = auxBox;
   }
   if(!inputManager->KeyRelease(SDLK_d)){
+    /* If the player is going right, the sprite is back to normal */
+    Sprite* sprite = (Sprite*) this->associated->GetComponent("Sprite"); sprite->DisableFlip();
     this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
     if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
       this->associated->box.x += dt * GameData::fantomeSpeed.x;

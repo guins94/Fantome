@@ -59,7 +59,10 @@ void Sprite::Render(){
   dstrect.x = this->associated->box.x + Camera::pos.x;
   dstrect.y = this->associated->box.y + Camera::pos.y;
 
-	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, SDL_FLIP_HORIZONTAL) != 0) {
+	SDL_RendererFlip flipType = SDL_FLIP_NONE;
+	if(isFlipped) flipType = SDL_FLIP_HORIZONTAL;
+
+	if(SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
       exit(-1);
   }
@@ -76,7 +79,10 @@ void Sprite::Render(float x, float y){
   dstrect.x = x;
   dstrect.y = y;
 
-	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, 0, nullptr, SDL_FLIP_NONE) != 0) {
+	SDL_RendererFlip flipType = SDL_FLIP_NONE;
+	if(isFlipped) flipType = SDL_FLIP_HORIZONTAL;
+
+	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, 0, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
       exit(-1);
   }
@@ -150,6 +156,27 @@ bool Sprite::Is(std::string type){
 		return false;
 	}
 }
+
+void Sprite::EnableRender()
+{
+	this->isRenderEnabled = true;
+}
+
+void Sprite::DisableRender()
+{
+	this->isRenderEnabled = false;
+}
+
+void Sprite::EnableFlip()
+{
+	this->isFlipped = true;
+}
+
+void Sprite::DisableFlip()
+{
+	this->isFlipped = false;
+}
+
 void Sprite::SetScaleX(float scaleX){
 	this->scale.x = scaleX;
 }

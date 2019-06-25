@@ -87,8 +87,8 @@ FantomeState::FantomeState(){
     GameObject* grave2 = new GameObject();
     grave2->box.w = 130;
     grave2->box.h = 135;
-    grave2->box.x = 0;
-    grave2->box.y = 480;
+    grave2->box.x = 1700;
+    grave2->box.y = 380;
     Grave* grave_component2 = new Grave(grave2);
     grave2->GameObject::AddComponent(grave_component2);
     Sprite* gravesprite2 = new Sprite(grave2);
@@ -103,8 +103,8 @@ FantomeState::FantomeState(){
     GameObject* grave3 = new GameObject();
     grave3->box.w = 130;
     grave3->box.h = 135;
-    grave3->box.x = 0;
-    grave3->box.y = 280;
+    grave3->box.x = 1700;
+    grave3->box.y = 180;
     Grave* grave_component3 = new Grave(grave3);
     grave3->GameObject::AddComponent(grave_component3);
     Sprite* gravesprite3 = new Sprite(grave3);
@@ -115,6 +115,22 @@ FantomeState::FantomeState(){
     Collider* grave_collider3 = new Collider(grave3,graveScale3);
     grave3->GameObject::AddComponent(grave_collider3);
     this->objectArray.emplace_back(grave3);
+
+    GameObject* grave4 = new GameObject();
+    grave4->box.w = 130;
+    grave4->box.h = 135;
+    grave4->box.x = 600;
+    grave4->box.y = 480;
+    Grave* grave_component4 = new Grave(grave4);
+    grave4->GameObject::AddComponent(grave_component4);
+    Sprite* gravesprite4 = new Sprite(grave4);
+    gravesprite4->Open("assets/fan_img/tomb_1.png");
+    gravesprite4->SetClip(0,0, gravesprite4->Sprite::GetHeight(),gravesprite4->Sprite::GetWidth());
+    grave4->GameObject::AddComponent(gravesprite4);
+    Vec2 graveScale4 = Vec2(0,-100);
+    Collider* grave_collider4 = new Collider(grave4,graveScale4);
+    grave4->GameObject::AddComponent(grave_collider4);
+    this->objectArray.emplace_back(grave4);
 
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
@@ -155,9 +171,9 @@ FantomeState::FantomeState(){
     GameObject* BonePilego = new GameObject();
     BonePilego->box.w = 50;
     BonePilego->box.h = 5;
-    BonePilego->box.x = 2500;
+    BonePilego->box.x = 2600;
     BonePilego->box.y = 500;
-    BonePile* bonePile_component = new BonePile(BonePilego,300);
+    BonePile* bonePile_component = new BonePile(BonePilego,200);
     BonePilego->GameObject::AddComponent(bonePile_component);
     Collider* BonePile_collider = new Collider(BonePilego);
     Vec2 offset_bonepile = Vec2(0,-60);
@@ -167,19 +183,19 @@ FantomeState::FantomeState(){
 
     /* Adding ChainHead (Beginning) */
     GameObject* goChainHead = new GameObject();
-    goChainHead->box.x = 300 - goChainHead->box.w/2;
-    goChainHead->box.y = 500 - goChainHead->box.h/2;
+    goChainHead->box.x = 2300 - goChainHead->box.w/2;
+    goChainHead->box.y = 100 - goChainHead->box.h/2;
     ChainHead* chainHead = new ChainHead(goChainHead, 15, 0);
-  goChainHead->AddComponent(chainHead);
-  this->objectArray.emplace_back(goChainHead);
+    goChainHead->AddComponent(chainHead);
+    this->objectArray.emplace_back(goChainHead);
 
-/* Adding ChainTail (End)*/
-  GameObject* goChainTail = new GameObject();
-  ChainTail* chainTail = new ChainTail(goChainTail, chainHead->GetAngle());
-  goChainTail->AddComponent(chainTail);
-  goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
-  goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
-  this->objectArray.emplace_back(goChainTail);
+    /* Adding ChainTail (End)*/
+    GameObject* goChainTail = new GameObject();
+    ChainTail* chainTail = new ChainTail(goChainTail, goChainHead, chainHead->GetAngle());
+    goChainTail->AddComponent(chainTail);
+    goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
+    goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
+    this->objectArray.emplace_back(goChainTail);
 
     GameObject* fire = new GameObject();
     fire->box.w = 500;

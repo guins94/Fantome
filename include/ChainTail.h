@@ -12,12 +12,14 @@ class ChainTail : public Component
 {
   private:
     float angleRad;
-    bool playing;
     Timer* playingTimer;
     Timer* possessionTimer;
 
   public:
-    ChainTail(GameObject* associated, float angleRad);
+    bool playing;
+    ChainHead* chainHead;   // Pointer to Store From Which ChainHead This ChainTail Belongs To
+
+    ChainTail(GameObject* associated, GameObject* chainHead, float angleRad);
     ~ChainTail();
 
     void SetChainRotation(float arc);

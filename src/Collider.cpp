@@ -1,8 +1,8 @@
 #include"Collider.h"
 
 Collider::Collider(GameObject* associated, Vec2 scale, Vec2 offset){
-  scale = Vec2(1,1);
-  offset = Vec2(1,1);
+  this->scale = scale;
+  offset = Vec2(0,0);
   this->associated = associated;
   this->box = this->associated->box;
   this->angleDeg = this->associated->angleDeg;
@@ -12,6 +12,8 @@ void Collider::Update(float dt){
   //this->box = this->associated->box;
   this->box.x = this->associated->box.x + offset.x;
   this->box.y = this->associated->box.y + offset.y;
+  this->box.h = this->associated->box.h + this->scale.y;
+  this->box.w = this->associated->box.w + this->scale.x;
   this->angleDeg = this->associated->angleDeg;
 }
 

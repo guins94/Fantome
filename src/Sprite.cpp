@@ -4,7 +4,6 @@ void Sprite::Open(std::string file){
 	this->texture = Resources::GetImage(file);
 	SDL_QueryTexture(this->texture, nullptr, nullptr,&this->height ,&this->width);
 	this->height = this->height/this->frameCount;
-	//std::cout << "width = "<<this->height << std::endl;
 	SetClip(0, 0, this->Sprite::GetHeight() ,this->Sprite::GetWidth());
 }
 
@@ -15,6 +14,8 @@ Sprite::Sprite(){
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
 	this->frameTime = 1;
+	this->isRenderEnabled = true;
+	this->isFlipped = false;
 }
 
 Sprite::Sprite(std::string file){
@@ -24,17 +25,41 @@ Sprite::Sprite(std::string file){
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
 	this->frameTime = 1;
+	this->isRenderEnabled = true;
+	this->isFlipped = false;
 	Open(file);
 }
 
-Sprite::Sprite(GameObject* associated, int frameCount, float frameTime){
-	this->texture = (nullptr);
-	this->secondsToSelfDestruct = 0;
+Sprite::Sprite(GameObject* associated, int frameCount, float frameTime)
+{
 	this->associated = associated;
+
+	this->texture = (nullptr);
+	this->scale = Vec2(1,1);
 	this->frameCount = frameCount;
+	this->frameTime = frameTime;
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
-	this->frameTime = frameTime;
+	this->isRenderEnabled = true;
+	this->isFlipped = false;
+	this->secondsToSelfDestruct = 0;
+}
+
+Sprite::Sprite(GameObject* associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct)
+{
+  this->associated = associated;
+
+  this->texture = nullptr;
+  this->scale = Vec2(1,1);
+  this->frameCount = frameCount;
+  this->frameTime = frameTime;
+  this->currentFrame = 0;
+  this->timeElapsed = 0;
+	this->isRenderEnabled = true;
+	this->isFlipped = false;
+  this->secondsToSelfDestruct = secondsToSelfDestruct;
+  this->selfDestructCount.Restart();
+  Open(file);
 }
 
 
@@ -43,13 +68,20 @@ Sprite::~Sprite(){
 }
 
 void Sprite::Render(){
+
+	/* If render is not enabled, return */
+	if(!isRenderEnabled) return;
+
   SDL_Rect dstrect;
   dstrect.h = this->clipRect.h;
   dstrect.w = this->clipRect.w;
   dstrect.x = this->associated->box.x + Camera::pos.x;
   dstrect.y = this->associated->box.y + Camera::pos.y;
 
-	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, SDL_FLIP_NONE) != 0) {
+	SDL_RendererFlip flipType = SDL_FLIP_NONE;
+	if(isFlipped) flipType = SDL_FLIP_HORIZONTAL;
+
+	if(SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
       exit(-1);
   }
@@ -57,13 +89,19 @@ void Sprite::Render(){
 
 void Sprite::Render(float x, float y){
 
+	/* If render is not enabled, return */
+	if(!isRenderEnabled) return;
+
 	SDL_Rect dstrect;
   dstrect.h = this->clipRect.h;
   dstrect.w = this->clipRect.w;
   dstrect.x = x;
   dstrect.y = y;
 
-	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, 0, nullptr, SDL_FLIP_NONE) != 0) {
+	SDL_RendererFlip flipType = SDL_FLIP_NONE;
+	if(isFlipped) flipType = SDL_FLIP_HORIZONTAL;
+
+	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, 0, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
       exit(-1);
   }
@@ -100,7 +138,7 @@ void Sprite::Update(float dt){
 
 	if(this->secondsToSelfDestruct > 0){
 		this->selfDestructCount.Update(dt);
-		if(this->secondsToSelfDestruct <= this->selfDestructCount.Get()){
+		if(this->selfDestructCount.Get() >= this->secondsToSelfDestruct){
 			this->associated->RequestDelete();
 		}
 	}
@@ -137,6 +175,27 @@ bool Sprite::Is(std::string type){
 		return false;
 	}
 }
+
+void Sprite::EnableRender()
+{
+	this->isRenderEnabled = true;
+}
+
+void Sprite::DisableRender()
+{
+	this->isRenderEnabled = false;
+}
+
+void Sprite::EnableFlip()
+{
+	this->isFlipped = true;
+}
+
+void Sprite::DisableFlip()
+{
+	this->isFlipped = false;
+}
+
 void Sprite::SetScaleX(float scaleX){
 	this->scale.x = scaleX;
 }

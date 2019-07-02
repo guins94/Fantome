@@ -31,8 +31,8 @@ void Camera::Update(float dt){
   InputManager* inputManager = InputManager::GetInstance();
 
   if(focus){
-    pos.x = Game::GetInstance()->width/2 - Camera::focus->box.x - Camera::focus->box.w/2;
-    pos.y = Game::GetInstance()->height/2 - Camera::focus->box.y - Camera::focus->box.h/2 + 30;
+    pos.x = Game::GetInstance()->width/2 - Camera::focus->box.x - Camera::focus->box.w/2 ;
+    pos.y = Game::GetInstance()->height/2 - Camera::focus->box.y - Camera::focus->box.h/2 + 100;
     /*if(pos.y<= -36 ){
       pos.y = -36;
     }*/

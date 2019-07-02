@@ -60,7 +60,10 @@ int* ParallaxScrolling::At(int x,int y, int z){
 void ParallaxScrolling::Render(){
   //RenderLayer(1,camera->pos.x, camera->pos.y);
   this->tileSet->SetClip(0,0,this->tileSet->GetHeight() ,600);
-  this->tileSet->Render(multiplier*Camera::pos.x,multiplier*Camera::pos.y);
+  if(Camera::pos.x >=0)
+    this->tileSet->Render(0,0);
+  else
+  this->tileSet->Render(multiplier*Camera::pos.x,0);
 }
 
 

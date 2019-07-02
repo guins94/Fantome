@@ -18,6 +18,7 @@ class Sprite : public Component{
 		float timeElapsed;
 		float frameTime;
 		Timer selfDestructCount;
+    bool isRenderEnabled, isFlipped;
 	public:
 		float secondsToSelfDestruct;
 	public:
@@ -26,6 +27,7 @@ class Sprite : public Component{
 		 Sprite(std::string file);
 	public:
 		Sprite(GameObject* associated, int frameCount=1,float frameTime = 1);
+     Sprite(GameObject* associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct);
 	public:
 		~Sprite();
 	public:
@@ -48,6 +50,10 @@ class Sprite : public Component{
 		bool IsOpen();
 	public:
 		bool Is(std::string type);
+    void EnableRender();
+    void DisableRender();
+    void EnableFlip();
+    void DisableFlip();
 	public:
 		void SetScaleX(float scaleX);
 	public:

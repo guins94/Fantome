@@ -71,7 +71,7 @@ void TileMap::Render(){
 		//RenderLayer(i,camera->pos.x, camera->pos.y);
 	//}
   RenderLayer(1, Camera::pos.x, Camera::pos.y);
-  RenderLayer(2, Camera::pos.x, Camera::pos.y);
+  //RenderLayer(2, Camera::pos.x, Camera::pos.y);
   this->createCollision = false;
 }
 
@@ -95,22 +95,22 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 				index = At(i,j,0);
 				if(*(index) != (-1)){
 					//std::cout << "camada i: " << i<< "camadaj:"<<j <<std::endl;
-					this->tileSet->RenderTile(*(index),(j*tileWidth) + cameraX,(i*tileHeight) + CameraY + 500);
-          if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX - 390, (i*tileHeight) + CameraY + 325);
+					this->tileSet->RenderTile(*(index),(j*tileWidth) + cameraX,(i*tileHeight) + CameraY);
+          if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX - 130, (i*tileHeight) + CameraY -30);
         }
 			}
 		}
-	}else{
+	}/*else{
 		for(i=24; i<=49; i++){
 			for(j=0;j<=24; j++){
 				index = At(i,j,0);
 				if(*(index) != -1){
-					this->tileSet->RenderTile(*(index),((j)*tileWidth) + cameraX,(i-24)*tileHeight + CameraY + 500);
-          if(this->createCollision) CreateCollider(*(index),((j)*tileWidth) + cameraX,(i-24)*tileHeight + CameraY + 325);
+					this->tileSet->RenderTile(*(index),((j)*tileWidth) + cameraX,(i-24)*tileHeight + CameraY + 175);
+          if(this->createCollision) CreateCollider(*(index),((j)*tileWidth) + cameraX,(i-24)*tileHeight + CameraY -300);
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void TileMap::Update(float dx){

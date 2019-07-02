@@ -6,28 +6,24 @@
 #ifndef FANTOME_HEADER
 #define FANTOME_HEADER
 
-class Fantome : public Component{
+class Fantome : public Component
+{
   private:
-    Vec2 speed = Vec2(0,0);
-    int nMovements;
+    enum SpriteState {STANDING, RIGHT, LEFT} sprtState;
+    SpriteState spriteState;
     int hp;
     Timer* restTimer;
     GameObject* player;
+
   public:
     Fantome(GameObject* associated);
-  public:
     ~Fantome();
-  public:
-    void Start();
-  public:
-    void Update(float dt);
-  public:
-    void Render();
-  public:
-    bool Is (std::string type);
-  public:
-    void NotifyCollision(GameObject& other);
 
+    void Start();
+    void Update(float dt);
+    void Render();
+    bool Is(std::string type);
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

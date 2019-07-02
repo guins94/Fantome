@@ -9,11 +9,14 @@
 class Grave : public Component{
   private:
     Vec2 speed = Vec2(0,0);
+    Vec2 spawnGrave = Vec2(0,0);
     bool falling;
     int hp;
     Timer* restTimer;
     Timer* possessionTimer;
     GameObject* player;
+    Sound* breakBox;
+    Sound* arrastaBox;
   public:
     bool playing;
   public:
@@ -30,6 +33,8 @@ class Grave : public Component{
     bool Is (std::string type);
   public:
     void NotifyCollision(GameObject& other);
+  public:
+    void RespawnGrave();
 };
 
 #endif

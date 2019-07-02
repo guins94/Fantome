@@ -6,7 +6,7 @@ FantomeState::FantomeState(){
     this->started = false;
 
     /* Adicionando música */
-    this->backgroundMusic.Open("assets/fan_audio/Super Mario 64 - First Level (Super Mario 64 Theme).ogg");
+    this->backgroundMusic.Open("assets/fan_audio/FantomeBackGroundMusic.ogg");
     this->backgroundMusic.Play(-1);
 
     /* Adicionando imagens de fundo */
@@ -20,21 +20,21 @@ FantomeState::FantomeState(){
     GameObject* backgroundScreen1 = new GameObject();
     backgroundScreen1->box.x = 0;
     backgroundScreen1->box.y = 0;
-    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.1, "assets/fan_img/bg_final_1.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.1, "assets/img/bg_final_1.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen1->AddComponent(parallaxScrolling1);
     this->objectArray.emplace_back(backgroundScreen1);
 
     GameObject* backgroundScreen2 = new GameObject();
     backgroundScreen2->box.x = 0;
     backgroundScreen2->box.y = 0;
-    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.2, "assets/fan_img/bg_final_2.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.2, "assets/img/bg_final_2.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen2->AddComponent(parallaxScrolling2);
     this->objectArray.emplace_back(backgroundScreen2);
 
     GameObject* backgroundScreen3 = new GameObject();
     backgroundScreen3->box.x = 0;
     backgroundScreen3->box.y = 0;
-    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.3, "assets/fan_img/bg_final_3.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.3, "assets/img/bg_final_3.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen3->AddComponent(parallaxScrolling3);
     this->objectArray.emplace_back(backgroundScreen3);
 
@@ -42,14 +42,14 @@ FantomeState::FantomeState(){
     GameObject* backgroundScreen4 = new GameObject();
     backgroundScreen4->box.x = 0;
     backgroundScreen4->box.y = 0;
-    ParallaxScrolling* parallaxScrolling4 = new ParallaxScrolling(backgroundScreen4, 1.05, "assets/fan_img/bg_final_4_particles.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling4 = new ParallaxScrolling(backgroundScreen4, 1.05, "assets/img/bg_final_4_particles.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen4->AddComponent(parallaxScrolling4);
     this->objectArray.emplace_back(backgroundScreen4);
 
     GameObject* backgroundScreen5 = new GameObject();
     backgroundScreen5->box.x = 0;
     backgroundScreen5->box.y = 0;
-    ParallaxScrolling* parallaxScrolling5 = new ParallaxScrolling(backgroundScreen5, 1.1, "assets/fan_img/bg_final_5_light.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling5 = new ParallaxScrolling(backgroundScreen5, 1.1, "assets/img/bg_final_5_light.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen5->AddComponent(parallaxScrolling5);
     this->objectArray.emplace_back(backgroundScreen5);
 */
@@ -59,7 +59,7 @@ FantomeState::FantomeState(){
     goGround->box.h = 5;
     goGround->box.x = 0;
     goGround->box.y = 0;
-    TileSet* groundSet = new TileSet(314, 143, "assets/fan_img/floor_tileset.png");
+    TileSet* groundSet = new TileSet(314, 143, "assets/img/floor_tileset.png");
     TileMap* groundMap = new TileMap(goGround, "assets/fan_map/tileMap.txt", groundSet, true);
     Ground* ground = new Ground(goGround);
 
@@ -71,105 +71,197 @@ FantomeState::FantomeState(){
     GameObject* grave = new GameObject();
     grave->box.w = 130;
     grave->box.h = 135;
-    grave->box.x = 2200;
-    grave->box.y = 320;
+    grave->box.x = 3000;
+    grave->box.y = 100;
     Grave* grave_component = new Grave(grave);
     grave->GameObject::AddComponent(grave_component);
     Sprite* gravesprite = new Sprite(grave);
-    gravesprite->Open("assets/fan_img/tomb_1.png");
+    gravesprite->Open("assets/img/tomb_1.png");
     gravesprite->SetClip(0,0, gravesprite->Sprite::GetHeight(),gravesprite->Sprite::GetWidth());
     grave->GameObject::AddComponent(gravesprite);
-    Collider* grave_collider = new Collider(grave);
+    Vec2 graveScale = Vec2(0,-100);
+    Collider* grave_collider = new Collider(grave,graveScale);
     grave->GameObject::AddComponent(grave_collider);
     this->objectArray.emplace_back(grave);
+
+    GameObject* grave2 = new GameObject();
+    grave2->box.w = 130;
+    grave2->box.h = 135;
+    grave2->box.x = 1700;
+    grave2->box.y = 380;
+    Grave* grave_component2 = new Grave(grave2);
+    grave2->GameObject::AddComponent(grave_component2);
+    Sprite* gravesprite2 = new Sprite(grave2);
+    gravesprite2->Open("assets/img/tomb_1.png");
+    gravesprite2->SetClip(0,0, gravesprite2->Sprite::GetHeight(),gravesprite2->Sprite::GetWidth());
+    grave2->GameObject::AddComponent(gravesprite2);
+    Vec2 graveScale2 = Vec2(0,-100);
+    Collider* grave_collider2 = new Collider(grave2,graveScale2);
+    grave2->GameObject::AddComponent(grave_collider2);
+    this->objectArray.emplace_back(grave2);
+
+    GameObject* grave3 = new GameObject();
+    grave3->box.w = 130;
+    grave3->box.h = 135;
+    grave3->box.x = 1700;
+    grave3->box.y = 180;
+    Grave* grave_component3 = new Grave(grave3);
+    grave3->GameObject::AddComponent(grave_component3);
+    Sprite* gravesprite3 = new Sprite(grave3);
+    gravesprite3->Open("assets/img/tomb_1.png");
+    gravesprite3->SetClip(0,0, gravesprite3->Sprite::GetHeight(),gravesprite3->Sprite::GetWidth());
+    grave2->GameObject::AddComponent(gravesprite3);
+    Vec2 graveScale3 = Vec2(0,-100);
+    Collider* grave_collider3 = new Collider(grave3,graveScale3);
+    grave3->GameObject::AddComponent(grave_collider3);
+    this->objectArray.emplace_back(grave3);
+
+    GameObject* grave4 = new GameObject();
+    grave4->box.w = 130;
+    grave4->box.h = 135;
+    grave4->box.x = 600;
+    grave4->box.y = 480;
+    Grave* grave_component4 = new Grave(grave4);
+    grave4->GameObject::AddComponent(grave_component4);
+    Sprite* gravesprite4 = new Sprite(grave4);
+    gravesprite4->Open("assets/img/tomb_1.png");
+    gravesprite4->SetClip(0,0, gravesprite4->Sprite::GetHeight(),gravesprite4->Sprite::GetWidth());
+    grave4->GameObject::AddComponent(gravesprite4);
+    Vec2 graveScale4 = Vec2(0,-100);
+    Collider* grave_collider4 = new Collider(grave4,graveScale4);
+    grave4->GameObject::AddComponent(grave_collider4);
+    this->objectArray.emplace_back(grave4);
 
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
-    boneFrog->box.x = 1200;
-    boneFrog->box.y = 590;
+    boneFrog->box.x = 1000;
+    boneFrog->box.y = 600;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     Sprite* boneFrogsprite = new Sprite(boneFrog);
-    boneFrogsprite->Open("assets/img/cubngun.png");
+    boneFrogsprite->Open("assets/img/penguin/cubngun.png");
     boneFrog->GameObject::AddComponent(boneFrogsprite);
     Collider* boneFrog_collider = new Collider(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_collider);
     this->objectArray.emplace_back(boneFrog);
-
-
-    GameObject* chains = new GameObject();
-    chains->box.w = 30;
-    chains->box.h = 10;
-    chains->box.x = 600;
-    chains->box.y = 590;
-    Chains* chains_component = new Chains(chains,0);
-    chains->GameObject::AddComponent(chains_component);
-    Collider* chains_collider = new Collider(chains);
-    chains->GameObject::AddComponent(chains_collider);
-    this->objectArray.emplace_back(chains);
-
-
-    GameObject* chains2 = new GameObject();
-    chains2->box.w = 30;
-    chains2->box.h = 10;
-    chains2->box.x = 720;
-    chains2->box.y = 590;
-    Chains* chains_component2 = new Chains(chains2,0);
-    chains2->GameObject::AddComponent(chains_component2);
-    Collider* chains_collider2 = new Collider(chains2);
-    chains2->GameObject::AddComponent(chains_collider2);
-    this->objectArray.emplace_back(chains2);
-
-    chains_component->Chains::LinkChains(chains_component2,chains2);
-    //chains_component2->Chains::LinkChains(chains_component,chains);
-
+/*
     GameObject* deathGhost = new GameObject();
     deathGhost->box.w = 173;
     deathGhost->box.h = 158;
     deathGhost->box.x = 1000;
-    deathGhost->box.y = 480;
+    deathGhost->box.y = 300;
     DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);
     deathGhost->GameObject::AddComponent(deathGhost_component);
     Collider* deathGhost_collider = new Collider(deathGhost);
     deathGhost->GameObject::AddComponent(deathGhost_collider);
     this->objectArray.emplace_back(deathGhost);
+*/
+    GameObject* deathGhost2 = new GameObject();
+    deathGhost2->box.w = 173;
+    deathGhost2->box.h = 158;
+    deathGhost2->box.x = 3700;
+    deathGhost2->box.y = 1100;
+    DeathGhost* deathGhost_component2 = new DeathGhost(deathGhost2,0);
+    deathGhost2->GameObject::AddComponent(deathGhost_component2);
+    Collider* deathGhost_collider2 = new Collider(deathGhost2);
+    deathGhost2->GameObject::AddComponent(deathGhost_collider2);
+    this->objectArray.emplace_back(deathGhost2);
 
     GameObject* BonePilego = new GameObject();
     BonePilego->box.w = 50;
     BonePilego->box.h = 5;
-    BonePilego->box.x = 1800;
-    BonePilego->box.y = 550;
-    BonePile* bonePile_component = new BonePile(BonePilego,300);
+    BonePilego->box.x = 2600;
+    BonePilego->box.y = 500;
+    BonePile* bonePile_component = new BonePile(BonePilego,200);
     BonePilego->GameObject::AddComponent(bonePile_component);
     Collider* BonePile_collider = new Collider(BonePilego);
+    Vec2 offset_bonepile = Vec2(0,-60);
+    BonePile_collider->SetOffset(offset_bonepile);
     BonePilego->GameObject::AddComponent(BonePile_collider);
     this->objectArray.emplace_back(BonePilego);
 
+    /* Adding ChainHead (Beginning) */
+    GameObject* goChainHead = new GameObject();
+    goChainHead->box.x = 2300 - goChainHead->box.w/2;
+    goChainHead->box.y = 100 - goChainHead->box.h/2;
+    ChainHead* chainHead = new ChainHead(goChainHead, 15, 0);
+    goChainHead->AddComponent(chainHead);
+    this->objectArray.emplace_back(goChainHead);
+
+    /* Adding ChainTail (End)*/
+    GameObject* goChainTail = new GameObject();
+    ChainTail* chainTail = new ChainTail(goChainTail, goChainHead, chainHead->GetAngle());
+    goChainTail->AddComponent(chainTail);
+    goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
+    goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
+    this->objectArray.emplace_back(goChainTail);
+
+    GameObject* holyLightGo = new GameObject();
+    holyLightGo->box.w = 500;
+    holyLightGo->box.h = 2000;
+    holyLightGo->box.x = 4300;
+    holyLightGo->box.y = 700;
+    HolyLight* holyLight = new HolyLight(holyLightGo,100,100,1);
+    holyLightGo->AddComponent(holyLight);
+    Collider* holyLightCollider = new Collider(holyLightGo);
+    holyLightGo->GameObject::AddComponent(holyLightCollider);
+    this->objectArray.emplace_back(holyLightGo);
+
+    /*GameObject* fireGo = new GameObject();
+    fire->box.x = 500;
+    fire->box.y = 500;
+    Fire* fireComponent = new Fire(fire);
+    fireGo->AddComponent(fireComponent);
+    Collider* fireCollider = new Collider(fireGo);
+    fireGo->AddComponent(fireCollider);
+    this->objectArray.emplace_back(fireGo);*/
+
+    GameObject* fireplace = new GameObject();
+    fireplace->box.w = 50;
+    fireplace->box.h = 50;
+    fireplace->box.x = 150;
+    fireplace->box.y = 600;
+    CheckPoint* fireplace_component = new CheckPoint(fireplace,0);
+    fireplace->GameObject::AddComponent(fireplace_component);
+    Collider* fireplace_collider = new Collider(fireplace);
+    //Vec2 offset_fireplace = Vec2(0,-60);
+    //fire_collider->SetOffset(offset_fireplace);
+    fireplace->GameObject::AddComponent(fireplace_collider);
+    this->objectArray.emplace_back(fireplace);
+
+    GameObject* fireplace2 = new GameObject();
+    fireplace2->box.w = 50;
+    fireplace2->box.h = 50;
+    fireplace2->box.x = 3500;
+    fireplace2->box.y = 200;
+    CheckPoint* fireplace_component2 = new CheckPoint(fireplace2,1);
+    fireplace2->GameObject::AddComponent(fireplace_component2);
+    Collider* fireplace_collider2 = new Collider(fireplace2);
+    //Vec2 offset_fireplace = Vec2(0,-60);
+    //fire_collider->SetOffset(offset_fireplace);
+    fireplace2->GameObject::AddComponent(fireplace_collider2);
+    this->objectArray.emplace_back(fireplace2);
+
     /* O GameObject goFantome representa o presonagem principal do jogo */
     GameObject* goFantome = new GameObject();
-    goFantome->box.x = 0;
-    goFantome->box.y = 0;
-
-    Sprite* sprite = new Sprite(goFantome, 6, 0.1);
-    sprite->Open("assets/fan_img/linha do tempo fantome 2.png");
-    goFantome->GameObject::AddComponent(sprite);
-
-    goFantome->box.w = sprite->GetHeight();
-    goFantome->box.h = sprite->GetWidth();
+    goFantome->box.x = 300;
+    goFantome->box.y = 290;
 
     Fantome* fantome_component = new Fantome(goFantome);
     goFantome->GameObject::AddComponent(fantome_component);
 
     Collider* fantome_collider = new Collider(goFantome);
     goFantome->GameObject::AddComponent(fantome_collider);
+    //Vec2 offset = Vec2(0,120);
+    //fantome_collider->SetOffset(offset);
 
     this->objectArray.emplace_back(goFantome);
 
     this->fantomeExist = true;
 
     /* Seguindo Fantome */
-    Camera::Follow(goFantome); //TODO: Bug on camera -> Jitter on Fantome movement and Not Loading Ground Collider
+    Camera::Follow(goFantome);
 
 }
 
@@ -181,29 +273,9 @@ bool FantomeState::QuitRequested(){
     return this->quitRequested;
 }
 
-void FantomeState::LoadAssets(){
-
-    /* Pré-Carregar os assets usados */
-    GameObject* go = new GameObject();
-    Sprite* sprite = new Sprite(go);
-    sprite->Open("assets/fan_img/bg character.png");
-    sprite->Open("assets/fan_img/bg test 2.png");
-    sprite->Open("assets/fan_img/bg test 3.png");
-    sprite->Open("assets/fan_img/bg test 4.png");
-    sprite->Open("assets/fan_img/bg_test_2_pequeno.png");
-    sprite->Open("assets/fan_img/bg_test_3_pequeno.png");
-    sprite->Open("assets/fan_img/bg_test_4_pequeno.png");
-    sprite->Open("assets/fan_img/bg_test_pequeno.png");
-    sprite->Open("assets/fan_img/bg_test.png");
-    sprite->Open("assets/fan_img/bg_test1.png");
-    sprite->Open("assets/fan_img/fantasma_fantome.png");
-    sprite->Open("assets/fan_img/floor_tile1.png");
-    sprite->Open("assets/fan_img/floor_tile2.png");
-    sprite->Open("assets/fan_img/floor_tile3.png");
-    sprite->Open("assets/fan_img/floor_tileset.png");
-    sprite->Open("assets/fan_img/tomb_1.png");
-
-    Sound* sound = new Sound(go,"assets/fan_audio/Super Mario 64 - First Level (Super Mario 64 Theme).ogg");
+void FantomeState::LoadAssets()
+{
+  /* TODO: Pre-Load Used Assets */
 }
 
 
@@ -317,6 +389,20 @@ bool FantomeState::WillCollideWithGround(Rect& objectBox)
     {
       Collider* secondObject = (Collider*) this->objectArray[i]->GetComponent("Collider");
       Ground* groundComponent = (Ground*) this->objectArray[i]->GetComponent("Ground");
+      if(secondObject && groundComponent)
+      {
+        if(Collision::IsColliding(objectBox, secondObject->box, 0, 0)) return true;
+      }
+    }
+    return false;
+}
+
+bool FantomeState::WillCollideWithGrave(Rect& objectBox)
+{
+    for(int i = 0; i <= this->objectArray.size() - 1; i++)
+    {
+      Collider* secondObject = (Collider*) this->objectArray[i]->GetComponent("Collider");
+      Grave* groundComponent = (Grave*) this->objectArray[i]->GetComponent("Grave");
       if(secondObject && groundComponent)
       {
         if(Collision::IsColliding(objectBox, secondObject->box, 0, 0)) return true;
@@ -456,20 +542,20 @@ AddObject(alien2_go);
 /*  GameObject* backGround1 = new GameObject();
   backGround1->box.x = 0;
   backGround1->box.y = 0;
-  ParallaxScrolling* parallax_background = new ParallaxScrolling(backGround1,0.4,"assets/fan_img/bg_test_2_pequeno.png","assets/fan_map/backgroundMap.txt");
+  ParallaxScrolling* parallax_background = new ParallaxScrolling(backGround1,0.4,"assets/img/bg_test_2_pequeno.png","assets/fan_map/backgroundMap.txt");
   backGround1->GameObject::AddComponent(parallax_background);
   this->objectArray.emplace_back(backGround1);
 
   GameObject* backGround2 = new GameObject();
   backGround2->box.x = 0;
   backGround2->box.y = 0;
-  ParallaxScrolling* parallax_background_2 = new ParallaxScrolling(backGround2,0.7,"assets/fan_img/bg_test_3_pequeno.png","assets/fan_map/backgroundMap.txt");
+  ParallaxScrolling* parallax_background_2 = new ParallaxScrolling(backGround2,0.7,"assets/img/bg_test_3_pequeno.png","assets/fan_map/backgroundMap.txt");
   backGround2->GameObject::AddComponent(parallax_background_2);
   this->objectArray.emplace_back(backGround2);
 
   GameObject* backGround3 = new GameObject();
   backGround3->box.x = 0;
   backGround3->box.y = 0;
-  ParallaxScrolling* parallax_background_3 = new ParallaxScrolling(backGround3,0.9,"assets/fan_img/bg_test_4_pequeno.png","assets/fan_map/backgroundMap.txt");
+  ParallaxScrolling* parallax_background_3 = new ParallaxScrolling(backGround3,0.9,"assets/img/bg_test_4_pequeno.png","assets/fan_map/backgroundMap.txt");
   backGround3->GameObject::AddComponent(parallax_background_3);
   this->objectArray.emplace_back(backGround3);*/

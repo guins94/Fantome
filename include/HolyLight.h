@@ -3,25 +3,23 @@
   #include "AllHeaders.h"
 #endif
 
-#ifndef BONEPILE_HEADER
-#define BONEPILE_HEADER
+#ifndef HOLYLIGHT_HEADER
+#define HOLYLIGHT_HEADER
 
-enum BoneState {MOVELEFT=1, MOVERIGHT =0, STOP = 2};
-
-class BonePile : public Component{
+class HolyLight : public Component{
   private:
-    Vec2 spawnBone = Vec2(0,0);
-    int walkLimitRigth;
-    int walkLimitLeft;
+    Vec2 speed = Vec2(0,0);
+    Vec2 colliderSize = Vec2(0,0);
+    int hitTime;
     bool falling;
-    int direction;
     int hp;
     Timer* restTimer;
-    Sound* frogJump;
+    GameObject* player;
+    Sound* lightSound;
   public:
-    BonePile(GameObject* associated, int walkLimit);
+    HolyLight(GameObject* associated,int weigth,int height,int hitTime);
   public:
-    ~BonePile();
+    ~HolyLight();
   public:
     void Start();
   public:

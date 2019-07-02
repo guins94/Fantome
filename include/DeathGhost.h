@@ -9,7 +9,7 @@
 class DeathGhost : public Component{
   private:
     Vec2 spawnGhost = Vec2(0,0);
-
+    Sound* blade;
     bool falling;
     int hp;
     Timer* restTimer;
@@ -27,7 +27,8 @@ class DeathGhost : public Component{
     bool Is (std::string type);
   public:
     void NotifyCollision(GameObject& other);
-
+  public:
+    void GhostAttack();
 };
 
 #endif

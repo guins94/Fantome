@@ -4,8 +4,8 @@
 CameraFollower::CameraFollower(GameObject* go){
   this->associated = go;
   Sprite* sprite = new Sprite(this->associated);
-  sprite->Open("assets/fan_img/bg_final_1.png");
-  //sprite->Open("assets/fan_img/bg_test.png");
+  sprite->Open("assets/img/bg_final_1.png");
+  //sprite->Open("assets/img/bg_test.png");
   this->associated->GameObject::AddComponent(sprite);
 }
 

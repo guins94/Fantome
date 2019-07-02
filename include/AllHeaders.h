@@ -28,6 +28,7 @@
   #define UP_LIMIT 500
   #define COOLDOWN 3
   #define PROPORTION 0.2
+  #define CHAIN_TRAVEL_LIMIT 1
 
   #define LEFT_ARROW_KEY SDLK_LEFT
   #define RIGHT_ARROW_KEY SDLK_RIGHT
@@ -69,8 +70,6 @@
 
 #include "FantomeState.h"
 
-#include "Bullet.h"
-
 #include "Camera.h"
 
 #include "CameraFollower.h"
@@ -101,8 +100,20 @@
 
 #include "BoneFrog.h"
 
-#include "Chains.h"
-
 #include "DeathGhost.h"
 
-#include"BonePile.h"
+#include "BonePile.h"
+
+#include "HolyLight.h"
+
+#include "ChainHead.h"
+
+#include "ChainTail.h"
+
+#include "Chain.h"
+
+#include "Fire.h"
+
+#include "Blade.h"
+
+#include "CheckPoint.h"

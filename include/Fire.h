@@ -3,25 +3,20 @@
   #include "AllHeaders.h"
 #endif
 
-#ifndef BONEPILE_HEADER
-#define BONEPILE_HEADER
+#ifndef FIRE_HEADER
+#define FIRE_HEADER
 
-enum BoneState {MOVELEFT=1, MOVERIGHT =0, STOP = 2};
-
-class BonePile : public Component{
+class Fire : public Component{
   private:
-    Vec2 spawnBone = Vec2(0,0);
-    int walkLimitRigth;
-    int walkLimitLeft;
+    Vec2 speed = Vec2(0,0);
     bool falling;
-    int direction;
     int hp;
     Timer* restTimer;
-    Sound* frogJump;
+    Sound* fireSound;
   public:
-    BonePile(GameObject* associated, int walkLimit);
+    Fire(GameObject* associated);
   public:
-    ~BonePile();
+    ~Fire();
   public:
     void Start();
   public:

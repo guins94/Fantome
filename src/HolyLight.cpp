@@ -22,7 +22,6 @@ void HolyLight::Update(float dt){
   this->restTimer->Update(dt);
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
   float distanceFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
-  std::cout << "FANTOME EXIST" <<fantomeState->fantomeExist << '\n';
   if(fabs(distanceFantome) <= 300 && fantomeState->fantomeExist == true){
     if(this->restTimer->Get() >= 6){
       this->lightSound->Play(1);

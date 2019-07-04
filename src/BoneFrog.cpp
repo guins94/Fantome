@@ -32,14 +32,26 @@ void BoneFrog::Update(float dt)
 
   /* If BoneFrog Won't Collide With the Ground, Update Its Position */
   if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
-      this->associated->box.y = this->associated->futureBox.y;
+  {
+    /* Updating Position */
+    this->associated->box.y = this->associated->futureBox.y;
+
+    /* Updating Gravity Acceleration */
+    if(this->fallingSpeed <= GRAVITY_MAX_LIMIT - GRAVITY_ACC)
+      this->fallingSpeed += GRAVITY_ACC;
+  } else {
+    /* Resetting Gravity to Minimum Speed */
+    this->fallingSpeed = GRAVITY_MIN_LIMIT;
+  }
   this->associated->futureBox = auxBox;
 
-  if(this->fallingSpeed <= GRAVITY_MAX_LIMIT)
-    this->fallingSpeed += GRAVITY_ACC;
-
+  /* Controls for BoneFrog */
   if(this->isPlaying)
   {
+
+    std::cout << "Gravity: " << this->fallingSpeed << '\n';
+
+    /* Updating Rest Timer */
     this->restTimer->Update(dt);
 
     /* Calculating BoneFrog's Future X Position */
@@ -61,14 +73,11 @@ void BoneFrog::Update(float dt)
 
     this->associated->futureBox = this->associated->box;
 
-    if(!inputManager->KeyRelease(SDLK_w))
+    if(!inputManager->KeyRelease(SDLK_w) && this->restTimer->Get() >= BONEFROG_JUMP_COOLDOWN)
     {
-      if(this->restTimer->Get() >= BONEFROG_JUMP_COOLDOWN)
-      {
-        this->frogJump->Play(1);
-        this->fallingSpeed = -BONEFROG_JUMP_SPEED;
-        this->restTimer->Restart();
-      }
+      this->frogJump->Play(1);
+      this->fallingSpeed = -BONEFROG_JUMP_SPEED;
+      this->restTimer->Restart();
     }
 
     if(this->possessionTimer->Get() >= 1 && (!inputManager->KeyRelease(SDLK_SPACE)) && (!inputManager->KeyRelease(SDLK_w)))

@@ -240,13 +240,11 @@ FantomeState::FantomeState(){
     goFantome->box.x = 300;
     goFantome->box.y = 290;
 
-    Fantome* fantome_component = new Fantome(goFantome);
-    goFantome->GameObject::AddComponent(fantome_component);
+    Fantome* fantome = new Fantome(goFantome);
+    goFantome->GameObject::AddComponent(fantome);
 
-    Collider* fantome_collider = new Collider(goFantome);
-    goFantome->GameObject::AddComponent(fantome_collider);
-    //Vec2 offset = Vec2(0,120);
-    //fantome_collider->SetOffset(offset);
+    Collider* fantomeCollider = new Collider(goFantome);
+    goFantome->AddComponent(fantomeCollider);
 
     this->objectArray.emplace_back(goFantome);
 

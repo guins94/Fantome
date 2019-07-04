@@ -28,7 +28,7 @@
   #define PI 3.1415926535897
   #define GRAVITY_ACC 50          // Gravity Acceleration
   #define GRAVITY_MIN_LIMIT 300   // Minimum Gravity
-  #define GRAVITY_MAX_LIMIT 500   // Maximum Gravity
+  #define GRAVITY_MAX_LIMIT 1000  // Maximum Gravity
 
   /* InputManager Defines */
   #define LEFT_ARROW_KEY SDLK_LEFT
@@ -43,7 +43,7 @@
   #define FANTOME_FLOAT_HEIGHT 10 // Fantome Distance to The Ground
 
   /* BoneFrog Defines */
-  #define BONEFROG_JUMP_SPEED 1000 // BoneFrog Speed When It Jumps
+  #define BONEFROG_JUMP_SPEED 1050 // BoneFrog Speed When It Jumps
   #define BONEFROG_JUMP_COOLDOWN 3  // BoneFrog Jump CoolDown (in seconds)
 #endif
 

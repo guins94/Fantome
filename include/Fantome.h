@@ -11,13 +11,17 @@ class Fantome : public Component
   private:
     enum SpriteState {STANDING, RIGHT, LEFT, FALLING} sprtState;
     SpriteState spriteState;
+
     int hp;
+    float fallingSpeed;
     Timer* restTimer;
     GameObject* player;
 
   public:
     Fantome(GameObject* associated);
     ~Fantome();
+
+    void KillFantome();
 
     void Start();
     void Update(float dt);

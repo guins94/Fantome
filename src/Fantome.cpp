@@ -4,6 +4,9 @@ Fantome::Fantome(GameObject* associated)
 {
   this->associated = associated;
 
+  /* Initializing Falling Speed */
+  this->fallingSpeed = GRAVITY_MIN_LIMIT;
+
   /* Standing Fantome */
   Sprite* sprite = new Sprite(this->associated, "assets/img/fantome/standingFantome.png", 6, 0.1, 0);
   this->associated->AddComponent(sprite);
@@ -24,6 +27,17 @@ Fantome::Fantome(GameObject* associated)
 Fantome::~Fantome()
 {
 
+}
+
+/* Plays Fantome Death Sprite Sheet */
+void Fantome::KillFantome()
+{
+  GameObject* fantomeDeathGo = new GameObject();
+  Sprite* fantomeDeath = new Sprite(fantomeDeathGo, "assets/img/fantome/dyingFantome.png", 15, 0.1, 1.5);
+  fantomeDeathGo->box.x = this->associated->box.x;
+  fantomeDeathGo->box.y = this->associated->box.y;
+  fantomeDeathGo->AddComponent(fantomeDeath);
+  Game::GetInstance()->GetCurrentState()->AddObject(fantomeDeathGo);
 }
 
 void Fantome::Start()
@@ -49,12 +63,31 @@ void Fantome::Update(float dt)
   }
 
   /* Calculando eixo y da futura posição do Fantome */
-  this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y + FANTOME_FLOAT_HEIGHT;
+  this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed + FANTOME_FLOAT_HEIGHT;
 
   if(!fantomeState->WillCollideWithGround(this->associated->futureBox) && !fantomeState->WillCollideWithGrave(this->associated->futureBox))
-    this->associated->box.y += dt * GameData::fantomeSpeed.y;
+  {
+    /* Updating Position */
+    this->associated->box.y += dt * this->fallingSpeed;
 
+    /* Updating Gravity Acceleration */
+    if(this->fallingSpeed <= GRAVITY_MAX_LIMIT - GRAVITY_ACC)
+      this->fallingSpeed += GRAVITY_ACC;
+  }
+  else
+  {
+    /* Setting Fantome Sprite State to Falling */
+    this->spriteState = SpriteState::FALLING;
+
+    /* Resetting Gravity to Minimum Speed */
+    this->fallingSpeed = GRAVITY_MIN_LIMIT;
+
+    /* Setting Flag Indicating Fantome Has Moved within this Frame */
+    hasFantomeMoved = true;
+  }
   this->associated->futureBox = auxBox;
+
+      std::cout << "Gravity: " << this->fallingSpeed << '\n';
 
   /* Calculando eixo x da futura posição do Fantome */
   InputManager* inputManager = InputManager::GetInstance();
@@ -118,6 +151,16 @@ void Fantome::Update(float dt)
    		  sprite->SetFrameTime(0.1);
         sprite->EnableFlip();
       }
+      break;
+      //TODO
+    case SpriteState::FALLING:
+      /*if(this->spriteState != lastSpriteState)
+      {
+        sprite->Open("assets/img/fantome/fallingFantome.png");
+        sprite->SetFrameCount(6);
+   		  sprite->SetFrameTime(0.1);
+        sprite->EnableFlip();
+      }*/
       break;
   }
 }
@@ -192,13 +235,7 @@ void Fantome::NotifyCollision(GameObject& other){
       /* Requesting Deletion */
       this->associated->RequestDelete();
 
-      /* Making Fantome Disappear */
-      GameObject* fantomeDeathGo = new GameObject();
-      Sprite* fantomeDeath = new Sprite(fantomeDeathGo, "assets/img/fantome/dyingFantome.png", 15, 0.1, 1.5);
-      fantomeDeathGo->box.x = this->associated->box.GetCenter().x - fantomeDeath->GetWidth()/2;
-      fantomeDeathGo->box.y = this->associated->box.GetCenter().y - fantomeDeath->GetHeight()/2;
-      fantomeDeathGo->AddComponent(fantomeDeath);
-      Game::GetInstance()->GetCurrentState()->AddObject(fantomeDeathGo);
+      KillFantome();
   }
 
   if(other.GetComponent("Fire")){
@@ -217,5 +254,7 @@ void Fantome::NotifyCollision(GameObject& other){
     fantomeState->fantomeExist = false;
     fantomeState->isAlive = false;
     this->associated->RequestDelete();
+
+    KillFantome();
   }
 }

@@ -44,7 +44,8 @@ bool GameObject::IsDead(){
 	return this->isDead;
 }
 
-void GameObject::RequestDelete(){
+void GameObject::RequestDelete()
+{
 	this->isDead = true;
 }
 

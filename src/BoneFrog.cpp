@@ -39,7 +39,9 @@ void BoneFrog::Update(float dt)
     /* Updating Gravity Acceleration */
     if(this->fallingSpeed <= GRAVITY_MAX_LIMIT - GRAVITY_ACC)
       this->fallingSpeed += GRAVITY_ACC;
-  } else {
+  }
+  else
+  {
     /* Resetting Gravity to Minimum Speed */
     this->fallingSpeed = GRAVITY_MIN_LIMIT;
   }
@@ -48,9 +50,6 @@ void BoneFrog::Update(float dt)
   /* Controls for BoneFrog */
   if(this->isPlaying)
   {
-
-    std::cout << "Gravity: " << this->fallingSpeed << '\n';
-
     /* Updating Rest Timer */
     this->restTimer->Update(dt);
 

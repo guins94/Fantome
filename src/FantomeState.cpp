@@ -20,39 +20,31 @@ FantomeState::FantomeState(){
     GameObject* backgroundScreen1 = new GameObject();
     backgroundScreen1->box.x = 0;
     backgroundScreen1->box.y = 0;
-    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.1, "assets/img/bg_final_1.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.1, "assets/img/bg/finalBG1.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen1->AddComponent(parallaxScrolling1);
     this->objectArray.emplace_back(backgroundScreen1);
 
     GameObject* backgroundScreen2 = new GameObject();
     backgroundScreen2->box.x = 0;
     backgroundScreen2->box.y = 0;
-    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.2, "assets/img/bg_final_2.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.2, "assets/img/bg/finalBG2.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen2->AddComponent(parallaxScrolling2);
     this->objectArray.emplace_back(backgroundScreen2);
 
     GameObject* backgroundScreen3 = new GameObject();
     backgroundScreen3->box.x = 0;
     backgroundScreen3->box.y = 0;
-    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.3, "assets/img/bg_final_3.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.3, "assets/img/bg/finalBG3.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen3->AddComponent(parallaxScrolling3);
     this->objectArray.emplace_back(backgroundScreen3);
 
-    /* Adicionando efeitos de partículas e efeitos de luz *//*
-    GameObject* backgroundScreen4 = new GameObject();
-    backgroundScreen4->box.x = 0;
-    backgroundScreen4->box.y = 0;
-    ParallaxScrolling* parallaxScrolling4 = new ParallaxScrolling(backgroundScreen4, 1.05, "assets/img/bg_final_4_particles.png", "assets/fan_map/backgroundMap.txt");
-    backgroundScreen4->AddComponent(parallaxScrolling4);
-    this->objectArray.emplace_back(backgroundScreen4);
-
-    GameObject* backgroundScreen5 = new GameObject();
+    /*GameObject* backgroundScreen5 = new GameObject();
     backgroundScreen5->box.x = 0;
     backgroundScreen5->box.y = 0;
-    ParallaxScrolling* parallaxScrolling5 = new ParallaxScrolling(backgroundScreen5, 1.1, "assets/img/bg_final_5_light.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling5 = new ParallaxScrolling(backgroundScreen5, 1.1, "assets/img/bg/bg_final_5_light.png", "assets/fan_map/backgroundMap.txt");
     backgroundScreen5->AddComponent(parallaxScrolling5);
-    this->objectArray.emplace_back(backgroundScreen5);
-*/
+    this->objectArray.emplace_back(backgroundScreen5);*/
+
     /* O GameObject goGround representa o chão do jogo */
     GameObject* goGround = new GameObject();
     goGround->box.w = 0;
@@ -208,10 +200,10 @@ FantomeState::FantomeState(){
     holyLightGo->GameObject::AddComponent(holyLightCollider);
     this->objectArray.emplace_back(holyLightGo);
 
-    /*GameObject* fireGo = new GameObject();
-    fire->box.x = 500;
-    fire->box.y = 500;
-    Fire* fireComponent = new Fire(fire);
+  /*GameObject* fireGo = new GameObject();
+    fireGo->box.x = 500;
+    fireGo->box.y = 500;
+    Fire* fireComponent = new Fire(fireGo);
     fireGo->AddComponent(fireComponent);
     Collider* fireCollider = new Collider(fireGo);
     fireGo->AddComponent(fireCollider);
@@ -243,7 +235,7 @@ FantomeState::FantomeState(){
     fireplace2->GameObject::AddComponent(fireplace_collider2);
     this->objectArray.emplace_back(fireplace2);
 
-    /* O GameObject goFantome representa o presonagem principal do jogo */
+    /* Adding Fantome Object */
     GameObject* goFantome = new GameObject();
     goFantome->box.x = 300;
     goFantome->box.y = 290;
@@ -262,6 +254,14 @@ FantomeState::FantomeState(){
 
     /* Seguindo Fantome */
     Camera::Follow(goFantome);
+
+    /* Adding Particles */
+    GameObject* backgroundScreen4 = new GameObject();
+    backgroundScreen4->box.x = 0;
+    backgroundScreen4->box.y = 0;
+    ParallaxScrolling* parallaxScrolling4 = new ParallaxScrolling(backgroundScreen4, 1.05, "assets/img/bg/part_sheet.png", "assets/fan_map/backgroundMap.txt", 10);
+    backgroundScreen4->AddComponent(parallaxScrolling4);
+    this->objectArray.emplace_back(backgroundScreen4);
 
 }
 

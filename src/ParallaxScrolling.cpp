@@ -1,12 +1,16 @@
 #include "ParallaxScrolling.h"
 
-ParallaxScrolling::ParallaxScrolling(GameObject* associated,float multiplier,std::string sprite_file, std::string file){
+ParallaxScrolling::ParallaxScrolling(GameObject* associated, float multiplier,std::string sprite_file, std::string file){
   this->associated = associated;
   this->multiplier = multiplier;
   this->tileSet = new Sprite();
   this->tileSet->Open(sprite_file);
-  //this->associated->GameObject::AddComponent(backGround1_sprite);
-  //ParallaxScrolling::Load(file);
+}
+
+ParallaxScrolling::ParallaxScrolling(GameObject* associated, float multiplier, std::string sprite_file, std::string file, int frameCount){
+  this->associated = associated;
+  this->multiplier = multiplier;
+  this->tileSet = new Sprite(this->associated, sprite_file, frameCount, 0.2, 0);
 }
 
 void ParallaxScrolling::Load(std::string file){

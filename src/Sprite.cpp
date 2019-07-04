@@ -40,7 +40,6 @@ Sprite::Sprite(GameObject* associated, int frameCount, float frameTime)
 	this->frameTime = frameTime;
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
-///<<<<<<< HEAD
 	this->isRenderEnabled = true;
 	this->isFlipped = false;
 	this->secondsToSelfDestruct = 0;
@@ -61,11 +60,6 @@ Sprite::Sprite(GameObject* associated, std::string file, int frameCount, float f
   this->secondsToSelfDestruct = secondsToSelfDestruct;
   this->selfDestructCount.Restart();
   Open(file);
-//=======
-	this->frameTime = frameTime;
-	this->isRenderEnabled = true;
-	this->isFlipped = false;
-//>>>>>>> Develop_guins
 }
 
 

@@ -32,8 +32,6 @@ void Possession::Update(float dt){
     GameObject* goFantome = new GameObject();
 
     Sprite* sprite = new Sprite(goFantome, "assets/img/fantome/standingFantome.png", 6, 0.1, 0);
-    //Sprite* sprite = new Sprite(goFantome, 6, 0.1);
-    sprite->Open("assets/fan_img/FANTOME PARADO - quadro de  96 px.png");
     goFantome->GameObject::AddComponent(sprite);
     goFantome->box.x = this->associated->box.x;
     goFantome->box.y = this->associated->box.y;

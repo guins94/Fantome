@@ -1,55 +1,59 @@
 #include "BoneFrog.h"
 
-BoneFrog::BoneFrog(GameObject* associated){
+BoneFrog::BoneFrog(GameObject* associated)
+{
   this->associated = associated;
-  this->falling = true;
-  this->playing = false;
+
+  this->isPlaying = false;
   Timer* timer = new Timer();
   this->restTimer = timer;
   this->possessionTimer = new Timer();
-  this->fallingSpeed = 0;
-  this->gravity = 5;
-  Sound* sound = new Sound(this->associated,"assets/SFX/frogjump.ogg");
-  this->frogJump = sound;
-  Sound* sound2 = new Sound(this->associated,"assets/SFX/frogland.ogg");
-  this->frogLand = sound2;
+  this->fallingSpeed = GRAVITY_MIN_LIMIT;
+
+  /* Loading Bone Frog Sounds */
+  this->frogJump = new Sound(this->associated, "assets/SFX/frogjump.ogg");
+  this->frogLand = new Sound(this->associated, "assets/SFX/frogland.ogg");
 }
 
-void BoneFrog::Update(float dt){
-  this->possessionTimer->Update(dt);
+void BoneFrog::Update(float dt)
+{
+  /* Retrieving Fantome State and InputManager */
   InputManager* inputManager = InputManager::GetInstance();
-
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
+  /* Updating Possession Timer */
+  this->possessionTimer->Update(dt);
+
+  /* Initializing Auxiliary Variables */
   Rect auxBox = this->associated->futureBox;
 
-  /* Calculando eixo y da futura posição do Fantome */
+  /* Calculating BoneFrog's Future Y Position */
+  this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed;
 
-  if(this->falling == true){
-    this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed;
-    if(this->fallingSpeed<=300)
-      this->fallingSpeed = this->fallingSpeed + this->gravity;
-  }
-  if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
+  /* If BoneFrog Won't Collide With the Ground, Update Its Position */
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
       this->associated->box.y = this->associated->futureBox.y;
-          this->falling=true;
-  }else{
-    this->falling=false;
-  }
   this->associated->futureBox = auxBox;
 
-  if(this->playing == true){
+  if(this->fallingSpeed <= GRAVITY_MAX_LIMIT)
+    this->fallingSpeed += GRAVITY_ACC;
+
+  if(this->isPlaying)
+  {
     this->restTimer->Update(dt);
-    /* Calculando eixo x da futura posição do Fantome */
-    if(!inputManager->KeyRelease(SDLK_a)){
-      this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
+
+    /* Calculating BoneFrog's Future X Position */
+    if(!inputManager->KeyRelease(SDLK_a))
+    {
+      this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::boneFrogSpeed.x;
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
         this->associated->box.x = this->associated->futureBox.x;
-      }
       this->associated->futureBox = auxBox;
     }
-    if(!inputManager->KeyRelease(SDLK_d)){
-      this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
+
+    if(!inputManager->KeyRelease(SDLK_d))
+    {
+      this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::boneFrogSpeed.x;
       if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
         this->associated->box.x = this->associated->futureBox.x;
       this->associated->futureBox = auxBox;
@@ -57,17 +61,18 @@ void BoneFrog::Update(float dt){
 
     this->associated->futureBox = this->associated->box;
 
-      if(inputManager->KeyRelease(SDLK_w) == false){
-        if(this->restTimer->Get() >= 4.5){
-          this->frogJump->Play(1);
-          this->falling = true;
-          this->fallingSpeed = -300;
-          this->restTimer->Restart();
-        }
-        //}
+    if(!inputManager->KeyRelease(SDLK_w))
+    {
+      if(this->restTimer->Get() >= BONEFROG_JUMP_COOLDOWN)
+      {
+        this->frogJump->Play(1);
+        this->fallingSpeed = -BONEFROG_JUMP_SPEED;
+        this->restTimer->Restart();
       }
-    if(this->possessionTimer->Get() >= 1 && (inputManager->KeyRelease(SDLK_SPACE) == false) && (inputManager->KeyRelease(SDLK_w) == false)){
+    }
 
+    if(this->possessionTimer->Get() >= 1 && (!inputManager->KeyRelease(SDLK_SPACE)) && (!inputManager->KeyRelease(SDLK_w)))
+    {
       GameObject* possession = new GameObject();
       possession->box.w = 30;
       possession->box.h = 30;
@@ -77,8 +82,7 @@ void BoneFrog::Update(float dt){
       Collider* possession_collider = new Collider(possession);
       possession->GameObject::AddComponent(possession_collider);
       Game::GetInstance()->GetCurrentState()->AddObject(possession);
-      //game->GetCurrentState()->AddObject(minion_go)
-      this->playing = false;
+      this->isPlaying = false;
       this->possessionTimer->Restart();
       this->associated->RequestDelete();
     }
@@ -87,7 +91,8 @@ void BoneFrog::Update(float dt){
 
 }
 
-void BoneFrog::Render(){
+void BoneFrog::Render()
+{
 
 }
 
@@ -95,11 +100,15 @@ bool BoneFrog::Is(std::string type){
   return ("BoneFrog" == type);
 }
 
-void BoneFrog::NotifyCollision(GameObject& other){
-	if(this->possessionTimer->Get() >= 1 && other.GetComponent("Fantome") != nullptr){
+void BoneFrog::NotifyCollision(GameObject& other)
+{
+
+  /* Resolving BoneFrog Collision with Fantome */
+	if(this->possessionTimer->Get() >= 1 && other.GetComponent("Fantome"))
+  {
     InputManager* inputManager = InputManager::GetInstance();
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
-      this->playing = true;
+      this->isPlaying = true;
       Camera::Follow(this->associated);
     }
   }

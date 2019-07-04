@@ -33,8 +33,8 @@ void Fantome::Start()
 
 void Fantome::Update(float dt)
 {
+  /* Retrieving Fantome State and InputManager */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-
   Rect auxBox = this->associated->futureBox;
 
   bool hasFantomeMoved = false;
@@ -49,12 +49,10 @@ void Fantome::Update(float dt)
   }
 
   /* Calculando eixo y da futura posição do Fantome */
-  this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y;
+  this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y + FANTOME_FLOAT_HEIGHT;
 
   if(!fantomeState->WillCollideWithGround(this->associated->futureBox) && !fantomeState->WillCollideWithGrave(this->associated->futureBox))
-  {
-      this->associated->box.y += dt * GameData::fantomeSpeed.y;
-  }
+    this->associated->box.y += dt * GameData::fantomeSpeed.y;
 
   this->associated->futureBox = auxBox;
 

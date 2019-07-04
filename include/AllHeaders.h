@@ -20,22 +20,31 @@
 #endif
 
 #ifndef DEFINE
-  #define TITLE "danillo_140135839"
+  #define TITLE "Fantome Version 1"
   #define WIDTH 1024
   #define HEIGHT 600
 
+  /* Constants */
   #define PI 3.1415926535897
-  #define UP_LIMIT 500
-  #define COOLDOWN 3
-  #define PROPORTION 0.2
-  #define CHAIN_TRAVEL_LIMIT 1
+  #define GRAVITY_ACC 50          // Gravity Acceleration
+  #define GRAVITY_MIN_LIMIT 300   // Minimum Gravity
+  #define GRAVITY_MAX_LIMIT 500   // Maximum Gravity
 
+  /* InputManager Defines */
   #define LEFT_ARROW_KEY SDLK_LEFT
   #define RIGHT_ARROW_KEY SDLK_RIGHT
   #define UP_ARROW_KEY SDLK_UP
   #define DOWN_ARROW_KEY SDLK_DOWN
   #define ESCAPE_KEY SDLK_ESCAPE
   #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
+
+  /* Fantome Defines */
+  #define CHAIN_TRAVEL_LIMIT 0.5  // Time (in seconds) it takes for Fantome to Travel Between Chains
+  #define FANTOME_FLOAT_HEIGHT 10 // Fantome Distance to The Ground
+
+  /* BoneFrog Defines */
+  #define BONEFROG_JUMP_SPEED 1000 // BoneFrog Speed When It Jumps
+  #define BONEFROG_JUMP_COOLDOWN 3  // BoneFrog Jump CoolDown (in seconds)
 #endif
 
 #include "Vec2.h"

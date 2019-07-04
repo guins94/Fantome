@@ -9,7 +9,7 @@
 class Fantome : public Component
 {
   private:
-    enum SpriteState {STANDING, RIGHT, LEFT} sprtState;
+    enum SpriteState {STANDING, RIGHT, LEFT, FALLING} sprtState;
     SpriteState spriteState;
     int hp;
     Timer* restTimer;

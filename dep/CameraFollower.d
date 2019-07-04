@@ -9,7 +9,9 @@ bin/CameraFollower.o: src/CameraFollower.cpp include/CameraFollower.h \
  include/TileSet.h include/TileMap.h include/StageState.h \
  include/TitleState.h include/Text.h include/EndState.h include/Ground.h \
  include/GameData.h include/BoneFrog.h include/Chains.h \
- include/DeathGhost.h include/BonePile.h
+ include/DeathGhost.h include/BonePile.h include/HolyLight.h \
+ include/ChainHead.h include/ChainTail.h include/Chain.h include/Fire.h \
+ include/Blade.h include/FirePlace.h
 
 include/CameraFollower.h:
 
@@ -84,3 +86,17 @@ include/Chains.h:
 include/DeathGhost.h:
 
 include/BonePile.h:
+
+include/HolyLight.h:
+
+include/ChainHead.h:
+
+include/ChainTail.h:
+
+include/Chain.h:
+
+include/Fire.h:
+
+include/Blade.h:
+
+include/FirePlace.h:

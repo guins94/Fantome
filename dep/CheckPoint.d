@@ -1,4 +1,4 @@
-bin/InputManager.o: src/InputManager.cpp include/InputManager.h \
+bin/CheckPoint.o: src/CheckPoint.cpp include/CheckPoint.h \
  include/AllHeaders.h include/Vec2.h include/Rect.h include/Music.h \
  include/Component.h include/GameObject.h include/Sound.h include/Timer.h \
  include/Sprite.h include/State.h include/ParallaxScrolling.h \
@@ -12,7 +12,7 @@ bin/InputManager.o: src/InputManager.cpp include/InputManager.h \
  include/HolyLight.h include/ChainHead.h include/ChainTail.h \
  include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h
 
-include/InputManager.h:
+include/CheckPoint.h:
 
 include/AllHeaders.h:
 

@@ -10,7 +10,8 @@ bin/Game.o: src/Game.cpp include/Game.h include/AllHeaders.h \
  include/Text.h include/EndState.h include/Ground.h include/GameData.h \
  include/BoneFrog.h include/DeathGhost.h include/BonePile.h \
  include/HolyLight.h include/ChainHead.h include/ChainTail.h \
- include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h
+ include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h \
+ include/TileMapCollider.h
 
 include/Game.h:
 
@@ -95,3 +96,5 @@ include/Fire.h:
 include/Blade.h:
 
 include/CheckPoint.h:
+
+include/TileMapCollider.h:

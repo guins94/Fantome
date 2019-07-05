@@ -1,23 +1,23 @@
-#include "TileMap.h"
+#include "TileMapCollider.h"
 
-TileMap::TileMap(GameObject* associated,std::string file,TileSet* tileSet){
+TileMapCollider::TileMapCollider(GameObject* associated,std::string file,TileSet* tileSet){
   this->associated = associated;
 	this->tileSet = tileSet;
   this->goCollider = nullptr;
-	TileMap::Load(file);
+	TileMapCollider::Load(file);
   this->createCollision = false;
 }
 
-TileMap::TileMap(GameObject* associated,std::string file, TileSet* tileSet, bool createCollision){
+TileMapCollider::TileMapCollider(GameObject* associated,std::string file, TileSet* tileSet, bool createCollision){
   this->associated = associated;
 	this->tileSet = tileSet;
   this->goCollider = nullptr;
   this->createCollision = false;
   if(createCollision) SetCollider();
-	TileMap::Load(file);
+	TileMapCollider::Load(file);
 }
 
-void TileMap::Load(std::string file){
+void TileMapCollider::Load(std::string file){
 	//this->tileSet->tileSet->Open(file);
 
 	std::ifstream File(file.c_str());
@@ -49,11 +49,11 @@ void TileMap::Load(std::string file){
 	File.close();
 }
 
-void TileMap::SetTileSet(TileSet* tileSet){
+void TileMapCollider::SetTileSet(TileSet* tileSet){
 	this->tileSet = tileSet;
 }
 
-int* TileMap::At(int x, int y, int z){
+int* TileMapCollider::At(int x, int y, int z){
 	if(-1 >= x || x >= 50){
 		return nullptr;
 	}
@@ -65,7 +65,7 @@ int* TileMap::At(int x, int y, int z){
 	return &this->tileMatrix.at(position);
 }
 
-void TileMap::Render(){
+void TileMapCollider::Render(){
 	//int i = 1;
 	//for(; i<=this->mapDepth;i++){
 		//RenderLayer(i,camera->pos.x, camera->pos.y);
@@ -75,11 +75,11 @@ void TileMap::Render(){
   this->createCollision = false;
 }
 
-void TileMap::Start(){
+void TileMapCollider::Start(){
 
 }
 
-void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
+void TileMapCollider::RenderLayer(int layer, int cameraX, int CameraY){
 	int i,j;
 	int* index;
   layer = layer;
@@ -95,8 +95,8 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 				index = At(i,j,0);
 				if(*(index) != (-1)){
 					//std::cout << "camada i: " << i<< "camadaj:"<<j <<std::endl;
-					this->tileSet->RenderTile(*(index),(j*tileWidth) + cameraX,(i*tileHeight) + CameraY);
-          //if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX - 130, (i*tileHeight) + CameraY -30);
+					//this->tileSet->RenderTile(*(index),(j*tileWidth) + cameraX,(i*tileHeight) + CameraY);
+          if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX , (i*tileHeight) + CameraY-20);
         }
 			}
 		}
@@ -113,11 +113,11 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
 	}*/
 }
 
-void TileMap::Update(float dx){
+void TileMapCollider::Update(float dx){
   //this->associated->box.x =
 }
 
-bool TileMap::Is(std::string type){
+bool TileMapCollider::Is(std::string type){
 	if(type == "Tile"){
 		return true;
 	}else{
@@ -125,25 +125,22 @@ bool TileMap::Is(std::string type){
 	}
 }
 
-int TileMap::GetWidth(){
+int TileMapCollider::GetWidth(){
 	return this->mapWidth;
 }
 
-int TileMap::GetHeight(){
+int TileMapCollider::GetHeight(){
 	return this->mapHeight;
 }
 
-int TileMap::GetDepth(){
+int TileMapCollider::GetDepth(){
 	return this->mapDepth;
 }
 
-int ParallaxScolling(int layer){
 
-}
-
-void TileMap::CreateCollider(unsigned index, float x, float y){
+void TileMapCollider::CreateCollider(unsigned index, float x, float y){
   /* Se o índice for renderizar um espaço vazio, não é necessário um Collider */
-  if(index == -1) return;
+  if(index >= this->tileSet->GetColumns()) return;
 
   if(!(this->goCollider))
   {
@@ -179,7 +176,7 @@ void TileMap::CreateCollider(unsigned index, float x, float y){
   }
 }
 
-void TileMap::SetCollider(){
+void TileMapCollider::SetCollider(){
   GameObject* goCollider = new GameObject();
   this->goCollider = goCollider;
   this->goCollider->box.w = 0;

@@ -46,19 +46,31 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(backgroundScreen5);*/
 
     /* O GameObject goGround representa o chão do jogo */
-    GameObject* goGround = new GameObject();
-    goGround->box.w = 0;
-    goGround->box.h = 5;
-    goGround->box.x = 0;
-    goGround->box.y = 0;
-    TileSet* groundSet = new TileSet(314, 143, "assets/img/floor_tileset.png");
-    TileMap* groundMap = new TileMap(goGround, "assets/fan_map/tileMap.txt", groundSet, true);
-    Ground* ground = new Ground(goGround);
+    GameObject* Tilemap = new GameObject();
+    Tilemap->box.w = 0;
+    Tilemap->box.h = 5;
+    Tilemap->box.x = 0;
+    Tilemap->box.y = 0;
+    TileSet* TileSET = new TileSet(316,137, "assets/img/floor_tileset.png");
+    TileMap* map = new TileMap(Tilemap, "assets/fan_map/tileMap.txt", TileSET, true);
 
     /* Adicionando componentes */
-    goGround->AddComponent(groundMap);
-    goGround->AddComponent(ground);
-    this->objectArray.emplace_back(goGround);
+    Tilemap->AddComponent(map);
+    this->objectArray.emplace_back(Tilemap);
+
+  GameObject* goGround = new GameObject();
+   goGround->box.w = 0;
+   goGround->box.h = 5;
+   goGround->box.x = 0;
+   goGround->box.y = 0;
+   TileSet* groundSet = new TileSet(314, 143, "assets/img/floor_tileset1.png");
+   TileMapCollider* groundMap = new TileMapCollider(goGround, "assets/fan_map/tileMapCollider.txt", groundSet, true);
+   Ground* ground = new Ground(goGround);
+
+   /* Adicionando componentes */
+   goGround->AddComponent(groundMap);
+   goGround->AddComponent(ground);
+   this->objectArray.emplace_back(goGround);
 
     GameObject* grave = new GameObject();
     grave->box.w = 130;
@@ -253,7 +265,7 @@ FantomeState::FantomeState(){
     this->fantomeExist = true;
 
     /* Seguindo Fantome */
-    Camera::Follow(goFantome);
+    //Camera::Follow(goFantome);
 
     /* Adding Particles */
     GameObject* backgroundScreen4 = new GameObject();

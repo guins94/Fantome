@@ -126,3 +126,5 @@
 #include "Blade.h"
 
 #include "CheckPoint.h"
+
+#include  "TileMapCollider.h"

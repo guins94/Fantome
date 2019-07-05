@@ -10,7 +10,8 @@ bin/DeathGhost.o: src/DeathGhost.cpp include/DeathGhost.h \
  include/Text.h include/EndState.h include/Ground.h include/GameData.h \
  include/BoneFrog.h include/DeathGhost.h include/BonePile.h \
  include/HolyLight.h include/ChainHead.h include/ChainTail.h \
- include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h
+ include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h \
+ include/TileMapCollider.h
 
 include/DeathGhost.h:
 
@@ -95,3 +96,5 @@ include/Fire.h:
 include/Blade.h:
 
 include/CheckPoint.h:
+
+include/TileMapCollider.h:

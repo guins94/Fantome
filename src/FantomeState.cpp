@@ -265,7 +265,7 @@ FantomeState::FantomeState(){
     this->fantomeExist = true;
 
     /* Seguindo Fantome */
-    //Camera::Follow(goFantome);
+    Camera::Follow(goFantome);
 
     /* Adding Particles */
     GameObject* backgroundScreen4 = new GameObject();

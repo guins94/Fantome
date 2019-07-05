@@ -31,7 +31,7 @@ void BoneFrog::Update(float dt)
   this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed;
 
   /* If BoneFrog Won't Collide With the Ground, Update Its Position */
-  if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
   {
     /* Updating Position */
     this->associated->box.y = this->associated->futureBox.y;
@@ -57,7 +57,7 @@ void BoneFrog::Update(float dt)
     if(!inputManager->KeyRelease(SDLK_a))
     {
       this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::boneFrogSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
         this->associated->box.x = this->associated->futureBox.x;
       this->associated->futureBox = auxBox;
     }
@@ -65,7 +65,7 @@ void BoneFrog::Update(float dt)
     if(!inputManager->KeyRelease(SDLK_d))
     {
       this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::boneFrogSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
         this->associated->box.x = this->associated->futureBox.x;
       this->associated->futureBox = auxBox;
     }
@@ -87,7 +87,7 @@ void BoneFrog::Update(float dt)
       possession->box.x = this->associated->box.x;
       possession->box.y = this->associated->box.y;
       possession->GameObject::AddComponent(new Possession(possession,2));
-      Collider* possession_collider = new Collider(possession);
+      Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
       possession->GameObject::AddComponent(possession_collider);
       Game::GetInstance()->GetCurrentState()->AddObject(possession);
       this->isPlaying = false;

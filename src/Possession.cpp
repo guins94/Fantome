@@ -38,7 +38,7 @@ void Possession::Update(float dt){
     Fantome* fantome = new Fantome(goFantome);
     goFantome->AddComponent(fantome);
 
-    Collider* fantomeCollider = new Collider(goFantome);
+    Collider* fantomeCollider = new Collider(goFantome, Vec2(1,1), Vec2(0,0));
     goFantome->AddComponent(fantomeCollider);
 
     fantomeState->AddObject(goFantome);

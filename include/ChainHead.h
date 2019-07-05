@@ -31,11 +31,13 @@ class ChainHead : public Component
     float GetChainHeight();
     float GetAngle();
 
+    float GetPlayingTimer();
+
     Vec2 GetLastChainPosition();
 
+    void Start();
     void Update(float dt);
     void Render();
-    void Start();
     bool Is(std::string type);
     void NotifyCollision(GameObject& other);
 };

@@ -144,7 +144,7 @@ int ParallaxScolling(int layer){
 void TileMap::CreateCollider(unsigned index, float x, float y){
   /* Se o índice for renderizar um espaço vazio, não é necessário um Collider */
   if(index >= this->tileSet->GetColumns()) return;
-  
+
   if(!(this->goCollider))
   {
     std::cout << "Tilemap.cpp: Invalid GameObject pointer. Exiting." << '\n';
@@ -169,7 +169,7 @@ void TileMap::CreateCollider(unsigned index, float x, float y){
 
     /* Adicionando chão ao vetor de objetos */
     this->createCollision = false;
-    Collider* tileCollider = new Collider(this->goCollider);
+    Collider* tileCollider = new Collider(this->goCollider, Vec2(1,1), Vec2(0,0));
     this->goCollider->AddComponent(tileCollider);
     Ground* tileGround = new Ground(this->goCollider);
     this->goCollider->AddComponent(tileGround);

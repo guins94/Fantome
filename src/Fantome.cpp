@@ -65,7 +65,7 @@ void Fantome::Update(float dt)
   /* Calculando eixo y da futura posição do Fantome */
   this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed + FANTOME_FLOAT_HEIGHT;
 
-  if(!fantomeState->WillCollideWithGround(this->associated->futureBox) && !fantomeState->WillCollideWithGrave(this->associated->futureBox))
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)) && !fantomeState->WillCollideWithGrave(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
   {
     /* Updating Position */
     this->associated->box.y += dt * this->fallingSpeed;
@@ -73,6 +73,9 @@ void Fantome::Update(float dt)
     /* Updating Gravity Acceleration */
     if(this->fallingSpeed <= GRAVITY_MAX_LIMIT - GRAVITY_ACC)
       this->fallingSpeed += GRAVITY_ACC;
+
+    /* Setting Flag Indicating Fantome Has Moved within this Frame */
+    hasFantomeMoved = true;
   }
   else
   {
@@ -81,9 +84,6 @@ void Fantome::Update(float dt)
 
     /* Resetting Gravity to Minimum Speed */
     this->fallingSpeed = GRAVITY_MIN_LIMIT;
-
-    /* Setting Flag Indicating Fantome Has Moved within this Frame */
-    hasFantomeMoved = true;
   }
   this->associated->futureBox = auxBox;
 
@@ -96,7 +96,7 @@ void Fantome::Update(float dt)
     /* If the player is going left, the sprite is flipped */
     sprite->EnableFlip();
     this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
-    if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+    if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
       this->associated->box.x -= dt * GameData::fantomeSpeed.x;
     this->associated->futureBox = auxBox;
     this->spriteState = SpriteState::LEFT;
@@ -107,7 +107,7 @@ void Fantome::Update(float dt)
     /* If the player is going right, the sprite is back to normal */
     sprite->DisableFlip();
     this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
-    if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+    if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
       this->associated->box.x += dt * GameData::fantomeSpeed.x;
     this->associated->futureBox = auxBox;
     this->spriteState = SpriteState::RIGHT;
@@ -186,7 +186,7 @@ void Fantome::NotifyCollision(GameObject& other){
 
   if(other.GetComponent("Grave")){
     InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+    if(!inputManager->KeyRelease(SDLK_SPACE)){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
       fantomeState->fantomeExist = false;
@@ -197,7 +197,7 @@ void Fantome::NotifyCollision(GameObject& other){
 
   if(other.GetComponent("BoneFrog")){
     InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+    if(!inputManager->KeyRelease(SDLK_SPACE)){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
       fantomeState->fantomeExist = false;
@@ -205,24 +205,27 @@ void Fantome::NotifyCollision(GameObject& other){
     }
   }
 
-  if(other.GetComponent("ChainHead")){
+  if(ChainHead* chainHead = (ChainHead*) other.GetComponent("ChainHead")){
     InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_SPACE) == false){
-      //(Grave*)other.GetComponent("Grave")->playing == true;
-      Camera::Follow(nullptr);
-      fantomeState->fantomeExist = false;
-      this->associated->RequestDelete();
-
+    if(!inputManager->KeyRelease(SDLK_SPACE))
+    {
+      if(chainHead->GetPlayingTimer() >= PLAYING_TIMER_VALUE)
+      {
+        fantomeState->fantomeExist = false;
+        this->associated->RequestDelete();
+      }
     }
   }
 
-  if(other.GetComponent("ChainTail")){
+  if(ChainTail* chainTail = (ChainTail*) other.GetComponent("ChainTail")){
     InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_SPACE) == false){
-      //(Grave*)other.GetComponent("Grave")->playing == true;
-      Camera::Follow(nullptr);
-      fantomeState->fantomeExist = false;
-      this->associated->RequestDelete();
+    if(!inputManager->KeyRelease(SDLK_SPACE))
+    {
+      if(chainTail->GetPlayingTimer() >= PLAYING_TIMER_VALUE)
+      {
+        fantomeState->fantomeExist = false;
+        this->associated->RequestDelete();
+      }
     }
   }
 
@@ -240,7 +243,7 @@ void Fantome::NotifyCollision(GameObject& other){
 
   if(other.GetComponent("Fire")){
     InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+    if(!inputManager->KeyRelease(SDLK_SPACE)){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
       fantomeState->fantomeExist = false;

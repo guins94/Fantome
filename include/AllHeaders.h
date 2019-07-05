@@ -45,6 +45,10 @@
   /* BoneFrog Defines */
   #define BONEFROG_JUMP_SPEED 1050 // BoneFrog Speed When It Jumps
   #define BONEFROG_JUMP_COOLDOWN 3  // BoneFrog Jump CoolDown (in seconds)
+
+  /* Chain Defines */
+  #define PLAYING_TIMER_VALUE 1.5 // Time (in seconds) for the Playing Timer
+
 #endif
 
 #include "Vec2.h"

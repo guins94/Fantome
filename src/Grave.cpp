@@ -29,7 +29,7 @@ void Grave::Update(float dt){
 
   /* Calculando eixo y da futura posição do Fantome */
   this->associated->futureBox.y = this->associated->futureBox.y + dt * GameData::fantomeSpeed.y;
-  if(!fantomeState->WillCollideWithGround(this->associated->futureBox)&& !fantomeState->WillCollideWithGrave(this->associated->futureBox)){
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)) && !fantomeState->WillCollideWithGrave(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg))){
       this->associated->box.y += dt * GameData::fantomeSpeed.y;
       this->speed.y = this->speed.y + dt * GameData::fantomeSpeed.y;
       //std::cout << "Grave speed"<< this->speed.y << '\n';
@@ -51,7 +51,7 @@ void Grave::Update(float dt){
     InputManager* inputManager = InputManager::GetInstance();
     if(!inputManager->KeyRelease(SDLK_a)){
       this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg))){
 
         this->associated->box.x = this->associated->futureBox.x;
         if(this->restTimer->Get() >= 1){
@@ -64,7 +64,7 @@ void Grave::Update(float dt){
     }
     if(!inputManager->KeyRelease(SDLK_d)){
       this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox)){
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg))){
         this->associated->box.x = this->associated->futureBox.x;
         if(this->restTimer->Get() >= 1){
           this->arrastaBox->Play(1);
@@ -82,7 +82,7 @@ void Grave::Update(float dt){
       possession->box.x = this->associated->box.x;
       possession->box.y = this->associated->box.y;
       possession->GameObject::AddComponent(new Possession(possession,2));
-      Collider* possession_collider = new Collider(possession);
+      Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
       possession->GameObject::AddComponent(possession_collider);
       Game::GetInstance()->GetCurrentState()->AddObject(possession);
       //game->GetCurrentState()->AddObject(minion_go)
@@ -123,7 +123,7 @@ void Grave::RespawnGrave(){
   possession->box.x = this->associated->box.x;
   possession->box.y = this->associated->box.y;
   possession->GameObject::AddComponent(new Possession(possession,2));
-  Collider* possession_collider = new Collider(possession);
+  Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
   possession->GameObject::AddComponent(possession_collider);
   Game::GetInstance()->GetCurrentState()->AddObject(possession);
   Camera::Follow(possession);

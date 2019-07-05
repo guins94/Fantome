@@ -68,7 +68,7 @@ void DeathGhost::GhostAttack(){
     Blade* blade_component = new Blade(Attack,100,100,1);
     Attack->GameObject::AddComponent(blade_component);
 
-    Collider* holyLight_collider = new Collider(Attack);
+    Collider* holyLight_collider = new Collider(Attack, Vec2(1,1), Vec2(0,0));
     //Vec2 offset = Vec2(200,-50);
     //holyLight_collider->SetOffset(offset);
     Attack->GameObject::AddComponent(holyLight_collider);

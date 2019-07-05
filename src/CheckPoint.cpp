@@ -36,7 +36,7 @@ void CheckPoint::Update(float dt){
     possession->box.x = this->associated->box.x;//respawnPosition.x;
     possession->box.y = this->associated->box.y;//respawnPosition.y;
     possession->GameObject::AddComponent(new Possession(possession,2));
-    Collider* possession_collider = new Collider(possession);
+    Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
     possession->GameObject::AddComponent(possession_collider);
     Game::GetInstance()->GetCurrentState()->AddObject(possession);
     fantomeState->isAlive = true;

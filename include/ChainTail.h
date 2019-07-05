@@ -26,6 +26,8 @@ class ChainTail : public Component
 
     float GetAngle();
 
+    float GetPlayingTimer();
+
     void Update(float dt);
     void Render();
     void Start();

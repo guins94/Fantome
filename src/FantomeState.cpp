@@ -20,29 +20,28 @@ FantomeState::FantomeState(){
     GameObject* backgroundScreen1 = new GameObject();
     backgroundScreen1->box.x = 0;
     backgroundScreen1->box.y = 0;
-    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.1, "assets/img/bg/finalBG1.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling1 = new ParallaxScrolling(backgroundScreen1, 0.1, "assets/img/bg/finalBG1.png");
     backgroundScreen1->AddComponent(parallaxScrolling1);
     this->objectArray.emplace_back(backgroundScreen1);
 
     GameObject* backgroundScreen2 = new GameObject();
     backgroundScreen2->box.x = 0;
     backgroundScreen2->box.y = 0;
-    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.2, "assets/img/bg/finalBG2.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling2 = new ParallaxScrolling(backgroundScreen2, 0.2, "assets/img/bg/finalBG2.png");
     backgroundScreen2->AddComponent(parallaxScrolling2);
     this->objectArray.emplace_back(backgroundScreen2);
 
     GameObject* backgroundScreen3 = new GameObject();
     backgroundScreen3->box.x = 0;
     backgroundScreen3->box.y = 0;
-    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.3, "assets/img/bg/finalBG3.png", "assets/fan_map/backgroundMap.txt");
+    ParallaxScrolling* parallaxScrolling3 = new ParallaxScrolling(backgroundScreen3, 0.3, "assets/img/bg/finalBG3.png");
     backgroundScreen3->AddComponent(parallaxScrolling3);
     this->objectArray.emplace_back(backgroundScreen3);
 
     /*GameObject* backgroundScreen5 = new GameObject();
     backgroundScreen5->box.x = 0;
     backgroundScreen5->box.y = 0;
-    ParallaxScrolling* parallaxScrolling5 = new ParallaxScrolling(backgroundScreen5, 1.1, "assets/img/bg/bg_final_5_light.png", "assets/fan_map/backgroundMap.txt");
-    backgroundScreen5->AddComponent(parallaxScrolling5);
+    ParallaxScrolling* parallaxScrolling5 = new ParallaxScrolling(backgroundScreen5, 1.1, "assets/img/bg/bg_final_5_light.png");
     this->objectArray.emplace_back(backgroundScreen5);*/
 
     /* O GameObject goGround representa o chão do jogo */
@@ -156,18 +155,18 @@ FantomeState::FantomeState(){
     deathGhost2->GameObject::AddComponent(deathGhost_collider2);
     this->objectArray.emplace_back(deathGhost2);
 
-    GameObject* BonePilego = new GameObject();
-    BonePilego->box.w = 50;
-    BonePilego->box.h = 5;
-    BonePilego->box.x = 2600;
-    BonePilego->box.y = 500;
-    BonePile* bonePile_component = new BonePile(BonePilego,200);
-    BonePilego->GameObject::AddComponent(bonePile_component);
-    Collider* BonePile_collider = new Collider(BonePilego, Vec2(1,1), Vec2(0,0));
+    GameObject* bonePileGo = new GameObject();
+    bonePileGo->box.w = 50;
+    bonePileGo->box.h = 5;
+    bonePileGo->box.x = 2600;
+    bonePileGo->box.y = 500;
+    BonePile* bonePile_component = new BonePile(bonePileGo, 200);
+    bonePileGo->AddComponent(bonePile_component);
+    Collider* BonePile_collider = new Collider(bonePileGo, Vec2(1,1), Vec2(0,0));
     Vec2 offset_bonepile = Vec2(0,-60);
     BonePile_collider->SetOffset(offset_bonepile);
-    BonePilego->GameObject::AddComponent(BonePile_collider);
-    this->objectArray.emplace_back(BonePilego);
+    bonePileGo->AddComponent(BonePile_collider);
+    this->objectArray.emplace_back(bonePileGo);
 
     /* Adding ChainHead (Beginning) */
     GameObject* goChainHead = new GameObject();
@@ -196,14 +195,13 @@ FantomeState::FantomeState(){
     holyLightGo->GameObject::AddComponent(holyLightCollider);
     this->objectArray.emplace_back(holyLightGo);
 
-  /*GameObject* fireGo = new GameObject();
-    fireGo->box.x = 500;
-    fireGo->box.y = 500;
-    Fire* fireComponent = new Fire(fireGo);
-    fireGo->AddComponent(fireComponent);
-    Collider* fireCollider = new Collider(fireGo);
-    fireGo->AddComponent(fireCollider);
-    this->objectArray.emplace_back(fireGo);*/
+    /* Adding SoulStone */
+    GameObject* soulStoneGo = new GameObject();
+    soulStoneGo->box.x = 300;
+    soulStoneGo->box.y = 500;
+    SoulStone* soulStoneComponent = new SoulStone(soulStoneGo);
+    soulStoneGo->AddComponent(soulStoneComponent);
+    this->objectArray.emplace_back(soulStoneGo);
 
     GameObject* fireplace = new GameObject();
     fireplace->box.w = 50;
@@ -249,14 +247,15 @@ FantomeState::FantomeState(){
     /* Seguindo Fantome */
     Camera::Follow(goFantome);
 
-    /* Adding Particles */
-    GameObject* backgroundScreen4 = new GameObject();
-    backgroundScreen4->box.x = 0;
-    backgroundScreen4->box.y = 0;
-    ParallaxScrolling* parallaxScrolling4 = new ParallaxScrolling(backgroundScreen4, 1.05, "assets/img/bg/part_sheet.png", "assets/fan_map/backgroundMap.txt", 10);
-    backgroundScreen4->AddComponent(parallaxScrolling4);
-    this->objectArray.emplace_back(backgroundScreen4);
-
+    /* Adding Particles & Light Effects */
+    /*GameObject* particlesGo = new GameObject();
+    CameraFollower* cameraFollower = new CameraFollower(particlesGo);
+    particlesGo->AddComponent(cameraFollower);
+    Sprite* particleSprite = new Sprite(particlesGo, "assets/img/bg/particles.png", 10, 0.2, 0);
+    particlesGo->AddComponent(particleSprite);
+    Sprite* lightSprite = new Sprite(particlesGo, "assets/img/bg/light.png", 15, 0.6, 0);
+    particlesGo->AddComponent(lightSprite);
+    this->objectArray.emplace_back(particlesGo);*/
 }
 
 FantomeState::~FantomeState(){

@@ -241,17 +241,6 @@ void Fantome::NotifyCollision(GameObject& other){
       KillFantome();
   }
 
-  if(other.GetComponent("Fire")){
-    InputManager* inputManager = InputManager::GetInstance();
-    if(!inputManager->KeyRelease(SDLK_SPACE)){
-      //(Grave*)other.GetComponent("Grave")->playing == true;
-      Camera::Follow(nullptr);
-      fantomeState->fantomeExist = false;
-      this->associated->RequestDelete();
-
-    }
-  }
-
   if(other.GetComponent("HolyLight")){
     Camera::Follow(nullptr);
     fantomeState->fantomeExist = false;

@@ -49,6 +49,9 @@
   /* Chain Defines */
   #define PLAYING_TIMER_VALUE 1.5 // Time (in seconds) for the Playing Timer
 
+  /* SoulStone Defines */
+  #define NEARBY_SOULSTONE_DISTANCE 300 // Maximum Distance (in pixels) That Indicates Fantome is Nearby
+  #define SOULSTONE_SOUND_LOOP 5 // Time (in seconds) Between SoulStone Sound Effects
 #endif
 
 #include "Vec2.h"
@@ -125,7 +128,7 @@
 
 #include "Chain.h"
 
-#include "Fire.h"
+#include "SoulStone.h"
 
 #include "Blade.h"
 

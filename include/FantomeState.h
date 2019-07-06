@@ -19,7 +19,7 @@ class FantomeState : public State
     Vec2 PlayerPosition = Vec2(0,0);
     bool fantomeExist = false;
     bool isAlive = true;
-		int nFire = 0;
+		int nSoulStone = 0;
     int checkID = 0;
   private:
 		void StartArray();

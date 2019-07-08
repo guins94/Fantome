@@ -195,13 +195,13 @@ FantomeState::FantomeState(){
     holyLightGo->GameObject::AddComponent(holyLightCollider);
     this->objectArray.emplace_back(holyLightGo);
 
-    /* Adding SoulStone */
-    GameObject* soulStoneGo = new GameObject();
+    /* Adding SoulStone */ //TODO: fiz MIX HALT CHANNEL SEGFAULT
+    /*GameObject* soulStoneGo = new GameObject();
     soulStoneGo->box.x = 300;
     soulStoneGo->box.y = 500;
     SoulStone* soulStoneComponent = new SoulStone(soulStoneGo);
     soulStoneGo->AddComponent(soulStoneComponent);
-    this->objectArray.emplace_back(soulStoneGo);
+    this->objectArray.emplace_back(soulStoneGo);*/
 
     GameObject* fireplace = new GameObject();
     fireplace->box.w = 50;
@@ -319,12 +319,30 @@ std::weak_ptr<GameObject> FantomeState::GetObjectPtr(GameObject* go){
   return std::weak_ptr<GameObject>();
 }
 
-void FantomeState::Update(){
+void FantomeState::Update()
+{
+  /* Retrieving Input Manager & Game Instances*/
   Game* game = Game::GetInstance();
-  float dt = game->GetDeltaTime();
-
   InputManager* inputManager = InputManager::GetInstance();
 
+  /* Retrieving Game Delta Time */
+  float dt = game->GetDeltaTime();
+
+  /* If ESCAPE is pressed, Exit Fantome */
+  if(!inputManager->KeyRelease(ESCAPE_KEY))
+  {
+    std::cout << "FANTOME POP REQUEST" << '\n';
+    this->popRequested = true;
+  }
+
+  /* If The Player Tries to Close The Window, Exit Game */
+  if(inputManager->QuitRequested())
+  {
+    std::cout << "FANTOME QUIT REQUEST" << '\n';
+    this->quitRequested = true;
+  }
+
+  /* Calling Camera Update */
   Camera::Update(dt);
 
   for(int f = 0; f<=this->objectArray.size() - 1; f++){

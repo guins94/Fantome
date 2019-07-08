@@ -21,13 +21,8 @@ void ParallaxScrolling::Render()
 {
   this->parallaxSprite->SetClip(0, 0, this->parallaxSprite->GetHeight(), 600);
 
-  std::cout << "Camera X: " << Camera::pos.x << '\n';
-
   if(Camera::pos.x >= 0)
-  {
-    std::cout << "Render 0 0" << '\n';
     this->parallaxSprite->Render(0, 0);
-  }
   else
     this->parallaxSprite->Render(Camera::pos.x * this->multiplier, 0);
 }

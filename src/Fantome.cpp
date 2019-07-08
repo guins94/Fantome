@@ -87,8 +87,6 @@ void Fantome::Update(float dt)
   }
   this->associated->futureBox = auxBox;
 
-      std::cout << "Gravity: " << this->fallingSpeed << '\n';
-
   /* Calculando eixo x da futura posição do Fantome */
   InputManager* inputManager = InputManager::GetInstance();
   if(!inputManager->KeyRelease(SDLK_a))

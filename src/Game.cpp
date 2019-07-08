@@ -2,48 +2,78 @@
 
 Game* Game::instance = NULL;
 
-Game::Game(const char* title,int height, int width){
-
+Game::Game(const char* title, int height, int width)
+{
     this->height = height;
     this->width = width;
 
-    if (instance == NULL)
-        instance = this;
-
-    SDL_Init(SDL_INIT_EVERYTHING);
-    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
-    Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG);
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS,1024);
-    Mix_AllocateChannels(32);
-    TTF_Init();
+    if(!instance)
+      instance = this;
 
 
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window* window;
-
-    window = SDL_CreateWindow(title,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,width,height,0);
-    this->window = window;
-    // Check that the window was successfully created
-    if (window == NULL) {
-        // In the case that the window could not be made...
-        printf("Could not create window: %s\n", SDL_GetError());
+    /* Initializing All Libraries  */
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0)
+    {
+        SDL_Log("Unable to initialize SDL_Init: %s", SDL_GetError());
+        exit(-1);
     }
 
+    if(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF) == 0)
+    {
+      SDL_Log("Unable to initialize SDL_IMG: %s", SDL_GetError());
+      exit(-1);
+    }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG) == 0)
+    {
+      SDL_Log("Unable to initialize SDL Mix_Init: %s", SDL_GetError());
+      exit(-1);
+    }
 
+    if(TTF_Init() != 0)
+    {
+    SDL_Log("Unable to initialize SDL TTF_Init(): %s", SDL_GetError());
+    exit(-1);
+    }
+
+    if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) != 0)
+    {
+      SDL_Log("Unable to initialize SDL OpenAudio: %s", SDL_GetError());
+      exit(-1);
+    }
+    Mix_AllocateChannels(32);
+
+    this->window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+    if(!this->window)
+    {
+    SDL_Log("Unable to initialize window: %s", SDL_GetError());
+    exit(-1);
+    }
+
+    this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if(!this->renderer)
+    {
+      SDL_Log("Unable to initialize renderer: %s", SDL_GetError());
+      exit(-1);
+    }
+
+    /* Initializing Stored State */
     this->storedState = nullptr;
-    this->dt = 0;
-    this->frameStart = SDL_GetTicks();
-    // The window is open: could enter program loop here (see SDL_PollEvent())
 
+    /* Seeding Rand Function*/
+    srand(time(NULL));
+
+    /* Calculating Delta Time */
+    float lastFrame = this->frameStart;
+    this->frameStart = SDL_GetTicks();
+    this->dt = (float) (this->frameStart - lastFrame)/1000;
 }
 
 
-Game::~Game(){
-    if (instance == NULL)
-        instance = this;
-    //delete Game::GetCurrentState();
+Game::~Game()
+{
+    if(!instance)
+      instance = this;
 
     TTF_Quit();
     Mix_CloseAudio();
@@ -52,71 +82,115 @@ Game::~Game(){
     SDL_DestroyRenderer(this->renderer);
     SDL_DestroyWindow(this->window);
     SDL_Quit();
-
 }
 
 
-Game* Game::GetInstance(){
-    if(instance == NULL){
-       instance = new Game("Fantome",600, 1024);
-    }
+Game* Game::GetInstance()
+{
+    if(!instance)
+      instance = new Game("Fantome", 600, 1024);
 
     return instance;
 }
 
-State* Game::GetCurrentState(){
-  return this->stateStack.top().get();
+State* Game::GetCurrentState()
+{
+  if(!this->stateStack.empty())
+    return this->stateStack.top().get();
+  else
+    return nullptr;
 }
 
-void Game::Run(){
+void Game::Run()
+{
+  /* Retrieving Input Manager Instance */
   InputManager* inputManager = InputManager::GetInstance();
-  stateStack.emplace(this->storedState);
-  Game::GetCurrentState()->Start();
-  while(inputManager->QuitRequested() != true){
-    //std::cout << "game loop \n"<< std::endl;
-    if(Game::GetCurrentState()->GetQuitRequested() == true){
-      std::cout << "quitrequested"<< std::endl;
+
+  while(1)
+  {
+    /* If There Is a Stored State */ std::cout << "BEFORE STORED STATE" << '\n';
+    if(this->storedState)
+    {std::cout << "STORED STATE" << '\n';
+      /* Pausing the Current State */
+      if(!this->stateStack.empty()) this->stateStack.top()->Pause();
+
+      /* Pushing New State and Starting It */
+      stateStack.emplace(this->storedState);
+      GetCurrentState()->Start();
+
+      /* Resetting Stored State */
+      this->storedState = nullptr;
+    }
+
+    /* If The Game Wants to Pop */ std::cout << "BEFORE POP REQUEST" << '\n';
+    if(GetCurrentState()->GetPopRequested())
+    {std::cout << "POP REQUEST" << '\n';
+      /* Popping Current Stage */
+      std::unique_ptr<State> popState(std::move(this->stateStack.top()));
       this->stateStack.pop();
-      if(this->storedState != nullptr){
-        stateStack.emplace(this->storedState);
-        Game::GetCurrentState()->Start();
+      std::cout << "AFTER POP" << '\n';
+      /* If State Stack is Empty, Load A New Title Stage */
+      /* If Not Empty, Resume State Below It */
+      if(this->stateStack.empty())
+      {
+        if(!this->storedState)
+          Push(new TitleState());
+      }
+      else
+      {
+        GetCurrentState()->Resume();
+        std::cout << "AFTER RESUME" << '\n';
       }
     }
-    this->CalculateDeltaTime();
+
+    /* If The State Wants to Quit, End Game */ std::cout << "BEFORE QUIT REQUEST " << GetCurrentState()->GetQuitRequested() << " Current State: " << GetCurrentState() << "\n \n \n";
+    if(GetCurrentState()->GetQuitRequested())
+    {
+      std::cout << "Quit Requested. Exiting." << '\n';
+      break;
+    }
+
+    CalculateDeltaTime();
     inputManager->Update();
-    Game::GetCurrentState()->Update();
-    Game::GetCurrentState()->Render();
+    GetCurrentState()->Update();
+    GetCurrentState()->Render();
     SDL_RenderPresent(renderer);
     SDL_Delay(33);
   }
 }
 
-SDL_Renderer* Game::GetRenderer(){
+SDL_Renderer* Game::GetRenderer()
+{
     return this->renderer;
 }
 
-void Game::CalculateDeltaTime(){
+void Game::CalculateDeltaTime()
+{
   float lastFrame = this->frameStart;
   this->frameStart = SDL_GetTicks();
   this->dt = (float) (this->frameStart - lastFrame)/1000;
 }
 
-float Game::GetDeltaTime(){
+float Game::GetDeltaTime()
+{
   return dt;
 }
 
-void Game::Push(State* state){
+void Game::Push(State* state)
+{
   this->storedState = state;
 }
 
-int main (int argc, char** argv) {
+int main (int argc, char** argv)
+{
     argv = argv;
     argc = argc;
 
     Game* instance = Game::GetInstance();
-    instance->Push(new FantomeState());
-    //instance->Push(new StageState());
-    instance->Game::Run();
+    instance->Push(new TitleState());
+    instance->Run();
+
+    delete instance;
 
     return 0;
 }

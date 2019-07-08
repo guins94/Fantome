@@ -1,87 +1,90 @@
 #include "EndState.h"
 
 EndState::EndState(){
-  GameObject* Title = new GameObject();
-  Title->box.w = 0;
-  Title->box.h = 0;
-  Title->box.x = 0;
-  Title->box.y = 0;
-  Sprite* Title_sprite = new Sprite(Title);
-  Title_sprite->Open("assets/img/win.jpg");
-  Title->GameObject::AddComponent(Title_sprite);
-  this->objectArray.emplace_back(Title);
+  GameObject* titleGo = new GameObject();
+  titleGo->box.w = 0;
+  titleGo->box.h = 0;
+  titleGo->box.x = 0;
+  titleGo->box.y = 0;
+
+  Sprite* titleSprite = new Sprite(titleGo, "assets/img/penguin/lose.jpg", 1, 0, 0);
+  titleGo->AddComponent(titleSprite);
+  this->objectArray.emplace_back(titleGo);
+
+  /* Initializing End Music */
+  //TODO
 }
 
 
-EndState::~EndState(){
+EndState::~EndState()
+{
 	this->objectArray.clear();
 }
 
-void EndState::LoadAssets(){
+void EndState::LoadAssets()
+{
 
 }
 
-
-void EndState::Render(){
-  for(int x = 0; x<=this->objectArray.size() - 1; x++){
-    objectArray[x]->Render();
+void EndState::Render()
+{
+  int i;
+  for(i = 0; i <= this->objectArray.size() - 1; i++)
+  {
+    objectArray[i]->Render();
   }
 }
 
-void EndState::AddObject(int mouseX,int mouseY){
-}
-
-void EndState::Start(){
-  for(int i = 0;i <= this->objectArray.size() -1; i++){
-    //std::cout << "start em StageState \n"<< std::endl;
+void EndState::Start()
+{
+  int i;
+  for(i = 0; i <= this->objectArray.size() - 1; i++)
+  {
     this->objectArray[i]->Start();
   }
   this->started = true;
 }
 
-std::weak_ptr<GameObject> EndState::AddObject(GameObject* go){
-}
-
-std::weak_ptr<GameObject> EndState::GetObjectPtr(GameObject* go){
-}
-
-
-void EndState::Update(){
+void EndState::Update()
+{
+  /* Retrieving Input Manager & Game Instances */
   InputManager* inputManager = InputManager::GetInstance();
-  //inputManager->MousePress(SDL_BUTTON_LEFT) == true
-  //inputManager->KeyRelease(SDLK_SPACE) == false
-  if(inputManager->KeyRelease(SDLK_SPACE) == false){
-    Game* instance = Game::GetInstance();
-    instance->Push(new TitleState());
-    //State::PopRequested();
-    State::QuitRequested();
+  Game* game = Game::GetInstance();
+
+  /* If Space Is Pressed, Load Fantome State */
+  if(!inputManager->KeyRelease(SDLK_SPACE))
+  {
+    this->popRequested = true;
+    game->Push(new FantomeState());
+  }
+
+  /* If Esc Is Pressed, End The Game */
+  if(!inputManager->KeyRelease(ESCAPE_KEY))
+    this->quitRequested = true;
+
+  /* Calling All Updates */
+  int i;
+  for(i = 0; i < this->objectArray.size(); i++){
+    this->objectArray[i]->Update(game->GetDeltaTime());
   }
 }
-void EndState::StartArray(){
+
+void EndState::Pause()
+{
 
 }
 
-void EndState::UpdateArray(float dt){
+void EndState::Resume()
+{
 
 }
 
-void EndState::RenderArray(){
+std::weak_ptr<GameObject> EndState::AddObject(GameObject* go)
+{
 
 }
 
-bool EndState::PopRequested(){
-
-}
-
-bool EndState::QuitRequested(){
-
-}
-
-
-void EndState::Pause (){
-
-}
-
-void EndState::Resume (){
+std::weak_ptr<GameObject> EndState::GetObjectPtr(GameObject* go)
+{
 
 }

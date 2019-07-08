@@ -9,11 +9,9 @@
 class FantomeState : public State
 {
 	private:
-		bool quitRequested;
 		Music backgroundMusic;
 		Sprite* bg;
 		bool started;
-		bool popRequested;
 		std::vector<std::shared_ptr<GameObject>> objectArray;
 	public:
     Vec2 PlayerPosition = Vec2(0,0);

@@ -1,8 +1,8 @@
-bin/DeathGhost.o: src/DeathGhost.cpp include/DeathGhost.h \
- include/AllHeaders.h include/Vec2.h include/Rect.h include/Music.h \
- include/Component.h include/GameObject.h include/Sound.h include/Timer.h \
- include/Sprite.h include/State.h include/ParallaxScrolling.h \
- include/Surface.h include/Possession.h include/Grave.h include/Fantome.h \
+bin/Exit.o: src/Exit.cpp include/Exit.h include/AllHeaders.h \
+ include/Vec2.h include/Rect.h include/Music.h include/Component.h \
+ include/GameObject.h include/Sound.h include/Timer.h include/Sprite.h \
+ include/State.h include/ParallaxScrolling.h include/Surface.h \
+ include/Possession.h include/Grave.h include/Fantome.h \
  include/Collision.h include/FantomeState.h include/Camera.h \
  include/CameraFollower.h include/Collider.h include/Game.h \
  include/InputManager.h include/Resources.h include/TileSet.h \
@@ -14,7 +14,7 @@ bin/DeathGhost.o: src/DeathGhost.cpp include/DeathGhost.h \
  include/TileMapCollider.h include/TeleportationOrb.h include/Exit.h \
  include/InitialStone.h
 
-include/DeathGhost.h:
+include/Exit.h:
 
 include/AllHeaders.h:
 

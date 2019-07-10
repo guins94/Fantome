@@ -11,7 +11,8 @@ bin/Camera.o: src/Camera.cpp include/Camera.h include/AllHeaders.h \
  include/BoneFrog.h include/DeathGhost.h include/BonePile.h \
  include/HolyLight.h include/ChainHead.h include/ChainTail.h \
  include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h \
- include/TileMapCollider.h
+ include/TileMapCollider.h include/TeleportationOrb.h include/Exit.h \
+ include/InitialStone.h
 
 include/Camera.h:
 
@@ -98,3 +99,9 @@ include/Blade.h:
 include/CheckPoint.h:
 
 include/TileMapCollider.h:
+
+include/TeleportationOrb.h:
+
+include/Exit.h:
+
+include/InitialStone.h:

@@ -218,4 +218,14 @@ void Fantome::NotifyCollision(GameObject& other){
     fantomeState->isAlive = false;
     this->associated->RequestDelete();
   }
+
+  if(other.GetComponent("TeleportationOrb")){
+    InputManager* inputManager = InputManager::GetInstance();
+    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+      //(Grave*)other.GetComponent("Grave")->playing == true;
+      Camera::Follow(nullptr);
+      fantomeState->fantomeExist = false;
+      this->associated->RequestDelete();
+    }
+  }
 }

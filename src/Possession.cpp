@@ -61,7 +61,7 @@ void Possession::Render(){
 }
 
 bool Possession::Is (std::string type){
-  return (type == "Fantome");
+  return (type == "Possession");
 }
 
 

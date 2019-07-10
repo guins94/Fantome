@@ -136,6 +136,22 @@ FantomeState::FantomeState(){
     grave4->GameObject::AddComponent(grave_collider4);
     this->objectArray.emplace_back(grave4);
 
+    GameObject* grave5 = new GameObject();
+    grave5->box.w = 130;
+    grave5->box.h = 135;
+    grave5->box.x = 5700;
+    grave5->box.y = 700;
+    Grave* grave_component5 = new Grave(grave5);
+    grave5->GameObject::AddComponent(grave_component5);
+    Sprite* gravesprite5 = new Sprite(grave5);
+    gravesprite5->Open("assets/img/tomb_1.png");
+    gravesprite5->SetClip(0,0, gravesprite5->Sprite::GetHeight(),gravesprite5->Sprite::GetWidth());
+    grave5->GameObject::AddComponent(gravesprite5);
+    Vec2 graveScale5 = Vec2(0,-100);
+    Collider* grave_collider5 = new Collider(grave5,graveScale5);
+    grave5->GameObject::AddComponent(grave_collider5);
+    this->objectArray.emplace_back(grave5);
+
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
@@ -149,22 +165,23 @@ FantomeState::FantomeState(){
     Collider* boneFrog_collider = new Collider(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_collider);
     this->objectArray.emplace_back(boneFrog);
-/*
-    GameObject* deathGhost = new GameObject();
-    deathGhost->box.w = 173;
-    deathGhost->box.h = 158;
-    deathGhost->box.x = 1000;
-    deathGhost->box.y = 300;
-    DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);
-    deathGhost->GameObject::AddComponent(deathGhost_component);
-    Collider* deathGhost_collider = new Collider(deathGhost);
-    deathGhost->GameObject::AddComponent(deathGhost_collider);
-    this->objectArray.emplace_back(deathGhost);
-*/
+
+    GameObject* deathGhost1 = new GameObject();
+    deathGhost1->box.w = 173;
+    deathGhost1->box.h = 158;
+    deathGhost1->box.x = 8300;
+    deathGhost1->box.y = 300;
+    DeathGhost* deathGhost_component1 = new DeathGhost(deathGhost1,0);
+    deathGhost1->GameObject::AddComponent(deathGhost_component1);
+    Collider* deathGhost_collider1 = new Collider(deathGhost1);
+    deathGhost1->GameObject::AddComponent(deathGhost_collider1);
+    this->objectArray.emplace_back(deathGhost1);
+
+
     GameObject* deathGhost2 = new GameObject();
     deathGhost2->box.w = 173;
     deathGhost2->box.h = 158;
-    deathGhost2->box.x = 3700;
+    deathGhost2->box.x = 3400;
     deathGhost2->box.y = 1100;
     DeathGhost* deathGhost_component2 = new DeathGhost(deathGhost2,0);
     deathGhost2->GameObject::AddComponent(deathGhost_component2);
@@ -221,6 +238,28 @@ FantomeState::FantomeState(){
     fireGo->AddComponent(fireCollider);
     this->objectArray.emplace_back(fireGo);*/
 
+    GameObject* teleportationOrb1 = new GameObject();
+    teleportationOrb1->box.w = 100;
+    teleportationOrb1->box.h = 100;
+    teleportationOrb1->box.x = 5200;
+    teleportationOrb1->box.y = 1100;
+    TeleportationOrb* teleportationOrb1_component = new TeleportationOrb(teleportationOrb1,1);
+    teleportationOrb1->GameObject::AddComponent(teleportationOrb1_component);
+    Collider* teleportationOrb1_collider = new Collider(teleportationOrb1);
+    teleportationOrb1->GameObject::AddComponent(teleportationOrb1_collider);
+    this->objectArray.emplace_back(teleportationOrb1);
+
+    GameObject* teleportationOrb2 = new GameObject();
+    teleportationOrb2->box.w = 100;
+    teleportationOrb2->box.h = 100;
+    teleportationOrb2->box.x = 7400;
+    teleportationOrb2->box.y = 300;
+    TeleportationOrb* teleportationOrb2_component = new TeleportationOrb(teleportationOrb2,2);
+    teleportationOrb2->GameObject::AddComponent(teleportationOrb2_component);
+    Collider* teleportationOrb2_collider = new Collider(teleportationOrb2);
+    teleportationOrb2->GameObject::AddComponent(teleportationOrb2_collider);
+    this->objectArray.emplace_back(teleportationOrb2);
+
     GameObject* fireplace = new GameObject();
     fireplace->box.w = 50;
     fireplace->box.h = 50;
@@ -247,8 +286,35 @@ FantomeState::FantomeState(){
     fireplace2->GameObject::AddComponent(fireplace_collider2);
     this->objectArray.emplace_back(fireplace2);
 
+    GameObject* fireplace3 = new GameObject();
+    fireplace3->box.w = 50;
+    fireplace3->box.h = 50;
+    fireplace3->box.x = 6100;
+    fireplace3->box.y = 700;
+    CheckPoint* fireplace_component3 = new CheckPoint(fireplace3,2);
+    fireplace3->GameObject::AddComponent(fireplace_component3);
+    Collider* fireplace_collider3 = new Collider(fireplace3);
+    //Vec2 offset_fireplace3 = Vec2(0,-60);
+    //fire_collider3->SetOffset(offset_fireplace3);
+    fireplace3->GameObject::AddComponent(fireplace_collider3);
+    this->objectArray.emplace_back(fireplace3);
+
+    GameObject* initial = new GameObject();
+    initial->box.w = 100;
+    initial->box.h = 100;
+    initial->box.x = 300;
+    initial->box.y = 500;
+    Sprite* initialsprite = new Sprite(initial);
+    initialsprite->Open("assets/img/tomb_1.png");
+    initial->GameObject::AddComponent(initialsprite);
+    InitialStone* initial_component = new InitialStone(initial);
+    initial->GameObject::AddComponent(initial_component);
+    Collider* initial_collider = new Collider(initial);
+    initial->GameObject::AddComponent(initial_collider);
+    this->objectArray.emplace_back(initial);
+
     /* Adding Fantome Object */
-    GameObject* goFantome = new GameObject();
+    /*GameObject* goFantome = new GameObject();
     goFantome->box.x = 300;
     goFantome->box.y = 290;
 
@@ -262,10 +328,11 @@ FantomeState::FantomeState(){
 
     this->objectArray.emplace_back(goFantome);
 
-    this->fantomeExist = true;
+    this->fantomeExist = true;*/
 
     /* Seguindo Fantome */
-    Camera::Follow(goFantome);
+    //Camera::Follow(goFantome);
+    Camera::Follow(initial);
 
     /* Adding Particles */
     GameObject* backgroundScreen4 = new GameObject();

@@ -23,19 +23,20 @@ void DeathGhost::Start(){
 void DeathGhost::Update(float dt){
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
   //std::cout << "PlayerPosition" <<fantomeState->PlayerPosition.x<<"    - "<<fantomeState->PlayerPosition.y << '\n';
-  float distanceFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
-  if(fabs(distanceFantome) <= GameData::followLimit && fantomeState->fantomeExist == true){
+  float distanceFantomex = fantomeState->PlayerPosition.x - this->associated->box.x;
+  float distanceFantomey = fantomeState->PlayerPosition.y - this->associated->box.y;
+  if(fabs(distanceFantomey) <= GameData::followLimit && fabs(distanceFantomex) <= GameData::followLimit && fantomeState->fantomeExist == true){
     //std::cout << "following" << '\n';
-    if(distanceFantome < 0){
+    if(distanceFantomex < 0){
       this->associated->box.x = this->associated->box.x - dt* GameData::DeathGhostSpeed.x;
     }else{
       this->associated->box.x = this->associated->box.x + dt* GameData::DeathGhostSpeed.x;
     }
-    if(distanceFantome <= 100){
+    if(distanceFantomex <= 100){
       this->restTimer->Update(dt);
       GhostAttack();
     }
-    if(distanceFantome >= -100){
+    if(distanceFantomex >= -100){
       this->restTimer->Update(dt);
       GhostAttack();
     }

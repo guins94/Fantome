@@ -1,4 +1,4 @@
-bin/DeathGhost.o: src/DeathGhost.cpp include/DeathGhost.h \
+bin/InitialStone.o: src/InitialStone.cpp include/InitialStone.h \
  include/AllHeaders.h include/Vec2.h include/Rect.h include/Music.h \
  include/Component.h include/GameObject.h include/Sound.h include/Timer.h \
  include/Sprite.h include/State.h include/ParallaxScrolling.h \
@@ -14,7 +14,7 @@ bin/DeathGhost.o: src/DeathGhost.cpp include/DeathGhost.h \
  include/TileMapCollider.h include/TeleportationOrb.h include/Exit.h \
  include/InitialStone.h
 
-include/DeathGhost.h:
+include/InitialStone.h:
 
 include/AllHeaders.h:
 

@@ -6,4 +6,4 @@ Vec2 GameData::boneFrogSpeed = Vec2(150, 300);
 Vec2 GameData::DeathGhostSpeed = Vec2(50, 100);
 
 /* TODO */
-float GameData::followLimit = 300;
+float GameData::followLimit = 500;

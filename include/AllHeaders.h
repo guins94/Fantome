@@ -128,3 +128,9 @@
 #include "CheckPoint.h"
 
 #include  "TileMapCollider.h"
+
+#include "TeleportationOrb.h"
+
+#include "Exit.h"
+
+#include "InitialStone.h"

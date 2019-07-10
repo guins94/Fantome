@@ -6,6 +6,8 @@
 #ifndef FANTOMESTATE_HEADER
 #define FANTOMESTATE_HEADER
 
+enum OrbState {YELLOW=1,  BLUE=0, RED= 2};
+
 class FantomeState : public State
 {
 	private:
@@ -21,6 +23,9 @@ class FantomeState : public State
     bool isAlive = true;
 		int nFire = 0;
     int checkID = 0;
+    int teleportID = 0;
+    OrbState leftOrbState = BLUE;
+    OrbState rightOrbState = BLUE;
   private:
 		void StartArray();
 	  void UpdateArray(float dt);

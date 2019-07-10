@@ -11,7 +11,8 @@ bin/FantomeState.o: src/FantomeState.cpp include/FantomeState.h \
  include/BoneFrog.h include/DeathGhost.h include/BonePile.h \
  include/HolyLight.h include/ChainHead.h include/ChainTail.h \
  include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h \
- include/TileMapCollider.h
+ include/TileMapCollider.h include/TeleportationOrb.h include/Exit.h \
+ include/InitialStone.h
 
 include/FantomeState.h:
 
@@ -98,3 +99,9 @@ include/Blade.h:
 include/CheckPoint.h:
 
 include/TileMapCollider.h:
+
+include/TeleportationOrb.h:
+
+include/Exit.h:
+
+include/InitialStone.h:

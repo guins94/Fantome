@@ -12,7 +12,8 @@ bin/ParallaxScrolling.o: src/ParallaxScrolling.cpp \
  include/BoneFrog.h include/DeathGhost.h include/BonePile.h \
  include/HolyLight.h include/ChainHead.h include/ChainTail.h \
  include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h \
- include/TileMapCollider.h
+ include/TileMapCollider.h include/TeleportationOrb.h include/Exit.h \
+ include/InitialStone.h
 
 include/ParallaxScrolling.h:
 
@@ -99,3 +100,9 @@ include/Blade.h:
 include/CheckPoint.h:
 
 include/TileMapCollider.h:
+
+include/TeleportationOrb.h:
+
+include/Exit.h:
+
+include/InitialStone.h:

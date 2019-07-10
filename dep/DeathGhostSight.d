@@ -1,4 +1,4 @@
-bin/StageState.o: src/StageState.cpp include/StageState.h \
+bin/DeathGhostSight.o: src/DeathGhostSight.cpp include/DeathGhostSight.h \
  include/AllHeaders.h include/Vec2.h include/Rect.h include/Music.h \
  include/Component.h include/GameObject.h include/Sound.h include/Timer.h \
  include/Sprite.h include/State.h include/ParallaxScrolling.h \
@@ -14,7 +14,7 @@ bin/StageState.o: src/StageState.cpp include/StageState.h \
  include/CheckPoint.h include/TileMapCollider.h \
  include/TeleportationOrb.h include/Exit.h include/InitialStone.h
 
-include/StageState.h:
+include/DeathGhostSight.h:
 
 include/AllHeaders.h:
 

@@ -8,11 +8,11 @@ bin/Possession.o: src/Possession.cpp include/Possession.h \
  include/InputManager.h include/Resources.h include/TileSet.h \
  include/TileMap.h include/StageState.h include/TitleState.h \
  include/Text.h include/EndState.h include/Ground.h include/GameData.h \
- include/BoneFrog.h include/DeathGhost.h include/BonePile.h \
- include/HolyLight.h include/ChainHead.h include/ChainTail.h \
- include/Chain.h include/Fire.h include/Blade.h include/CheckPoint.h \
- include/TileMapCollider.h include/TeleportationOrb.h include/Exit.h \
- include/InitialStone.h
+ include/BoneFrog.h include/DeathGhost.h include/DeathGhostSight.h \
+ include/BonePile.h include/HolyLight.h include/ChainHead.h \
+ include/ChainTail.h include/Chain.h include/SoulStone.h include/Blade.h \
+ include/CheckPoint.h include/TileMapCollider.h \
+ include/TeleportationOrb.h include/Exit.h include/InitialStone.h
 
 include/Possession.h:
 
@@ -82,6 +82,8 @@ include/BoneFrog.h:
 
 include/DeathGhost.h:
 
+include/DeathGhostSight.h:
+
 include/BonePile.h:
 
 include/HolyLight.h:
@@ -92,7 +94,7 @@ include/ChainTail.h:
 
 include/Chain.h:
 
-include/Fire.h:
+include/SoulStone.h:
 
 include/Blade.h:
 

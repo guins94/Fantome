@@ -17,6 +17,8 @@ class TitleState: public State
     GameObject* titleGo;
     Music backgroundMusic;
     Sprite* playOrExit;
+    Sprite* fantomeGlow;
+    Sprite* fadeOut;
     Timer optionTimer, exitTimer;
 
     std::vector<std::shared_ptr<GameObject>> objectArray;

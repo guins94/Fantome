@@ -116,8 +116,6 @@ void TitleState::Update()
       PlayExitAnimation();
   }
 
-    std::cout << "Sprite State: " << this->spriteState << '\n';
-
   if(!inputManager->KeyRelease(SDLK_w) || !inputManager->KeyRelease(SDLK_s))
   {
     if(this->optionTimer.Get() >= MENU_OPTION_CHANGE_COOLDOWN)
@@ -137,14 +135,12 @@ void TitleState::Update()
     case SpriteState::PLAY:
       if(this->spriteState != lastSpriteState)
       {
-        std::cout << "PLAY" << '\n';
         this->playOrExit->Open("assets/img/title/playGlow.png");
       }
       break;
     case SpriteState::EXIT:
       if(this->spriteState != lastSpriteState)
       {
-        std::cout << "EXIT" << '\n';
         this->playOrExit->Open("assets/img/title/exitGlow.png");
       }
       break;
@@ -196,10 +192,12 @@ void TitleState::PlayExitAnimation()
 
   /* Playing Fantome Letter Text Animation */
   GameObject* fantomeTextGo = new GameObject();
-  Sprite* fadeOutSprite = new Sprite(this->titleGo, "assets/img/bg/fadeOut.png", 9, 0.1, 0);
-  fantomeTextGo->AddComponent(fadeOutSprite);
-  Sprite* fantomeTextSprite = new Sprite(this->titleGo, "assets/img/title/fantomeGlow.png", 16, 0.1, 0.5);
-  fantomeTextGo->AddComponent(fantomeTextSprite);
+  this->fadeOut = new Sprite(this->titleGo, "assets/img/bg/fadeOut.png", 9, 0.1, 0);
+  this->fadeOut->FreezeFrame(8);
+  fantomeTextGo->AddComponent(this->fadeOut);
+  this->fantomeGlow = new Sprite(this->titleGo, "assets/img/title/fantomeGlow.png", 16, 0.1, 0);
+  //fantomeTextSprite->FreezeFrame(7);
+  fantomeTextGo->AddComponent(this->fantomeGlow);
   CameraFollower* cameraFollower = new CameraFollower(fantomeTextGo);
   fantomeTextGo->AddComponent(cameraFollower);
   this->objectArray.emplace_back(fantomeTextGo);

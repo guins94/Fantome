@@ -6,8 +6,8 @@ DeathGhost::DeathGhost(GameObject* associated, int direction)
   this->associated = associated;
 
   /* Adding DeathGhost Standing Animation Sprite */
-  Sprite* sprite = new Sprite(this->associated, "assets/img/bg character.png", 1, 1, 0);
-  this->associated->AddComponent(sprite);
+  this->deathGhostSprite = new Sprite(this->associated, "assets/img/bg character.png", 1, 1, 0);
+  this->associated->AddComponent(this->deathGhostSprite);
 
   /* Initializing Variables */
   this->spawnGhost = Vec2(associated->box.x, associated->box.y);
@@ -51,14 +51,6 @@ void DeathGhost::Update(float dt)
 
   bool hasDeathGhostMoved = false;
   SpriteState lastSpriteState = this->spriteState;
-
-  /* Retrieving DeathGhost Sprite */
-  Sprite* sprite = (Sprite*) this->associated->GetComponent("Sprite");
-  if(!sprite)
-  {
-    std::cout << "Fantome.cpp: Error retrieving fantome sprite. Exiting." << '\n';
-    exit(-1);
-  }
 
   /* Calculating Distance Between Fantome and DeathGhost */
   float distanceFromFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
@@ -138,14 +130,14 @@ void DeathGhost::Update(float dt)
       if(this->spriteState != lastSpriteState)
       {
         //TODO
-        sprite->DisableFlip();
+        this->deathGhostSprite->DisableFlip();
       }
       break;
     case SpriteState::FOLLOWLEFT:
       if(this->spriteState != lastSpriteState)
       {
         //TODO
-        sprite->EnableFlip();
+        this->deathGhostSprite->EnableFlip();
 
       }
       break;

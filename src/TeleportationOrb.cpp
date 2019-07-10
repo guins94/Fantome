@@ -66,17 +66,17 @@ void TeleportationOrb::Update(float dt){
   //std::cout << "teleport id"<<this->teleportID<<" fantome"<< fantomeState->teleportID<< '\n';
   if(this->teleportID == fantomeState->teleportID && fantomeState->leftOrbState != RED){
     //if(this->restTimer->Get() >=3){
-      GameObject* possession = new GameObject();
-      possession->box.w = 30;
-      possession->box.h = 30;
-      possession->box.x = this->associated->box.x + 200;//respawnPosition.x;
-      possession->box.y = this->associated->box.y;//respawnPosition.y;
-      possession->GameObject::AddComponent(new Possession(possession,2));
-      Collider* possession_collider = new Collider(possession);
-      possession->GameObject::AddComponent(possession_collider);
-      Game::GetInstance()->GetCurrentState()->AddObject(possession);
-      fantomeState->isAlive = true;
-      fantomeState->teleportID = 0;
+    GameObject* possession = new GameObject();
+    possession->box.w = 30;
+    possession->box.h = 30;
+    possession->box.x = this->associated->box.x + 200;//respawnPosition.x;
+    possession->box.y = this->associated->box.y;//respawnPosition.y;
+    possession->GameObject::AddComponent(new Possession(possession,2));
+    Collider* possession_collider = new Collider(possession,Vec2(1,1), Vec2(0,0));
+    possession->GameObject::AddComponent(possession_collider);
+    Game::GetInstance()->GetCurrentState()->AddObject(possession);
+    fantomeState->isAlive = true;
+    fantomeState->teleportID = 0;
       //game->GetCurrentState()->AddObject(minion_go)
     //}
   }
@@ -89,9 +89,9 @@ void TeleportationOrb::Update(float dt){
     possession->box.x = 1300;//respawnPosition.x;
     possession->box.y = 500;//respawnPosition.y;
     possession->GameObject::AddComponent(new Possession(possession,2));
-    Collider* possession_collider = new Collider(possession);
+    Collider* possession_collider = new Collider(possession,Vec2(1,1), Vec2(0,0));
     possession->GameObject::AddComponent(possession_collider);
-    fantomeState->AddObject(possession);
+    //fantomeState->AddObject(possession);
     fantomeState->isAlive = true;
   }
   this->switchPlaces = false;

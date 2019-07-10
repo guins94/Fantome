@@ -34,9 +34,9 @@ void InitialStone::Update(float dt){
       possession->box.x = this->associated->box.x + 200;//respawnPosition.x;
       possession->box.y = this->associated->box.y;//respawnPosition.y;
       possession->GameObject::AddComponent(new Possession(possession,2));
-      Collider* possession_collider = new Collider(possession);
-      possession->GameObject::AddComponent(possession_collider);
-      Game::GetInstance()->GetCurrentState()->AddObject(possession);
+      //Collider* possession_collider = new Collider(possession);
+      //possession->GameObject::AddComponent(possession_collider);
+      //Game::GetInstance()->GetCurrentState()->AddObject(possession);
       fantomeState->isAlive = true;
       fantomeState->teleportID = 0;
       createFantome = false;

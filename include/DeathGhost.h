@@ -15,6 +15,8 @@ class DeathGhost : public Component
     //Sound blade;
     Timer restTimer;
 
+    Sprite* deathGhostSprite;
+
   public:
     enum SpriteState {STANDING, FOLLOWRIGHT, FOLLOWLEFT, ATCKLEFT, ATCKRIGHT} sprtState;
     SpriteState spriteState;

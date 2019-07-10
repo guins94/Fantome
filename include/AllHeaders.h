@@ -40,7 +40,7 @@
   #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 
   /* Menu Defines */
-  #define MENU_EXIT_TIME 3 // Time (in seconds) it Takes to Quit the Menu 
+  #define MENU_EXIT_TIME 2.5 // Time (in seconds) it Takes to Quit the Menu
   #define MENU_OPTION_CHANGE_COOLDOWN 1 // Time (in seconds) Allowed to Change Options in The Menu
 
   /* Fantome Defines */

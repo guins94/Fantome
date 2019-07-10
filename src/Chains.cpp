@@ -30,7 +30,7 @@ void Chains::Start(){
 
 }
 
-void Chains::Update(float dt){
+void Chains::Update(float dt){/*
 
 
   InputManager* inputManager = InputManager::GetInstance();
@@ -53,7 +53,7 @@ void Chains::Update(float dt){
         this->playing = false;
         this->possessionTimer->Restart();
       }
-    }
+    }*/
 }
 
 void Chains::Render(){

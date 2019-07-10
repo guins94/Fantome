@@ -16,6 +16,8 @@ Sprite::Sprite(){
 	this->frameTime = 1;
 	this->isRenderEnabled = true;
 	this->isFlipped = false;
+	this->willFreeze = false;
+	this->hasFreezed = false;
 }
 
 Sprite::Sprite(std::string file){
@@ -27,6 +29,8 @@ Sprite::Sprite(std::string file){
 	this->frameTime = 1;
 	this->isRenderEnabled = true;
 	this->isFlipped = false;
+	this->willFreeze = false;
+	this->hasFreezed = false;
 	Open(file);
 }
 
@@ -43,6 +47,8 @@ Sprite::Sprite(GameObject* associated, int frameCount, float frameTime)
 	this->isRenderEnabled = true;
 	this->isFlipped = false;
 	this->secondsToSelfDestruct = 0;
+	this->willFreeze = false;
+	this->hasFreezed = false;
 }
 
 Sprite::Sprite(GameObject* associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct)
@@ -59,6 +65,8 @@ Sprite::Sprite(GameObject* associated, std::string file, int frameCount, float f
 	this->isFlipped = false;
   this->secondsToSelfDestruct = secondsToSelfDestruct;
   this->selfDestructCount.Restart();
+	this->willFreeze = false;
+	this->hasFreezed = false;
   Open(file);
 }
 
@@ -111,29 +119,29 @@ void Sprite::Start(){
 
 }
 
-void Sprite::Update(float dt){
+void Sprite::Update(float dt)
+{
+	/* Retrieving Input Manager Instance */
 	InputManager* inputManager = InputManager::GetInstance();
-	/*if(inputManager->KeyRelease(SDLK_a) == false){
-    this->associated->box.x = this->associated->box.x + dt;
-  }
-  if(inputManager->KeyRelease(SDLK_d) == false){
-    this->associated->box.x = this->associated->box.x - dt;
-  }
-  if(inputManager->KeyRelease(SDLK_w) == false){
-    this->associated->box.y = this->associated->box.y + dt;
-  }
-  if(inputManager->KeyRelease(SDLK_s) == false){
-    this->associated->box.y = this->associated->box.y - dt;
-  }
-*/
+
 	this->timeElapsed = this->timeElapsed + dt;
 	if(this->timeElapsed >= this->frameTime){
 		this->timeElapsed = 0;
 		this->currentFrame++;
-		if(this->currentFrame >= this->frameCount){
+		if(this->currentFrame >= this->frameCount && !this->willFreeze)
+		{
 			this->currentFrame = 0;
 		}
-		SetClip(this->Sprite::GetHeight()*this->currentFrame, 0, this->Sprite::GetHeight() ,this->Sprite::GetWidth());
+		if(this->currentFrame == this->freezedFrame && this->willFreeze)
+		{
+			this->hasFreezed = true;
+			this->currentFrame = this->freezedFrame;
+		}
+		if(this->hasFreezed)
+		{
+			this->currentFrame = this->freezedFrame;
+		}
+		SetClip(this->Sprite::GetHeight()*this->currentFrame, 0, this->Sprite::GetHeight(), this->Sprite::GetWidth());
 	}
 
 	if(this->secondsToSelfDestruct > 0){
@@ -222,4 +230,10 @@ void Sprite::SetFrameCount(int frameCount){
 
 void Sprite::SetFrameTime(float frameTime){
 	this->frameTime = frameTime;
+}
+
+void Sprite::FreezeFrame(int freeze)
+{
+	this->willFreeze = true;
+	this->freezedFrame = freeze;
 }

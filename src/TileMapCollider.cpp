@@ -96,7 +96,7 @@ void TileMapCollider::RenderLayer(int layer, int cameraX, int CameraY){
 				if(*(index) != (-1)){
 					//std::cout << "camada i: " << i<< "camadaj:"<<j <<std::endl;
 					//this->tileSet->RenderTile(*(index),(j*tileWidth) + cameraX,(i*tileHeight) + CameraY);
-          if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX -140, (i*tileHeight) + CameraY + 130);
+          if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX -140, (i*tileHeight) + CameraY -60);
         }
 			}
 		}
@@ -166,7 +166,7 @@ void TileMapCollider::CreateCollider(unsigned index, float x, float y){
 
     /* Adicionando chão ao vetor de objetos */
     this->createCollision = false;
-    Collider* tileCollider = new Collider(this->goCollider);
+    Collider* tileCollider = new Collider(this->goCollider, Vec2(0,0), Vec2(1,1));
     this->goCollider->AddComponent(tileCollider);
     Ground* tileGround = new Ground(this->goCollider);
     this->goCollider->AddComponent(tileGround);

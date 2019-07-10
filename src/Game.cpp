@@ -108,9 +108,9 @@ void Game::Run()
 
   while(1)
   {
-    /* If There Is a Stored State */ std::cout << "BEFORE STORED STATE" << '\n';
+    /* If There Is a Stored State */
     if(this->storedState)
-    {std::cout << "STORED STATE" << '\n';
+    {
       /* Pausing the Current State */
       if(!this->stateStack.empty()) this->stateStack.top()->Pause();
 
@@ -122,13 +122,12 @@ void Game::Run()
       this->storedState = nullptr;
     }
 
-    /* If The Game Wants to Pop */ std::cout << "BEFORE POP REQUEST" << '\n';
+    /* If The Game Wants to Pop */
     if(GetCurrentState()->GetPopRequested())
-    {std::cout << "POP REQUEST" << '\n';
+    {
       /* Popping Current Stage */
       std::unique_ptr<State> popState(std::move(this->stateStack.top()));
       this->stateStack.pop();
-      std::cout << "AFTER POP" << '\n';
       /* If State Stack is Empty, Load A New Title Stage */
       /* If Not Empty, Resume State Below It */
       if(this->stateStack.empty())
@@ -139,11 +138,10 @@ void Game::Run()
       else
       {
         GetCurrentState()->Resume();
-        std::cout << "AFTER RESUME" << '\n';
       }
     }
 
-    /* If The State Wants to Quit, End Game */ std::cout << "BEFORE QUIT REQUEST " << GetCurrentState()->GetQuitRequested() << " Current State: " << GetCurrentState() << "\n \n \n";
+    /* If The State Wants to Quit, End Game */
     if(GetCurrentState()->GetQuitRequested())
     {
       std::cout << "Quit Requested. Exiting." << '\n';

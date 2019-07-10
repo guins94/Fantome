@@ -9,13 +9,23 @@
 class TitleState: public State
 {
   private:
-    bool started;
+    bool started, willExit;
+
+    enum SpriteState {PLAY, EXIT} sprtState;
+    SpriteState spriteState;
+
+    GameObject* titleGo;
     Music backgroundMusic;
-    std::vector< std::shared_ptr<GameObject>> objectArray;
+    Sprite* playOrExit;
+    Timer optionTimer, exitTimer;
+
+    std::vector<std::shared_ptr<GameObject>> objectArray;
 
   public:
     TitleState();
     ~TitleState();
+
+    void PlayExitAnimation();
 
     void LoadAssets();
 

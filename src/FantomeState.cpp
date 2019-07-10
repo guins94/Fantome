@@ -6,7 +6,7 @@ FantomeState::FantomeState(){
     this->started = false;
 
     /* Playing Stage Music */
-    this->backgroundMusic.Open("assets/fan_audio/FantomeBackGroundMusic.ogg");
+    this->backgroundMusic.Open("assets/audio/FantomeBackGroundMusic.ogg");
     this->backgroundMusic.Play(-1);
 
     /* Adicionando imagens de fundo */
@@ -132,18 +132,23 @@ FantomeState::FantomeState(){
     Collider* boneFrog_collider = new Collider(boneFrog, Vec2(1,1), Vec2(0,0));
     boneFrog->GameObject::AddComponent(boneFrog_collider);
     this->objectArray.emplace_back(boneFrog);
-/*
+
     GameObject* deathGhost = new GameObject();
     deathGhost->box.w = 173;
     deathGhost->box.h = 158;
-    deathGhost->box.x = 1000;
-    deathGhost->box.y = 300;
+    deathGhost->box.x = 800;
+    deathGhost->box.y = 500;
     DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);
-    deathGhost->GameObject::AddComponent(deathGhost_component);
-    Collider* deathGhost_collider = new Collider(deathGhost);
-    deathGhost->GameObject::AddComponent(deathGhost_collider);
+    deathGhost->AddComponent(deathGhost_component);
+    Collider* deathGhost_collider = new Collider(deathGhost, Vec2(1,1), Vec2(0,0));
+    deathGhost->AddComponent(deathGhost_collider);
     this->objectArray.emplace_back(deathGhost);
-*/
+
+    GameObject* deathGhostSightGo = new GameObject;
+    DeathGhostSight* deathGhostSight = new DeathGhostSight(deathGhostSightGo, deathGhost, deathGhost->box.w, deathGhost->box.h);
+    deathGhostSightGo->AddComponent(deathGhostSight);
+    this->objectArray.emplace_back(deathGhostSightGo);
+
     GameObject* deathGhost2 = new GameObject();
     deathGhost2->box.w = 173;
     deathGhost2->box.h = 158;
@@ -169,7 +174,7 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(bonePileGo);
 
     /* Adding ChainHead (Beginning) */
-    GameObject* goChainHead = new GameObject();
+    /*GameObject* goChainHead = new GameObject();
     goChainHead->box.x = 500 - goChainHead->box.w/2;
     goChainHead->box.y = 450 - goChainHead->box.h/2;
     ChainHead* chainHead = new ChainHead(goChainHead, 15, PI/6);
@@ -177,12 +182,12 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(goChainHead);
 
     /* Adding ChainTail (End)*/
-    GameObject* goChainTail = new GameObject();
+    /*GameObject* goChainTail = new GameObject();
     ChainTail* chainTail = new ChainTail(goChainTail, goChainHead, chainHead->GetAngle());
     goChainTail->AddComponent(chainTail);
     goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
     goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
-    this->objectArray.emplace_back(goChainTail);
+    this->objectArray.emplace_back(goChainTail);*/
 
     GameObject* holyLightGo = new GameObject();
     holyLightGo->box.w = 500;
@@ -248,14 +253,14 @@ FantomeState::FantomeState(){
     Camera::Follow(goFantome);
 
     /* Adding Particles & Light Effects */
-    /*GameObject* particlesGo = new GameObject();
+    GameObject* particlesGo = new GameObject();
     CameraFollower* cameraFollower = new CameraFollower(particlesGo);
     particlesGo->AddComponent(cameraFollower);
-    Sprite* particleSprite = new Sprite(particlesGo, "assets/img/bg/particles.png", 10, 0.2, 0);
+    Sprite* particleSprite = new Sprite(particlesGo, "assets/img/bg/particles.png", 16, 0.2, 0);
     particlesGo->AddComponent(particleSprite);
-    Sprite* lightSprite = new Sprite(particlesGo, "assets/img/bg/light.png", 15, 0.6, 0);
+    Sprite* lightSprite = new Sprite(particlesGo, "assets/img/bg/light.png", 27, 0.1, 0);
     particlesGo->AddComponent(lightSprite);
-    this->objectArray.emplace_back(particlesGo);*/
+    this->objectArray.emplace_back(particlesGo);
 }
 
 FantomeState::~FantomeState(){

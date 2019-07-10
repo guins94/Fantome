@@ -39,6 +39,10 @@
   #define SPACE_KEY SDLK_SPACE
   #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 
+  /* Menu Defines */
+  #define MENU_EXIT_TIME 3 // Time (in seconds) it Takes to Quit the Menu 
+  #define MENU_OPTION_CHANGE_COOLDOWN 1 // Time (in seconds) Allowed to Change Options in The Menu
+
   /* Fantome Defines */
   #define CHAIN_TRAVEL_LIMIT 0.5  // Time (in seconds) it takes for Fantome to Travel Between Chains
   #define FANTOME_FLOAT_HEIGHT 10 // Fantome Distance to The Ground
@@ -51,8 +55,13 @@
   #define PLAYING_TIMER_VALUE 1.5 // Time (in seconds) for the Playing Timer
 
   /* SoulStone Defines */
-  #define NEARBY_SOULSTONE_DISTANCE 300 // Maximum Distance (in pixels) That Indicates Fantome is Nearby
+  #define NEARBY_SOULSTONE_DISTANCE 300 // Maximum Distance (in pixels) that Indicates Fantome is Nearby
   #define SOULSTONE_SOUND_LOOP 5 // Time (in seconds) Between SoulStone Sound Effects
+
+  /* DeathGhost Defines */
+  #define DEATH_GHOST_VISION_RANGE 500 // Maximum Distance (in pixels) that DeathGhost Can See
+  #define DEATH_GHOST_PRESENCE 300 // Maximum Distance (in pixels) that DeathGhost Feels Fantome Presence
+  #define DEATH_GHOST_ATTACK_RANGE 100 //Maximum Distance (in pixels) that DeathGhost Starts Charging its Attack
 #endif
 
 #include "Vec2.h"
@@ -118,6 +127,8 @@
 #include "BoneFrog.h"
 
 #include "DeathGhost.h"
+
+#include "DeathGhostSight.h"
 
 #include "BonePile.h"
 

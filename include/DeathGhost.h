@@ -6,28 +6,29 @@
 #ifndef DEATHGHOST_HEADER
 #define DEATHGHOST_HEADER
 
-class DeathGhost : public Component{
+class DeathGhost : public Component
+{
   private:
-    Vec2 spawnGhost = Vec2(0,0);
-    Sound* blade;
-    bool falling;
     int hp;
-    Timer* restTimer;
+
+    Vec2 spawnGhost;
+    //Sound blade;
+    Timer restTimer;
+
   public:
+    enum SpriteState {STANDING, FOLLOWRIGHT, FOLLOWLEFT, ATCKLEFT, ATCKRIGHT} sprtState;
+    SpriteState spriteState;
+
     DeathGhost(GameObject* associated, int direction);
-  public:
     ~DeathGhost();
-  public:
+
+    bool IsFantomeRight();
+
     void Start();
-  public:
     void Update(float dt);
-  public:
     void Render();
-  public:
-    bool Is (std::string type);
-  public:
+    bool Is(std::string type);
     void NotifyCollision(GameObject& other);
-  public:
     void GhostAttack();
 };
 

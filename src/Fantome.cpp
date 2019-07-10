@@ -47,10 +47,11 @@ void Fantome::Start()
 
 void Fantome::Update(float dt)
 {
-  /* Retrieving Fantome State and InputManager */
+  /* Retrieving Fantome State and InputManager Instances */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-  Rect auxBox = this->associated->futureBox;
+  InputManager* inputManager = InputManager::GetInstance();
 
+  Rect auxBox = this->associated->futureBox;
   bool hasFantomeMoved = false;
   SpriteState lastSpriteState = this->spriteState;
 
@@ -87,8 +88,6 @@ void Fantome::Update(float dt)
   }
   this->associated->futureBox = auxBox;
 
-  /* Calculando eixo x da futura posição do Fantome */
-  InputManager* inputManager = InputManager::GetInstance();
   if(!inputManager->KeyRelease(SDLK_a))
   {
     /* If the player is going left, the sprite is flipped */
@@ -113,9 +112,7 @@ void Fantome::Update(float dt)
   }
 
   if(!hasFantomeMoved)
-  {
     this->spriteState = SpriteState::STANDING;
-  }
 
   this->associated->futureBox.x = this->associated->box.x;
   this->associated->futureBox.y = this->associated->box.y + 150;

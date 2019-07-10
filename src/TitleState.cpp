@@ -2,22 +2,36 @@
 
 TitleState::TitleState()
 {
-  GameObject* titleGo = new GameObject();
-  titleGo->box.w = 0;
-  titleGo->box.h = 0;
-  titleGo->box.x = 0;
-  titleGo->box.y = 0;
+  /* Initializing Control Flags */
+  this->willExit = false;
 
-  Sprite* titleSprite = new Sprite(titleGo, "assets/img/penguin/win.jpg", 1, 0, 0);
-  titleGo->AddComponent(titleSprite);
+  this->titleGo = new GameObject();
+  this->titleGo->box.w = 0;
+  this->titleGo->box.h = 0;
+  this->titleGo->box.x = 0;
+  this->titleGo->box.y = 0;
 
-  CameraFollower* cameraFollower = new CameraFollower(titleGo);
-  titleGo->AddComponent(cameraFollower);
+  Sprite* titleSprite = new Sprite(this->titleGo, "assets/img/title/title.jpg", 16, 0.1, 0);
+  this->titleGo->AddComponent(titleSprite);
 
-  this->objectArray.emplace_back(titleGo);
+  this->playOrExit = new Sprite(this->titleGo, "assets/img/title/playGlow.png", 7, 0.125, 0);
+  this->titleGo->AddComponent(this->playOrExit);
+
+  CameraFollower* cameraFollower = new CameraFollower(this->titleGo);
+  this->titleGo->AddComponent(cameraFollower);
+
+  /* Initializing Sprite State */
+  spriteState = SpriteState::PLAY;
+
+  this->objectArray.emplace_back(this->titleGo);
 
   /* Initializing Title Music */
-  //TODO
+  this->backgroundMusic.Open("assets/audio/title/menuSoundTrack.ogg");
+  this->backgroundMusic.Play(-1);
+
+  /* Initializing Timers */
+  this->optionTimer.Restart();
+  this->exitTimer.Restart();
 }
 
 
@@ -55,17 +69,86 @@ void TitleState::Update()
   InputManager* inputManager = InputManager::GetInstance();
   Game* game = Game::GetInstance();
 
-  /* If Space Is Pressed, Load Fantome State */
-  if(!inputManager->KeyRelease(SPACE_KEY))
+  /* Storing Last SpriteState */
+  SpriteState lastSpriteState = this->spriteState;
+
+  /* Updating Option Timer */
+  this->optionTimer.Update(Game::GetInstance()->GetDeltaTime());
+
+  /* Updating Exit Timer if The Player Asked to Quit The Game */
+  if(this->willExit)
+    this->exitTimer.Update(Game::GetInstance()->GetDeltaTime());
+
+  if(this->spriteState == SpriteState::EXIT && this->willExit)
   {
-    this->popRequested = true;
-    game->Push(new FantomeState());
-    std::cout << "Loading Game. Please Wait..." << '\n';
+    if(this->exitTimer.Get() >= MENU_EXIT_TIME)
+    {
+      /* After a Certain Amount of Seconds, The Game Really Quits */
+      if(this->exitTimer.Get() >= MENU_EXIT_TIME)
+        this->quitRequested = true;
+    }
+  }
+  else
+  {
+    if(this->exitTimer.Get() >= MENU_EXIT_TIME)
+    {
+      /* After a Certain Amount of Seconds, The Game Loads Fantome State */
+      this->popRequested = true;
+      game->Push(new FantomeState());
+      std::cout << "Loading Game. Please Wait..." << '\n';
+    }
+  }
+
+  /* If Space Is Pressed, Load Fantome State */
+  if(!inputManager->KeyRelease(SPACE_KEY) && this->spriteState == SpriteState::PLAY)
+  {
+    /* Calling PlayExitAnimation() */
+    if(!this->willExit)
+      PlayExitAnimation();
   }
 
   /* If Esc Is Pressed, End The Game */
-  if(!inputManager->KeyRelease(ESCAPE_KEY) || inputManager->QuitRequested())
-    this->quitRequested = true;
+  if(inputManager->QuitRequested() || (!inputManager->KeyRelease(SPACE_KEY) &&
+  this->spriteState == SpriteState::EXIT))
+  {
+    /* Calling PlayExitAnimation() */
+    if(!this->willExit)
+      PlayExitAnimation();
+  }
+
+    std::cout << "Sprite State: " << this->spriteState << '\n';
+
+  if(!inputManager->KeyRelease(SDLK_w) || !inputManager->KeyRelease(SDLK_s))
+  {
+    if(this->optionTimer.Get() >= MENU_OPTION_CHANGE_COOLDOWN)
+    {
+      if(this->spriteState == SpriteState::PLAY)
+        this->spriteState = SpriteState::EXIT;
+      else
+        this->spriteState = SpriteState::PLAY;
+
+      /* Restarting Option Timer */
+      this->optionTimer.Restart();
+    }
+  }
+
+  switch(this->spriteState)
+  {
+    case SpriteState::PLAY:
+      if(this->spriteState != lastSpriteState)
+      {
+        std::cout << "PLAY" << '\n';
+        this->playOrExit->Open("assets/img/title/playGlow.png");
+      }
+      break;
+    case SpriteState::EXIT:
+      if(this->spriteState != lastSpriteState)
+      {
+        std::cout << "EXIT" << '\n';
+        this->playOrExit->Open("assets/img/title/exitGlow.png");
+      }
+      break;
+   }
 
   /* Calling All Updates */
   int i;
@@ -76,7 +159,7 @@ void TitleState::Update()
 
 void TitleState::Pause()
 {
-
+  this->backgroundMusic.Stop(1500);
 }
 
 void TitleState::Resume()
@@ -84,6 +167,14 @@ void TitleState::Resume()
   std::cout << "Hey, I Resumed!" << '\n';
   this->popRequested = false;
   this->quitRequested = false;
+  this->willExit = false;
+  this->spriteState = SpriteState::PLAY;
+  this->playOrExit->Open("assets/img/title/playGlow.png");
+  this->optionTimer.Restart();
+  this->exitTimer.Restart();
+
+  this->backgroundMusic.Open("assets/audio/title/menuSoundTrack.ogg");
+  this->backgroundMusic.Play(-1);
 
   int i;
   for(i = 0; i < this->objectArray.size(); i++)
@@ -96,6 +187,22 @@ void TitleState::Resume()
       this->objectArray[i]->box.y = 0;
     }
   }
+}
+
+void TitleState::PlayExitAnimation()
+{
+  /* Setting Control Flag */
+  this->willExit = true;
+
+  /* Playing Fantome Letter Text Animation */
+  GameObject* fantomeTextGo = new GameObject();
+  Sprite* fadeOutSprite = new Sprite(this->titleGo, "assets/img/bg/fadeOut.png", 9, 0.1, 0);
+  fantomeTextGo->AddComponent(fadeOutSprite);
+  Sprite* fantomeTextSprite = new Sprite(this->titleGo, "assets/img/title/fantomeGlow.png", 16, 0.1, 0.5);
+  fantomeTextGo->AddComponent(fantomeTextSprite);
+  CameraFollower* cameraFollower = new CameraFollower(fantomeTextGo);
+  fantomeTextGo->AddComponent(cameraFollower);
+  this->objectArray.emplace_back(fantomeTextGo);
 }
 
 std::weak_ptr<GameObject> TitleState::AddObject(GameObject* go)

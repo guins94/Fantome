@@ -10,40 +10,32 @@ class Game
 {
     private:
       static Game* instance;
+
       SDL_Window* window;
       SDL_Renderer* renderer;
       State* storedState;
+      std::stack<std::unique_ptr<State>> stateStack;
+
       int frameStart;
       float dt;
+
+    	Game(const char* title, int width, int height);
       void CalculateDeltaTime();
-    	Game(const char* title, int width,int height);
-      std::stack<std::unique_ptr<State>> stateStack;
-      //std::stack<State*> stateStack;
-    public:
-    	~Game();
 
-    public:
-        /* Static access method. */
-        static Game* GetInstance();
-
-    public:
-        /* Static access method. */
-        State* GetCurrentState();
-
-    public:
-    	void Run();
-
-    public:
-    	SDL_Renderer* GetRenderer();
-
-    public:
-      float GetDeltaTime();
-    public:
-      void Push(State* stored);
     public:
       int width;
       int height;
 
+    	~Game();
+
+      static Game* GetInstance();
+      State* GetCurrentState();
+    	SDL_Renderer* GetRenderer();
+
+      float GetDeltaTime();
+
+      void Run();
+      void Push(State* stored);
 };
 
 #endif

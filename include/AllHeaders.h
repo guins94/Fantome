@@ -28,7 +28,7 @@
   #define PI 3.1415926535897
   #define GRAVITY_ACC 50          // Gravity Acceleration
   #define GRAVITY_MIN_LIMIT 300   // Minimum Gravity
-  #define GRAVITY_MAX_LIMIT 500   // Maximum Gravity
+  #define GRAVITY_MAX_LIMIT 1000  // Maximum Gravity
 
   /* InputManager Defines */
   #define LEFT_ARROW_KEY SDLK_LEFT
@@ -36,15 +36,32 @@
   #define UP_ARROW_KEY SDLK_UP
   #define DOWN_ARROW_KEY SDLK_DOWN
   #define ESCAPE_KEY SDLK_ESCAPE
+  #define SPACE_KEY SDLK_SPACE
   #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
+
+  /* Menu Defines */
+  #define MENU_EXIT_TIME 3 // Time (in seconds) it Takes to Quit the Menu 
+  #define MENU_OPTION_CHANGE_COOLDOWN 1 // Time (in seconds) Allowed to Change Options in The Menu
 
   /* Fantome Defines */
   #define CHAIN_TRAVEL_LIMIT 0.5  // Time (in seconds) it takes for Fantome to Travel Between Chains
   #define FANTOME_FLOAT_HEIGHT 10 // Fantome Distance to The Ground
 
   /* BoneFrog Defines */
-  #define BONEFROG_JUMP_SPEED 1000 // BoneFrog Speed When It Jumps
+  #define BONEFROG_JUMP_SPEED 1050 // BoneFrog Speed When It Jumps
   #define BONEFROG_JUMP_COOLDOWN 3  // BoneFrog Jump CoolDown (in seconds)
+
+  /* Chain Defines */
+  #define PLAYING_TIMER_VALUE 1.5 // Time (in seconds) for the Playing Timer
+
+  /* SoulStone Defines */
+  #define NEARBY_SOULSTONE_DISTANCE 300 // Maximum Distance (in pixels) that Indicates Fantome is Nearby
+  #define SOULSTONE_SOUND_LOOP 5 // Time (in seconds) Between SoulStone Sound Effects
+
+  /* DeathGhost Defines */
+  #define DEATH_GHOST_VISION_RANGE 500 // Maximum Distance (in pixels) that DeathGhost Can See
+  #define DEATH_GHOST_PRESENCE 300 // Maximum Distance (in pixels) that DeathGhost Feels Fantome Presence
+  #define DEATH_GHOST_ATTACK_RANGE 100 //Maximum Distance (in pixels) that DeathGhost Starts Charging its Attack
 #endif
 
 #include "Vec2.h"
@@ -111,6 +128,8 @@
 
 #include "DeathGhost.h"
 
+#include "DeathGhostSight.h"
+
 #include "BonePile.h"
 
 #include "HolyLight.h"
@@ -121,7 +140,7 @@
 
 #include "Chain.h"
 
-#include "Fire.h"
+#include "SoulStone.h"
 
 #include "Blade.h"
 

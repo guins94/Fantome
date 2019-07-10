@@ -10,9 +10,10 @@ class BoneFrog : public Component
 {
   private:
     int hp;
+    float fallingSpeed;
+    
     Timer* restTimer;
     Timer* possessionTimer;
-    float fallingSpeed;
     Sound* frogJump;
     Sound* frogLand;
 

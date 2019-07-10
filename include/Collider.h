@@ -6,25 +6,26 @@
 #ifndef COLLIDER_HEADER
 #define COLLIDER_HEADER
 
-class Collider : public Component{
+class Collider : public Component
+{
   private:
-    Vec2 scale = Vec2(0,0);
-    Vec2 offset = Vec2(0,0);
+    Vec2 scale;
+    Vec2 offset;
+
   public:
     Rect box;
     float angleDeg;
-  public:
-    Collider(GameObject* associated, Vec2 scale = Vec2(1,1), Vec2 offset = Vec2(0,0));
-  public:
-    void Update(float dt);
-  public:
-    void Render();
-  public:
-    bool Is(std::string type);
-  public:
+
+    Collider(GameObject* associated, Vec2 scale, Vec2 offset);
+
     void SetScale(Vec2 scale);
-  public:
     void SetOffset(Vec2 offset);
+
+    void Start();
+    void Update(float dt);
+    void Render();
+    bool Is(std::string type);
+    void NotifyCollision();
 };
 
 #endif

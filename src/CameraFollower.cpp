@@ -1,12 +1,8 @@
 #include "CameraFollower.h"
 
 
-CameraFollower::CameraFollower(GameObject* go){
-  this->associated = go;
-  Sprite* sprite = new Sprite(this->associated);
-  sprite->Open("assets/img/bg_final_1.png");
-  //sprite->Open("assets/img/bg_test.png");
-  this->associated->GameObject::AddComponent(sprite);
+CameraFollower::CameraFollower(GameObject* associated){
+  this->associated = associated;
 }
 
 void CameraFollower::Update(float dt){

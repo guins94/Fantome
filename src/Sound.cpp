@@ -13,14 +13,13 @@ Sound::Sound(GameObject* associated, std::string  file){
 
 Sound::~Sound(){
 	if(this->chunk != nullptr){
-		Mix_HaltChannel(this-> channel);
+		Mix_HaltChannel(this->channel);
 		Mix_FreeChunk(this->chunk);
 	}
 }
 
-void Sound::Play(int times ){
-	times = times;
-	this->channel = Mix_PlayChannel(-1, this->chunk,0);
+void Sound::Play(int times){
+	this->channel = Mix_PlayChannel(times, this->chunk, 0);
 }
 
 void Sound::Stop(){

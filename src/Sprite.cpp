@@ -4,7 +4,7 @@ void Sprite::Open(std::string file){
 	this->texture = Resources::GetImage(file);
 	SDL_QueryTexture(this->texture, nullptr, nullptr,&this->height ,&this->width);
 	this->height = this->height/this->frameCount;
-	SetClip(0, 0, this->Sprite::GetHeight() ,this->Sprite::GetWidth());
+	SetClip(0, 0, this->Sprite::GetHeight(), this->Sprite::GetWidth());
 }
 
 Sprite::Sprite(){
@@ -144,7 +144,7 @@ void Sprite::Update(float dt){
 	}
 }
 
-void Sprite::SetClip(int x, int y,int w,int h){
+void Sprite::SetClip(int x, int y, int w, int h){
 	clipRect.x = x;
 	clipRect.y = y;
 	clipRect.w = w;
@@ -168,12 +168,9 @@ bool Sprite::IsOpen(){
 	}
 }
 
-bool Sprite::Is(std::string type){
-	if(type == "Sprite"){
-		return true;
-	}else{
-		return false;
-	}
+bool Sprite::Is(std::string type)
+{
+	return (type == "Sprite");
 }
 
 void Sprite::EnableRender()

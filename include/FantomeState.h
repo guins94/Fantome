@@ -11,17 +11,15 @@ enum OrbState {YELLOW=1,  BLUE=0, RED= 2};
 class FantomeState : public State
 {
 	private:
-		bool quitRequested;
 		Music backgroundMusic;
 		Sprite* bg;
 		bool started;
-		bool popRequested;
 		std::vector<std::shared_ptr<GameObject>> objectArray;
 	public:
     Vec2 PlayerPosition = Vec2(0,0);
     bool fantomeExist = false;
     bool isAlive = true;
-		int nFire = 0;
+		int nSoulStone = 0;
     int checkID = 0;
     int teleportID = 0;
     OrbState leftOrbState = BLUE;
@@ -58,9 +56,8 @@ class FantomeState : public State
 	public:
 		void Resume ();
   public:
-    bool WillCollideWithGround(Rect& objectBox);
-  public:
-    bool WillCollideWithGrave(Rect& objectBox);
+    bool WillCollideWithGround(Rect& objectBox, float angleRad);
+    bool WillCollideWithGrave(Rect& objectBox, float angleRad);
 };
 
 #endif

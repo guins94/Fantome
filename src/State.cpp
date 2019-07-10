@@ -60,20 +60,23 @@ void State::RenderArray(){
 
 }
 
-bool State::GetPopRequested(){
-  //std::cout << "poprequest de state \n"<< std::endl;
+bool State::GetPopRequested()
+{
   return this->popRequested;
 }
 
-void State::PopRequested(){
+bool State::GetQuitRequested()
+{
+  return this->quitRequested;
+}
+
+void State::PopRequested()
+{
   this->popRequested = true;
 }
 
-bool State::GetQuitRequested(){
-    return this->quitRequested;
-}
-
-void State::QuitRequested(){
+void State::QuitRequested()
+{
   this->quitRequested = true;
 }
 

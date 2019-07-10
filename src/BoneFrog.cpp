@@ -31,22 +31,33 @@ void BoneFrog::Update(float dt)
   this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed;
 
   /* If BoneFrog Won't Collide With the Ground, Update Its Position */
-  if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
-      this->associated->box.y = this->associated->futureBox.y;
+  if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
+  {
+    /* Updating Position */
+    this->associated->box.y = this->associated->futureBox.y;
+
+    /* Updating Gravity Acceleration */
+    if(this->fallingSpeed <= GRAVITY_MAX_LIMIT - GRAVITY_ACC)
+      this->fallingSpeed += GRAVITY_ACC;
+  }
+  else
+  {
+    /* Resetting Gravity to Minimum Speed */
+    this->fallingSpeed = GRAVITY_MIN_LIMIT;
+  }
   this->associated->futureBox = auxBox;
 
-  if(this->fallingSpeed <= GRAVITY_MAX_LIMIT)
-    this->fallingSpeed += GRAVITY_ACC;
-
+  /* Controls for BoneFrog */
   if(this->isPlaying)
   {
+    /* Updating Rest Timer */
     this->restTimer->Update(dt);
 
     /* Calculating BoneFrog's Future X Position */
     if(!inputManager->KeyRelease(SDLK_a))
     {
       this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::boneFrogSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
         this->associated->box.x = this->associated->futureBox.x;
       this->associated->futureBox = auxBox;
     }
@@ -54,21 +65,18 @@ void BoneFrog::Update(float dt)
     if(!inputManager->KeyRelease(SDLK_d))
     {
       this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::boneFrogSpeed.x;
-      if(!fantomeState->WillCollideWithGround(this->associated->futureBox))
+      if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
         this->associated->box.x = this->associated->futureBox.x;
       this->associated->futureBox = auxBox;
     }
 
     this->associated->futureBox = this->associated->box;
 
-    if(!inputManager->KeyRelease(SDLK_w))
+    if(!inputManager->KeyRelease(SDLK_w) && this->restTimer->Get() >= BONEFROG_JUMP_COOLDOWN)
     {
-      if(this->restTimer->Get() >= BONEFROG_JUMP_COOLDOWN)
-      {
-        this->frogJump->Play(1);
-        this->fallingSpeed = -BONEFROG_JUMP_SPEED;
-        this->restTimer->Restart();
-      }
+      this->frogJump->Play(1);
+      this->fallingSpeed = -BONEFROG_JUMP_SPEED;
+      this->restTimer->Restart();
     }
 
     if(this->possessionTimer->Get() >= 1 && (!inputManager->KeyRelease(SDLK_SPACE)) && (!inputManager->KeyRelease(SDLK_w)))
@@ -79,7 +87,7 @@ void BoneFrog::Update(float dt)
       possession->box.x = this->associated->box.x;
       possession->box.y = this->associated->box.y;
       possession->GameObject::AddComponent(new Possession(possession,2));
-      Collider* possession_collider = new Collider(possession);
+      Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
       possession->GameObject::AddComponent(possession_collider);
       Game::GetInstance()->GetCurrentState()->AddObject(possession);
       this->isPlaying = false;

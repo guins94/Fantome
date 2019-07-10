@@ -1,23 +1,37 @@
 #include"Collider.h"
 
-Collider::Collider(GameObject* associated, Vec2 scale, Vec2 offset){
-  this->scale = scale;
-  offset = Vec2(0,0);
+Collider::Collider(GameObject* associated, Vec2 scale, Vec2 offset)
+{
+  /* Creating Link Between Collider Component and GameObject */
   this->associated = associated;
+
+  /* Initializing Collider Variables */
+  this->scale = scale;
+  this->offset = offset;
   this->box = this->associated->box;
   this->angleDeg = this->associated->angleDeg;
 }
 
-void Collider::Update(float dt){
-  //this->box = this->associated->box;
-  this->box.x = this->associated->box.x + offset.x;
-  this->box.y = this->associated->box.y + offset.y;
+void Collider::Start()
+{
+
+}
+
+//TODO: Fix collider scale
+void Collider::Update(float dt)
+{
+  /* The Collider Copies the GameObject's Box and Adds Offset and Scale */
+  this->box.x = this->associated->box.x + this->offset.x;
+  this->box.y = this->associated->box.y + this->offset.y;
   this->box.h = this->associated->box.h + this->scale.y;
   this->box.w = this->associated->box.w + this->scale.x;
+
+  /* Collider Angle is the Same as The GameObject's Angle */
   this->angleDeg = this->associated->angleDeg;
 }
 
-void Collider::Render(){
+void Collider::Render()
+{
   Vec2 center = this->box.GetCenter();
 
   SDL_Point points[5];
@@ -41,20 +55,20 @@ void Collider::Render(){
   SDL_RenderDrawLines(Game::GetInstance()->GetRenderer(), points, 5);
 }
 
-bool Collider::Is(std::string type){
-  if(type == "Collider"){
-		return true;
-	}else{
-		return false;
-	}
+bool Collider::Is(std::string type)
+{
+  return (type == "Collider");
+}
+
+void Collider::NotifyCollision()
+{
+
 }
 
 void Collider::SetScale(Vec2 scale){
-  this->scale.y = scale.y;
-  this->scale.x = scale.x;
+  this->scale = scale;
 }
 
 void Collider::SetOffset(Vec2 offset){
-  this->offset.y = offset.y;
-  this->offset.x = offset.x;
+  this->offset = offset;
 }

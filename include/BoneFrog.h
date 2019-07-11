@@ -10,7 +10,8 @@ class BoneFrog : public Component
 {
   private:
     int hp;
-    float fallingSpeed;
+    bool isGoingRight, isWild;
+    float fallingSpeed, distanceWalked;
 
     enum SpriteState {STANDING, WALKING, JUMPING, FALLING, DEAD} sprtState;
     SpriteState spriteState;
@@ -24,7 +25,9 @@ class BoneFrog : public Component
   public:
     bool isPlaying;
 
-    BoneFrog(GameObject* associated);
+    BoneFrog(GameObject* associated, bool isWild);
+
+    void FlipWildBoneFrog();
 
     void Start();
     void Update(float dt);

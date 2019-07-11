@@ -1,6 +1,6 @@
 #include "BoneFrog.h"
 
-BoneFrog::BoneFrog(GameObject* associated)
+BoneFrog::BoneFrog(GameObject* associated, bool isWild)
 {
   /* Creating Link Between BoneFrog Class & GameObject Class */
   this->associated = associated;
@@ -8,7 +8,10 @@ BoneFrog::BoneFrog(GameObject* associated)
   /* Initializing VAriables & Control Flags */
   this->hp = BONEFROG_HITPOINTS;
   this->isPlaying = false;
+  this->isGoingRight = true;
+  this->isWild = isWild;
   this->fallingSpeed = GRAVITY_MIN_LIMIT;
+  this->distanceWalked = 0;
 
   /* Initializing BoneFrog Sprite State */
   this->spriteState = SpriteState::STANDING;
@@ -17,8 +20,17 @@ BoneFrog::BoneFrog(GameObject* associated)
   this->restTimer.Restart();
   this->possessionTimer.Restart();
 
-  /* Initializing BoneFrog Dying Sprite & Collider */
-  this->boneFrogSprite = new Sprite(this->associated, "assets/img/bonefrog/possessed/dyingBoneFrog.png", 12, 0.1, 0);
+  /* Initializing BoneFrog Sprite (according to isWild) & Collider */
+  if(this->isWild)
+  {
+    this->boneFrogSprite = new Sprite(this->associated, "assets/img/bonefrog/wild/walkingWildBoneFrog.png", 12, 0.1, 0);
+    this->spriteState = SpriteState::WALKING;
+  }
+  else
+  {
+    this->boneFrogSprite = new Sprite(this->associated, "assets/img/bonefrog/possessed/dyingBoneFrog.png", 12, 0.1, 0);
+  }
+
   this->boneFrogSprite->SetFrame(11);
   this->associated->AddComponent(this->boneFrogSprite);
   this->associated->box.w = this->boneFrogSprite->GetHeight();
@@ -146,12 +158,78 @@ void BoneFrog::Update(float dt)
     }
   }
 
+  if(!this->isPlaying)
+  {
+    this->distanceWalked += dt * GameData::boneFrogSpeed.x;
+
+    if(this->distanceWalked >= WILD_BONEFROG_MAX_WALK_DISTANCE)
+    {
+      FlipWildBoneFrog();
+    }
+    else
+    {
+      if(this->isGoingRight)
+      {
+        /* Calculating Wild BoneFrog Future X Position */
+        this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::boneFrogSpeed.x;
+
+        if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
+        {
+          this->associated->box.x = this->associated->futureBox.x;
+        }
+        else
+        {
+          FlipWildBoneFrog();
+        }
+
+        /* Resetting Future Box */
+        this->associated->futureBox = auxBox;
+
+        if(!isFalling)
+          this->spriteState = SpriteState::WALKING;
+
+        /* Disable BoneFrog Sprite Flip */
+        this->boneFrogSprite->DisableFlip();
+
+        hasBoneFrogMoved = true;
+      }
+      else
+      {
+        /* Calculating Wild BoneFrog Future X Position */
+        this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::boneFrogSpeed.x;
+
+        if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
+        {
+          this->associated->box.x = this->associated->futureBox.x;
+        }
+        else
+        {
+          FlipWildBoneFrog();
+        }
+
+        /* Resetting Future Box */
+        this->associated->futureBox = auxBox;
+
+        if(!isFalling)
+          this->spriteState = SpriteState::WALKING;
+
+        /* Disable BoneFrog Sprite Flip */
+        this->boneFrogSprite->DisableFlip();
+
+        hasBoneFrogMoved = true;
+      }
+    }
+  }
+
   /* If BoneFrog Has Not Moved, Its Sprite State is STANDING */
   if(!hasBoneFrogMoved)
     this->spriteState = SpriteState::STANDING;
 
   if(!this->isPlaying)
-    this->spriteState = SpriteState::DEAD;
+  {
+    if(!this->isWild)
+      this->spriteState = SpriteState::DEAD;
+  }
 
     std::cout << "BONEFROG SS: " << this->spriteState << '\n';
 
@@ -161,7 +239,11 @@ void BoneFrog::Update(float dt)
     case SpriteState::STANDING:
       if(this->spriteState != lastSpriteState)
       {
-        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/standingBoneFrog.png");
+        if(this->isPlaying)
+          this->boneFrogSprite->Open("assets/img/bonefrog/possessed/standingBoneFrog.png");
+        else
+          this->boneFrogSprite->Open("assets/img/bonefrog/wild/standingWildBoneFrog.png");
+
         this->boneFrogSprite->SetFrameCount(12);
         this->boneFrogSprite->SetFrameTime(0.1);
         this->boneFrogSprite->ResetFreeze();
@@ -170,7 +252,11 @@ void BoneFrog::Update(float dt)
     case SpriteState::WALKING:
       if(this->spriteState != lastSpriteState)
       {
-        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/walkingBoneFrog.png");
+        if(this->isPlaying)
+          this->boneFrogSprite->Open("assets/img/bonefrog/possessed/walkingBoneFrog.png");
+        else
+          this->boneFrogSprite->Open("assets/img/bonefrog/wild/walkingWildBoneFrog.png");
+
         this->boneFrogSprite->SetFrameCount(12);
  		    this->boneFrogSprite->SetFrameTime(0.05);
         this->boneFrogSprite->ResetFreeze();
@@ -179,7 +265,11 @@ void BoneFrog::Update(float dt)
     case SpriteState::JUMPING:
       if(this->spriteState != lastSpriteState)
       {
-        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/jumpingBoneFrog.png");
+        if(this->isPlaying)
+          this->boneFrogSprite->Open("assets/img/bonefrog/possessed/jumpingBoneFrog.png");
+        else
+          this->boneFrogSprite->Open("assets/img/bonefrog/wild/jumpingWildBoneFrog.png");
+
         this->boneFrogSprite->SetFrameCount(12);
         this->boneFrogSprite->SetFrame(6);
    		  this->boneFrogSprite->SetFrameTime(0.05);
@@ -190,7 +280,11 @@ void BoneFrog::Update(float dt)
     case SpriteState::FALLING:
       if(this->spriteState != lastSpriteState)
       {
-        this->boneFrogSprite->Open("assets/img/bonefrog/wild/fallingWildBoneFrog.png");
+        if(this->isPlaying)
+          this->boneFrogSprite->Open("assets/img/bonefrog/wild/fallingWildBoneFrog.png");
+        else
+          this->boneFrogSprite->Open("assets/img/bonefrog/wild/fallingWildBoneFrog.png");
+
         this->boneFrogSprite->SetFrameCount(12);
    		  this->boneFrogSprite->SetFrameTime(0.1);
         this->boneFrogSprite->ResetFreeze();
@@ -198,9 +292,13 @@ void BoneFrog::Update(float dt)
       }
       break;
     case SpriteState::DEAD:
-      if(this->spriteState != lastSpriteState && !this->isPlaying)
+      if((this->spriteState != lastSpriteState && !this->isPlaying))
       {
-        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/dyingBoneFrog.png");
+        if(this->isPlaying)
+          this->boneFrogSprite->Open("assets/img/bonefrog/possessed/dyingBoneFrog.png");
+        else
+          this->boneFrogSprite->Open("assets/img/bonefrog/wild/dyingWildBoneFrog.png");
+
         this->boneFrogSprite->SetFrameCount(12);
    		  this->boneFrogSprite->SetFrameTime(0.1);
         this->boneFrogSprite->ResetFreeze();
@@ -209,6 +307,15 @@ void BoneFrog::Update(float dt)
       break;
   }
 
+}
+
+void BoneFrog::FlipWildBoneFrog()
+{
+  /* Flipping Wild BoneFrog Direction Flag */
+  this->isGoingRight = !this->isGoingRight;
+
+  /* Reset Walked Distance */
+  this->distanceWalked = 0;
 }
 
 void BoneFrog::Render()
@@ -231,6 +338,7 @@ void BoneFrog::NotifyCollision(GameObject& other)
   {
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       this->isPlaying = true;
+      this->isWild = false;
       Camera::Follow(this->associated);
     }
   }

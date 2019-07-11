@@ -152,7 +152,7 @@ FantomeState::FantomeState(){
     boneFrog->box.h = 30;
     boneFrog->box.x = 1000;
     boneFrog->box.y = 350;
-    BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
+    BoneFrog* boneFrog_component = new BoneFrog(boneFrog, false);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     this->objectArray.emplace_back(boneFrog);
 

@@ -11,8 +11,9 @@ ChainTail::ChainTail(GameObject* associated, GameObject* chainHead, float angleR
   this->chainHead = (ChainHead*) chainHead->GetComponent("ChainHead");
 
   /* Adding Chain Head Sprite */
-  Sprite* sprite = new Sprite(associated, 1, 0);
-  sprite->Open("assets/img/penguin/penguinface.png");
+  //Sprite* sprite = new Sprite(associated, 1, 0);
+  //sprite->Open("assets/img/penguin/penguinface.png");
+  Sprite* sprite = new Sprite(this->associated, "assets/img/chain/chainTail.png", 16, 0.1, 0);
   this->associated->box.w = sprite->GetHeight();
   this->associated->box.h = sprite->GetWidth();
   this->associated->AddComponent(sprite);

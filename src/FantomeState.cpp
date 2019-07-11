@@ -151,12 +151,12 @@ FantomeState::FantomeState(){
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
     boneFrog->box.x = 1000;
-    boneFrog->box.y = 600;
+    boneFrog->box.y = 350;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     this->objectArray.emplace_back(boneFrog);
 
-    GameObject* deathGhost = new GameObject();
+    /*GameObject* deathGhost = new GameObject();
     deathGhost->box.x = 800;
     deathGhost->box.y = 500;
     DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);
@@ -168,7 +168,7 @@ FantomeState::FantomeState(){
     GameObject* deathGhostSightGo = new GameObject;
     DeathGhostSight* deathGhostSight = new DeathGhostSight(deathGhostSightGo, deathGhost, deathGhost->box.w, deathGhost->box.h);
     deathGhostSightGo->AddComponent(deathGhostSight);
-    this->objectArray.emplace_back(deathGhostSightGo);
+    this->objectArray.emplace_back(deathGhostSightGo);*/
 
     GameObject* deathGhost2 = new GameObject();
     deathGhost2->box.w = 173;
@@ -195,20 +195,20 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(bonePileGo);
 
     /* Adding ChainHead (Beginning) */
-    /*GameObject* goChainHead = new GameObject();
+    GameObject* goChainHead = new GameObject();
     goChainHead->box.x = 500 - goChainHead->box.w/2;
     goChainHead->box.y = 450 - goChainHead->box.h/2;
-    ChainHead* chainHead = new ChainHead(goChainHead, 15, PI/6);
+    ChainHead* chainHead = new ChainHead(goChainHead, 5, 0);
     goChainHead->AddComponent(chainHead);
     this->objectArray.emplace_back(goChainHead);
 
     /* Adding ChainTail (End)*/
-    /*GameObject* goChainTail = new GameObject();
+    GameObject* goChainTail = new GameObject();
     ChainTail* chainTail = new ChainTail(goChainTail, goChainHead, chainHead->GetAngle());
     goChainTail->AddComponent(chainTail);
     goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
     goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
-    this->objectArray.emplace_back(goChainTail);*/
+    this->objectArray.emplace_back(goChainTail);
 
     GameObject* holyLightGo = new GameObject();
     holyLightGo->box.w = 500;

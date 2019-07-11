@@ -22,6 +22,7 @@ class Fantome : public Component
     ~Fantome();
 
     void KillFantome();
+    void Possess();
 
     void Start();
     void Update(float dt);

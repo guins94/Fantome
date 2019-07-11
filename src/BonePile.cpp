@@ -6,7 +6,7 @@ BonePile::BonePile(GameObject* associated,int walkLimit){
   this->walkLimitRigth = associated->box.x + walkLimit;
   this->walkLimitLeft =  associated->box.x - walkLimit;
   this->direction = 0;
-  Sprite* sprite = new Sprite(this->associated, "assets/img/bonefrog/walkingBoneFrog.png", 12, 0.05, 0);
+  Sprite* sprite = new Sprite(this->associated, "assets/img/bonefrog/wild/walkingWildBoneFrog.png", 12, 0.05, 0);
   this->associated->AddComponent(sprite);
   Timer* timer = new Timer();
   this->restTimer = timer;

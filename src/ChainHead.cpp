@@ -11,8 +11,9 @@ ChainHead::ChainHead(GameObject* associated, int nChains, float angleRad) : Comp
   this->travelCooldown = new Timer();
 
   /* Adding Chain Head Sprite */
-  Sprite* sprite = new Sprite(associated, 1, 0);
-  sprite->Open("assets/img/penguin/penguinface.png");
+  //Sprite* sprite = new Sprite(associated, 1, 0);
+  //sprite->Open("assets/img/penguin/penguinface.png");
+  Sprite* sprite = new Sprite(this->associated, "assets/img/chain/chainHead.png", 16, 0.1, 0);
   this->associated->box.w = sprite->GetHeight();
   this->associated->box.h = sprite->GetWidth();
   this->associated->AddComponent(sprite);
@@ -162,6 +163,13 @@ void ChainHead::Start()
     /* Setando as dimensões da Chain */
     goChain->box.x = this->associated->box.x + this->associated->box.w + goChain->box.w * (i);
     goChain->box.y = this->associated->box.y + this->associated->box.h/2 - goChain->box.h/2;
+
+    //TODO: WHY THE +2 PIXELS COMPENSATION ON X?
+    /*if(i == 0)
+    {
+      goChain->box.x = this->associated->box.x + this->associated->box.w + 2;
+      goChain->box.y = this->associated->box.y + this->associated->box.h/2 - goChain->box.h/2;
+    }*/
 
     /* Rotating Chain Box */
     Vec2 associatedCenter = this->associated->box.GetCenter();

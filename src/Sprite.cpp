@@ -31,6 +31,7 @@ Sprite::Sprite(std::string file){
 	this->isFlipped = false;
 	this->willFreeze = false;
 	this->hasFreezed = false;
+	this->fileName = file;
 	Open(file);
 }
 
@@ -67,6 +68,7 @@ Sprite::Sprite(GameObject* associated, std::string file, int frameCount, float f
   this->selfDestructCount.Restart();
 	this->willFreeze = false;
 	this->hasFreezed = false;
+	this->fileName = file;
   Open(file);
 }
 
@@ -91,6 +93,7 @@ void Sprite::Render(){
 
 	if(SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
+			std::cout << "File Name: " << this->fileName << '\n';
       exit(-1);
   }
 }
@@ -111,6 +114,7 @@ void Sprite::Render(float x, float y){
 
 	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, 0, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
+			std::cout << "File Name: " << this->fileName << '\n';
       exit(-1);
   }
 }
@@ -241,4 +245,11 @@ void Sprite::FreezeFrame(int freeze)
 {
 	this->willFreeze = true;
 	this->freezedFrame = freeze;
+}
+
+void Sprite::ResetFreeze()
+{
+	this->willFreeze = false;
+	this->hasFreezed = false;
+	this->freezedFrame = -1;
 }

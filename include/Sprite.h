@@ -20,6 +20,7 @@ class Sprite : public Component
 		float frameTime;
 		Timer selfDestructCount;
     bool isRenderEnabled, isFlipped, willFreeze, hasFreezed;
+    std::string fileName;
 
 	public:
 		float secondsToSelfDestruct;
@@ -71,6 +72,7 @@ class Sprite : public Component
 		 void SetFrameTime(float frameTime);
 
      void FreezeFrame(int freeze);
+     void ResetFreeze();
 };
 
 #endif

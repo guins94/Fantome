@@ -40,6 +40,17 @@ void Fantome::KillFantome()
   Game::GetInstance()->GetCurrentState()->AddObject(fantomeDeathGo);
 }
 
+/* Plays Fantome Possession Sprite Sheet */
+void Fantome::Possess()
+{
+  GameObject* fantomePossessGo = new GameObject();
+  Sprite* fantomePossession = new Sprite(fantomePossessGo, "assets/img/fantome/possessingFantome2.png", 18, 0.075, 1.3);
+  fantomePossessGo->box.x = this->associated->box.x;
+  fantomePossessGo->box.y = this->associated->box.y;
+  fantomePossessGo->AddComponent(fantomePossession);
+  Game::GetInstance()->GetCurrentState()->AddObject(fantomePossessGo);
+}
+
 void Fantome::Start()
 {
 
@@ -97,26 +108,32 @@ void Fantome::Update(float dt)
 
   if(!inputManager->KeyRelease(SDLK_a))
   {
-    /* If the player is going left, the sprite is flipped */
-    sprite->EnableFlip();
     this->associated->futureBox.x = this->associated->futureBox.x - dt * GameData::fantomeSpeed.x;
     if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
       this->associated->box.x -= dt * GameData::fantomeSpeed.x;
     this->associated->futureBox = auxBox;
+
+    /* If the player is going left, the sprite is flipped */
+    sprite->EnableFlip();
+
     if(!isFalling)
       this->spriteState = SpriteState::LEFT;
+
     hasFantomeMoved = true;
   }
   if(!inputManager->KeyRelease(SDLK_d))
   {
-    /* If the player is going right, the sprite is back to normal */
-    sprite->DisableFlip();
     this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
     if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
       this->associated->box.x += dt * GameData::fantomeSpeed.x;
     this->associated->futureBox = auxBox;
+
+    /* If the player is going right, the sprite is back to normal */
+    sprite->DisableFlip();
+
     if(!isFalling)
       this->spriteState = SpriteState::RIGHT;
+
     hasFantomeMoved = true;
   }
 
@@ -144,7 +161,7 @@ void Fantome::Update(float dt)
       {
         sprite->Open("assets/img/fantome/walkingFantome.png");
         sprite->SetFrameCount(6);
- 		   sprite->SetFrameTime(0.1);
+ 		    sprite->SetFrameTime(0.1);
       }
       break;
     case SpriteState::LEFT:
@@ -153,7 +170,6 @@ void Fantome::Update(float dt)
         sprite->Open("assets/img/fantome/walkingFantome.png");
         sprite->SetFrameCount(6);
    		  sprite->SetFrameTime(0.1);
-        sprite->EnableFlip();
       }
       break;
     case SpriteState::FALLING:
@@ -162,7 +178,6 @@ void Fantome::Update(float dt)
         sprite->Open("assets/img/fantome/fallingFantome.png");
         sprite->SetFrameCount(6);
    		  sprite->SetFrameTime(0.1);
-        sprite->EnableFlip();
       }
       break;
   }
@@ -180,26 +195,28 @@ bool Fantome::Is(std::string type)
 }
 
 void Fantome::NotifyCollision(GameObject& other){
+  /* Retrieving InputManager and Fantome State Instances */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+  InputManager* inputManager = InputManager::GetInstance();
 
   /* Resolving Fantome Collision With Ground */
-	if(other.GetComponent("Collider") && other.GetComponent("Ground")){
+	if(other.GetComponent("Collider") && other.GetComponent("Ground"))
+  {
 
   }
 
-  if(other.GetComponent("Grave")){
-    InputManager* inputManager = InputManager::GetInstance();
-    if(!inputManager->KeyRelease(SDLK_SPACE)){
-      //(Grave*)other.GetComponent("Grave")->playing == true;
+  if(other.GetComponent("Grave"))
+  {
+    if(!inputManager->KeyRelease(SDLK_SPACE))
+    {
+      Possess();
       Camera::Follow(nullptr);
       fantomeState->fantomeExist = false;
       this->associated->RequestDelete();
-
     }
   }
 
   if(other.GetComponent("BoneFrog")){
-    InputManager* inputManager = InputManager::GetInstance();
     if(!inputManager->KeyRelease(SDLK_SPACE)){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);
@@ -209,7 +226,6 @@ void Fantome::NotifyCollision(GameObject& other){
   }
 
   if(ChainHead* chainHead = (ChainHead*) other.GetComponent("ChainHead")){
-    InputManager* inputManager = InputManager::GetInstance();
     if(!inputManager->KeyRelease(SDLK_SPACE))
     {
       if(chainHead->GetPlayingTimer() >= PLAYING_TIMER_VALUE)
@@ -221,7 +237,6 @@ void Fantome::NotifyCollision(GameObject& other){
   }
 
   if(ChainTail* chainTail = (ChainTail*) other.GetComponent("ChainTail")){
-    InputManager* inputManager = InputManager::GetInstance();
     if(!inputManager->KeyRelease(SDLK_SPACE))
     {
       if(chainTail->GetPlayingTimer() >= PLAYING_TIMER_VALUE)
@@ -254,7 +269,6 @@ void Fantome::NotifyCollision(GameObject& other){
   }
 
   if(other.GetComponent("TeleportationOrb")){
-    InputManager* inputManager = InputManager::GetInstance();
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       //(Grave*)other.GetComponent("Grave")->playing == true;
       Camera::Follow(nullptr);

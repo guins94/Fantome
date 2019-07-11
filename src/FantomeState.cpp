@@ -154,16 +154,9 @@ FantomeState::FantomeState(){
     boneFrog->box.y = 600;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog);
     boneFrog->GameObject::AddComponent(boneFrog_component);
-    Sprite* boneFrogsprite = new Sprite(boneFrog);
-    boneFrogsprite->Open("assets/img/penguin/cubngun.png");
-    boneFrog->GameObject::AddComponent(boneFrogsprite);
-    Collider* boneFrog_collider = new Collider(boneFrog, Vec2(1,1), Vec2(0,0));
-    boneFrog->GameObject::AddComponent(boneFrog_collider);
     this->objectArray.emplace_back(boneFrog);
 
     GameObject* deathGhost = new GameObject();
-    deathGhost->box.w = 173;
-    deathGhost->box.h = 158;
     deathGhost->box.x = 800;
     deathGhost->box.y = 500;
     DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);

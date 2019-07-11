@@ -13,7 +13,7 @@ Chain::Chain(GameObject* associated, GameObject* chainHead, int chainCode) : Com
 
   /* Adicionando Sprite */
   Sprite* sprite = new Sprite(associated, 1, 0);
-  sprite->Open("assets/img/penguin/minionbullet1.png");
+  sprite->Open("assets/img/chain/chain.png");
   this->associated->box.w = sprite->GetHeight();
   this->associated->box.h = sprite->GetWidth();
   this->associated->AddComponent(sprite);

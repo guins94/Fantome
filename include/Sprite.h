@@ -50,6 +50,7 @@ class Sprite : public Component
 		int GetHeight();
 	public:
 		bool IsOpen();
+    bool IsFlipped();
 	public:
 		bool Is(std::string type);
     void EnableRender();

@@ -18,8 +18,10 @@ class DeathGhost : public Component
     Sprite* deathGhostSprite;
 
   public:
-    enum SpriteState {STANDING, FOLLOWRIGHT, FOLLOWLEFT, ATCKLEFT, ATCKRIGHT} sprtState;
+    enum SpriteState {STANDING, FOLLOWING, ATTACKING} sprtState;
     SpriteState spriteState;
+
+    bool isFantomeInSight;
 
     DeathGhost(GameObject* associated, int direction);
     ~DeathGhost();

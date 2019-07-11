@@ -5,9 +5,15 @@ DeathGhost::DeathGhost(GameObject* associated, int direction)
   /* Creating Link Between DeathGhost Class and its GameObject */
   this->associated = associated;
 
+  /* Initializing Control Flags */
+  this->isFantomeInSight = false;
+
   /* Adding DeathGhost Standing Animation Sprite */
   this->deathGhostSprite = new Sprite(this->associated, "assets/img/bg character.png", 1, 1, 0);
+  //this->deathGhostSprite = new Sprite(this->associated, "assets/img/deathghost/standingDeathGhost.png", 10, 0.1, 0);
   this->associated->AddComponent(this->deathGhostSprite);
+  this->associated->box.w = this->deathGhostSprite->GetHeight();
+  this->associated->box.h = this->deathGhostSprite->GetWidth();
 
   /* Initializing Variables */
   this->spawnGhost = Vec2(associated->box.x, associated->box.y);
@@ -16,6 +22,15 @@ DeathGhost::DeathGhost(GameObject* associated, int direction)
 
   /* Initializing DeathGhost Sprite State */
   this->spriteState = SpriteState::STANDING;
+
+  /* Defining Death Ghost Facing Direction */
+  switch(direction)
+  {
+    case 0:
+      break;
+    case 1:
+      break;
+  }
 }
 
 DeathGhost::~DeathGhost()
@@ -55,37 +70,49 @@ void DeathGhost::Update(float dt)
   /* Calculating Distance Between Fantome and DeathGhost */
   float distanceFromFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
 
+  std::cout << "DFF: " << distanceFromFantome << '\n';
+
   if(IsFantomeRight())
   {
-    if(fabs(distanceFromFantome) <= DEATH_GHOST_PRESENCE || this->spriteState == SpriteState::FOLLOWRIGHT)
+    if(fabs(distanceFromFantome) <= DEATH_GHOST_PRESENCE || this->isFantomeInSight)
     {
       /* Moving DeathGhost Right According to its Speed */
       this->associated->box.x = this->associated->box.x + dt * GameData::DeathGhostSpeed.x;
-      this->spriteState = SpriteState::FOLLOWRIGHT;
+
+      /* Updating DeathGhost State to FOLLOWING */
+      this->spriteState = SpriteState::FOLLOWING;
+
+      /* Disable DeathGhost Sprite Flip */
+      this->deathGhostSprite->DisableFlip();
+
       hasDeathGhostMoved = true;
 
       /* If Fantome is Within Attack Range */
       if(fabs(distanceFromFantome) <= DEATH_GHOST_ATTACK_RANGE)
       {
         this->restTimer.Update(dt);
-        this->spriteState = SpriteState::ATCKRIGHT;
       }
     }
   }
   else
   {
-    if(fabs(distanceFromFantome) <= DEATH_GHOST_PRESENCE || this->spriteState == SpriteState::FOLLOWLEFT)
+    if(fabs(distanceFromFantome) <= DEATH_GHOST_PRESENCE || this->isFantomeInSight)
     {
       /* Moving DeathGhost Left According to its Speed */
       this->associated->box.x = this->associated->box.x - dt * GameData::DeathGhostSpeed.x;
-      this->spriteState = SpriteState::FOLLOWLEFT;
+
+      /* Updating DeathGhost State to FOLLOWING */
+      this->spriteState = SpriteState::FOLLOWING;
+
+      /* Enable DeathGhost Sprite Flip */
+      this->deathGhostSprite->EnableFlip();
+
       hasDeathGhostMoved = true;
 
       /* If Fantome is Within Attack Range */
       if(fabs(distanceFromFantome) <= DEATH_GHOST_ATTACK_RANGE)
       {
         this->restTimer.Update(dt);
-        this->spriteState = SpriteState::ATCKLEFT;
       }
     }
   }
@@ -101,12 +128,22 @@ void DeathGhost::Update(float dt)
       if(distanceFromGuardPoint >= 0)
       {
         this->associated->box.x = this->associated->box.x + dt * GameData::DeathGhostSpeed.x;
-        this->spriteState = SpriteState::FOLLOWRIGHT;
+        this->spriteState = SpriteState::FOLLOWING;
+
+        /* Disable DeathGhost Sprite Flip */
+        this->deathGhostSprite->DisableFlip();
+
+        hasDeathGhostMoved = true;
       }
       else
       {
         this->associated->box.x = this->associated->box.x - dt * GameData::DeathGhostSpeed.x;
-        this->spriteState = SpriteState::FOLLOWLEFT;
+        this->spriteState = SpriteState::FOLLOWING;
+
+        /* Enable DeathGhost Sprite Flip */
+        this->deathGhostSprite->EnableFlip();
+
+        hasDeathGhostMoved = true;
       }
     }
     else
@@ -114,7 +151,12 @@ void DeathGhost::Update(float dt)
       /* If Death Ghost is Close Enough, Make its Position the Same as The GuardPoint */
       this->associated->box.x = this->spawnGhost.x;
       this->associated->box.y = this->spawnGhost.y;
+
+      /* Updating DeathGhost State to STANDING */
       this->spriteState = SpriteState::STANDING;
+
+      /* Disable DeathGhost Sprite Flip */
+      this->deathGhostSprite->DisableFlip();
     }
   }
 
@@ -126,31 +168,10 @@ void DeathGhost::Update(float dt)
         //TODO
       }
       break;
-    case SpriteState::FOLLOWRIGHT:
+    case SpriteState::FOLLOWING:
       if(this->spriteState != lastSpriteState)
       {
-        //TODO
-        this->deathGhostSprite->DisableFlip();
-      }
-      break;
-    case SpriteState::FOLLOWLEFT:
-      if(this->spriteState != lastSpriteState)
-      {
-        //TODO
-        this->deathGhostSprite->EnableFlip();
-
-      }
-      break;
-    case SpriteState::ATCKLEFT:
-      if(this->spriteState != lastSpriteState)
-      {
-        //TODO
-      }
-      break;
-    case SpriteState::ATCKRIGHT:
-      if(this->spriteState != lastSpriteState)
-      {
-        //TODO
+        //TODO'
       }
       break;
   }

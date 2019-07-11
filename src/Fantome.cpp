@@ -51,8 +51,11 @@ void Fantome::Update(float dt)
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
   InputManager* inputManager = InputManager::GetInstance();
 
+  /* Initializing Auxiliary Variables */
+  /* Flags That Indicate Fantome Has Moved (or is falling) in this Frame */
   Rect auxBox = this->associated->futureBox;
   bool hasFantomeMoved = false;
+  bool isFalling = false;
   SpriteState lastSpriteState = this->spriteState;
 
   /* Retrieving Fantome Sprite */
@@ -75,16 +78,20 @@ void Fantome::Update(float dt)
     if(this->fallingSpeed <= GRAVITY_MAX_LIMIT - GRAVITY_ACC)
       this->fallingSpeed += GRAVITY_ACC;
 
-    /* Setting Flag Indicating Fantome Has Moved within this Frame */
-    hasFantomeMoved = true;
-  }
-  else
-  {
     /* Setting Fantome Sprite State to Falling */
     this->spriteState = SpriteState::FALLING;
 
+    /* Setting Control Flags */
+    hasFantomeMoved = true;
+    isFalling = true;
+  }
+  else
+  {
     /* Resetting Gravity to Minimum Speed */
     this->fallingSpeed = GRAVITY_MIN_LIMIT;
+
+    /* Fantome is not Falling Anymore */
+    isFalling = false;
   }
   this->associated->futureBox = auxBox;
 
@@ -96,7 +103,8 @@ void Fantome::Update(float dt)
     if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
       this->associated->box.x -= dt * GameData::fantomeSpeed.x;
     this->associated->futureBox = auxBox;
-    this->spriteState = SpriteState::LEFT;
+    if(!isFalling)
+      this->spriteState = SpriteState::LEFT;
     hasFantomeMoved = true;
   }
   if(!inputManager->KeyRelease(SDLK_d))
@@ -107,7 +115,8 @@ void Fantome::Update(float dt)
     if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
       this->associated->box.x += dt * GameData::fantomeSpeed.x;
     this->associated->futureBox = auxBox;
-    this->spriteState = SpriteState::RIGHT;
+    if(!isFalling)
+      this->spriteState = SpriteState::RIGHT;
     hasFantomeMoved = true;
   }
 
@@ -147,15 +156,14 @@ void Fantome::Update(float dt)
         sprite->EnableFlip();
       }
       break;
-      //TODO
     case SpriteState::FALLING:
-      /*if(this->spriteState != lastSpriteState)
+      if(this->spriteState != lastSpriteState)
       {
         sprite->Open("assets/img/fantome/fallingFantome.png");
         sprite->SetFrameCount(6);
    		  sprite->SetFrameTime(0.1);
         sprite->EnableFlip();
-      }*/
+      }
       break;
   }
 }

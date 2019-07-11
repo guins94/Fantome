@@ -11,9 +11,13 @@ class BoneFrog : public Component
   private:
     int hp;
     float fallingSpeed;
-    
-    Timer* restTimer;
-    Timer* possessionTimer;
+
+    enum SpriteState {STANDING, WALKING, JUMPING, FALLING} sprtState;
+    SpriteState spriteState;
+
+    Sprite* boneFrogSprite;
+    Timer restTimer;
+    Timer possessionTimer;
     Sound* frogJump;
     Sound* frogLand;
 

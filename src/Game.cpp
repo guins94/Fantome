@@ -185,7 +185,7 @@ int main (int argc, char** argv)
     argc = argc;
 
     Game* instance = Game::GetInstance();
-    instance->Push(new TitleState());
+    instance->Push(new FantomeState());
     instance->Run();
 
     delete instance;

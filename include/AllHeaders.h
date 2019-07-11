@@ -48,6 +48,7 @@
   #define FANTOME_FLOAT_HEIGHT 10 // Fantome Distance to The Ground
 
   /* BoneFrog Defines */
+  #define BONEFROG_HITPOINTS 1 // BoneFrog Hit Points
   #define BONEFROG_JUMP_SPEED 1050 // BoneFrog Speed When It Jumps
   #define BONEFROG_JUMP_COOLDOWN 3  // BoneFrog Jump CoolDown (in seconds)
 
@@ -60,7 +61,7 @@
 
   /* DeathGhost Defines */
   #define DEATH_GHOST_VISION_RANGE 500 // Maximum Distance (in pixels) that DeathGhost Can See
-  #define DEATH_GHOST_PRESENCE 300 // Maximum Distance (in pixels) that DeathGhost Feels Fantome Presence
+  #define DEATH_GHOST_PRESENCE 250 // Maximum Distance (in pixels) that DeathGhost Feels Fantome Presence
   #define DEATH_GHOST_ATTACK_RANGE 100 //Maximum Distance (in pixels) that DeathGhost Starts Charging its Attack
 #endif
 
@@ -146,7 +147,7 @@
 
 #include "CheckPoint.h"
 
-#include  "TileMapCollider.h"
+#include "TileMapCollider.h"
 
 #include "TeleportationOrb.h"
 

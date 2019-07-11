@@ -2,17 +2,36 @@
 
 BoneFrog::BoneFrog(GameObject* associated)
 {
+  /* Creating Link Between BoneFrog Class & GameObject Class */
   this->associated = associated;
 
+  /* Initializing VAriables & Control Flags */
+  this->hp = BONEFROG_HITPOINTS;
   this->isPlaying = false;
-  Timer* timer = new Timer();
-  this->restTimer = timer;
-  this->possessionTimer = new Timer();
   this->fallingSpeed = GRAVITY_MIN_LIMIT;
+
+  /* Initializing BoneFrog Sprite State */
+  this->spriteState = SpriteState::STANDING;
+
+  /* Initializing Timers */
+  this->restTimer.Restart();
+  this->possessionTimer.Restart();
+
+  /* Initializing BoneFrog Standing Sprite & Collider */
+  //this->boneFrogSprite = new Sprite(this->associated, "assets/img/bonefrog/possessed/standingBoneFrog.png", 12, 0.1, 0);
+  this->boneFrogSprite = new Sprite(this->associated, 1, 0);
+  this->boneFrogSprite->Open("assets/img/penguin/penguinface.png");
+  this->associated->AddComponent(this->boneFrogSprite);
+  this->associated->box.w = this->boneFrogSprite->GetHeight();
+  this->associated->box.h = this->boneFrogSprite->GetWidth();
+
+  Collider* collider = new Collider(this->associated, Vec2(1,1), Vec2(0,0));
+  this->associated->AddComponent(collider);
 
   /* Loading Bone Frog Sounds */
   this->frogJump = new Sound(this->associated, "assets/SFX/frogjump.ogg");
   this->frogLand = new Sound(this->associated, "assets/SFX/frogland.ogg");
+
 }
 
 void BoneFrog::Update(float dt)
@@ -21,8 +40,14 @@ void BoneFrog::Update(float dt)
   InputManager* inputManager = InputManager::GetInstance();
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
+  /* Initializing Auxiliary Variables */
+  /* Flags That Indicate BoneFrog Has Moved (or is falling) in this Frame */
+  bool hasBoneFrogMoved = false;
+  bool isFalling = false;
+  SpriteState lastSpriteState = this->spriteState;
+
   /* Updating Possession Timer */
-  this->possessionTimer->Update(dt);
+  this->possessionTimer.Update(dt);
 
   /* Initializing Auxiliary Variables */
   Rect auxBox = this->associated->futureBox;
@@ -39,11 +64,18 @@ void BoneFrog::Update(float dt)
     /* Updating Gravity Acceleration */
     if(this->fallingSpeed <= GRAVITY_MAX_LIMIT - GRAVITY_ACC)
       this->fallingSpeed += GRAVITY_ACC;
+
+    /* Setting Control Flags */
+    hasBoneFrogMoved = true;
+    isFalling = true;
   }
   else
   {
     /* Resetting Gravity to Minimum Speed */
     this->fallingSpeed = GRAVITY_MIN_LIMIT;
+
+    /* Bone Frog is not Falling Anymore */
+    isFalling = false;
   }
   this->associated->futureBox = auxBox;
 
@@ -51,7 +83,7 @@ void BoneFrog::Update(float dt)
   if(this->isPlaying)
   {
     /* Updating Rest Timer */
-    this->restTimer->Update(dt);
+    this->restTimer.Update(dt);
 
     /* Calculating BoneFrog's Future X Position */
     if(!inputManager->KeyRelease(SDLK_a))
@@ -60,6 +92,14 @@ void BoneFrog::Update(float dt)
       if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
         this->associated->box.x = this->associated->futureBox.x;
       this->associated->futureBox = auxBox;
+
+      if(!isFalling)
+        this->spriteState = SpriteState::WALKING;
+
+      /* Enable BoneFrog Sprite Flip */
+      this->boneFrogSprite->EnableFlip();
+
+      hasBoneFrogMoved = true;
     }
 
     if(!inputManager->KeyRelease(SDLK_d))
@@ -68,18 +108,31 @@ void BoneFrog::Update(float dt)
       if(!fantomeState->WillCollideWithGround(this->associated->futureBox, GameData::DegToRad(this->associated->angleDeg)))
         this->associated->box.x = this->associated->futureBox.x;
       this->associated->futureBox = auxBox;
+
+      if(!isFalling)
+        this->spriteState = SpriteState::WALKING;
+
+      /* Disable BoneFrog Sprite Flip */
+      this->boneFrogSprite->DisableFlip();
+
+      hasBoneFrogMoved = true;
     }
 
     this->associated->futureBox = this->associated->box;
 
-    if(!inputManager->KeyRelease(SDLK_w) && this->restTimer->Get() >= BONEFROG_JUMP_COOLDOWN)
+    if(!inputManager->KeyRelease(SDLK_w) && this->restTimer.Get() >= BONEFROG_JUMP_COOLDOWN)
     {
       this->frogJump->Play(1);
       this->fallingSpeed = -BONEFROG_JUMP_SPEED;
-      this->restTimer->Restart();
+      this->restTimer.Restart();
+
+      this->spriteState = SpriteState::JUMPING;
+
+      hasBoneFrogMoved = true;
     }
 
-    if(this->possessionTimer->Get() >= 1 && (!inputManager->KeyRelease(SDLK_SPACE)) && (!inputManager->KeyRelease(SDLK_w)))
+    if(this->possessionTimer.Get() >= 1 && (!inputManager->KeyRelease(SDLK_SPACE)) &&
+    (!inputManager->KeyRelease(SDLK_w)))
     {
       GameObject* possession = new GameObject();
       possession->box.w = 30;
@@ -91,11 +144,53 @@ void BoneFrog::Update(float dt)
       possession->GameObject::AddComponent(possession_collider);
       Game::GetInstance()->GetCurrentState()->AddObject(possession);
       this->isPlaying = false;
-      this->possessionTimer->Restart();
+      this->possessionTimer.Restart();
       this->associated->RequestDelete();
     }
   }
 
+  /* If BoneFrog Has Not Moved, Its Sprite State is STANDING */
+  if(!hasBoneFrogMoved)
+    this->spriteState = SpriteState::STANDING;
+
+    /* Updating Fantome Sprite */
+    switch(this->spriteState)
+    {
+      case SpriteState::STANDING:
+        if(this->spriteState != lastSpriteState)
+        {
+          /*sprite->Open("assets/img/fantome/standingBoneFrog.png");
+          sprite->SetFrameCount(6);
+          sprite->SetFrameTime(0.1);*/
+        }
+        break;
+      case SpriteState::WALKING:
+        if(this->spriteState != lastSpriteState)
+        {
+          /*sprite->Open("assets/img/fantome/walkingBoneFrog.png");
+          sprite->SetFrameCount(6);
+   		    sprite->SetFrameTime(0.1);*/
+        }
+        break;
+      case SpriteState::JUMPING:
+        if(this->spriteState != lastSpriteState)
+        {
+          /*sprite->Open("assets/img/fantome/jumpingBoneFrog.png");
+          sprite->SetFrameCount(6);
+     		  sprite->SetFrameTime(0.1);
+          sprite->EnableFlip();*/
+        }
+        break;
+      case SpriteState::FALLING:
+        if(this->spriteState != lastSpriteState)
+        {
+          /*sprite->Open("assets/img/fantome/fallingBoneFrog.png");
+          sprite->SetFrameCount(6);
+     		  sprite->SetFrameTime(0.1);
+          sprite->EnableFlip();*/
+        }
+        break;
+    }
 
 }
 
@@ -112,7 +207,7 @@ void BoneFrog::NotifyCollision(GameObject& other)
 {
 
   /* Resolving BoneFrog Collision with Fantome */
-	if(this->possessionTimer->Get() >= 1 && other.GetComponent("Fantome"))
+	if(this->possessionTimer.Get() >= 1 && other.GetComponent("Fantome"))
   {
     InputManager* inputManager = InputManager::GetInstance();
     if(inputManager->KeyRelease(SDLK_SPACE) == false){

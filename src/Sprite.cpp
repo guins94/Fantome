@@ -176,6 +176,11 @@ bool Sprite::IsOpen(){
 	}
 }
 
+bool Sprite::IsFlipped()
+{
+	return this->isFlipped;
+}
+
 bool Sprite::Is(std::string type)
 {
 	return (type == "Sprite");

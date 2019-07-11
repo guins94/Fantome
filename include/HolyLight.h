@@ -22,7 +22,7 @@ class HolyLight : public Component
     void Start();
     void Update(float dt);
     void Render();
-    bool Is (std::string type);
+    bool Is(std::string type);
     void NotifyCollision(GameObject& other);
 };
 

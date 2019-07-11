@@ -1,18 +1,55 @@
 #include "EndState.h"
 
-EndState::EndState(){
+EndState::EndState()
+{
+  /* Retrieving Fantome State Instance */
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+
   GameObject* titleGo = new GameObject();
   titleGo->box.w = 0;
   titleGo->box.h = 0;
   titleGo->box.x = 0;
   titleGo->box.y = 0;
 
-  Sprite* titleSprite = new Sprite(titleGo, "assets/img/penguin/lose.jpg", 1, 0, 0);
-  titleGo->AddComponent(titleSprite);
-  this->objectArray.emplace_back(titleGo);
+  Sprite* titleSprite = nullptr;
 
-  /* Initializing End Music */
-  //TODO
+  /* Initializing Sprite and Back Ground Music according to Number of SoulStones Collected */
+  switch(fantomeState->nSoulStone)
+  {
+    case 0:
+
+      titleSprite = new Sprite(titleGo, "assets/img/title/gameOver.jpg", 16, 0.1, 0);
+      titleGo->AddComponent(titleSprite);
+      this->backgroundMusic.Open("assets/audio/title/endingSoundTrack.ogg");
+      this->backgroundMusic.Play(-1);
+      break;
+    case 1:
+      titleSprite = new Sprite(titleGo, "assets/img/title/bestEnding.jpg", 16, 0.1, 0);
+      titleGo->AddComponent(titleSprite);
+      this->backgroundMusic.Open("assets/audio/title/endingSoundTrack.ogg");
+      this->backgroundMusic.Play(-1);
+      break;
+    case 2:
+      titleSprite = new Sprite(titleGo, "assets/img/title/bestEnding.jpg", 16, 0.1, 0);
+      titleGo->AddComponent(titleSprite);
+      this->backgroundMusic.Open("assets/audio/title/endingSoundTrack.ogg");
+      this->backgroundMusic.Play(-1);
+      break;
+    case 3:
+      titleSprite = new Sprite(titleGo, "assets/img/title/bestEnding.jpg", 16, 0.1, 0);
+      titleGo->AddComponent(titleSprite);
+      this->backgroundMusic.Open("assets/audio/title/endingSoundTrack.ogg");
+      this->backgroundMusic.Play(-1);
+      break;
+  }
+
+  /* Adding Camera Follower */
+  CameraFollower* cameraFollower = new CameraFollower(titleGo);
+  titleGo->AddComponent(cameraFollower);
+
+  /* Adding GameObject to State */
+  this->objectArray.emplace_back(titleGo);
+  std::cout << "OPA" << '\n';
 }
 
 
@@ -52,14 +89,14 @@ void EndState::Update()
   Game* game = Game::GetInstance();
 
   /* If Space Is Pressed, Load Fantome State */
-  if(!inputManager->KeyRelease(SDLK_SPACE))
+  /*if(!inputManager->KeyRelease(SDLK_SPACE))
   {
     this->popRequested = true;
     game->Push(new FantomeState());
-  }
+  }*/
 
-  /* If Esc Is Pressed, End The Game */
-  if(!inputManager->KeyRelease(ESCAPE_KEY))
+  /* If Esc or Window 'X' Is Pressed, End The Game */
+  if(!inputManager->KeyRelease(ESCAPE_KEY) || inputManager->QuitRequested() || !inputManager->KeyRelease(SDLK_SPACE))
     this->quitRequested = true;
 
   /* Calling All Updates */

@@ -39,6 +39,9 @@
   #define SPACE_KEY SDLK_SPACE
   #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 
+  /* Game Defines */
+  #define END_GAME_POSITION 8600 // Position (X Axis) to Reach to load EndState
+
   /* Menu Defines */
   #define MENU_EXIT_TIME 2.5 // Time (in seconds) it Takes to Quit the Menu
   #define MENU_OPTION_CHANGE_COOLDOWN 1 // Time (in seconds) Allowed to Change Options in The Menu

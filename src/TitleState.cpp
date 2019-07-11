@@ -32,6 +32,10 @@ TitleState::TitleState()
   /* Initializing Timers */
   this->optionTimer.Restart();
   this->exitTimer.Restart();
+
+  /* Initializing SFX */
+  this->selectionSFX = new Sound(this->titleGo, "assets/SFX/title/selectionSFX.ogg");
+  this->choiceSFX = new Sound(this->titleGo, "assets/SFX/title/choiceSFX.ogg");
 }
 
 
@@ -105,6 +109,9 @@ void TitleState::Update()
     /* Calling PlayExitAnimation() */
     if(!this->willExit)
       PlayExitAnimation();
+
+    /* Playing Choice Sound */
+    this->choiceSFX->Play(1);
   }
 
   /* If Esc Is Pressed, End The Game */
@@ -114,6 +121,9 @@ void TitleState::Update()
     /* Calling PlayExitAnimation() */
     if(!this->willExit)
       PlayExitAnimation();
+
+    /* Playing Choice Sound */
+    this->choiceSFX->Play(1);
   }
 
   if(!inputManager->KeyRelease(SDLK_w) || !inputManager->KeyRelease(SDLK_s))
@@ -127,6 +137,9 @@ void TitleState::Update()
 
       /* Restarting Option Timer */
       this->optionTimer.Restart();
+
+      /* Playing Selection Sound */
+      this->selectionSFX->Play(1);
     }
   }
 

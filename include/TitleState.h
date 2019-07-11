@@ -15,11 +15,12 @@ class TitleState: public State
     SpriteState spriteState;
 
     GameObject* titleGo;
-    Music backgroundMusic;
     Sprite* playOrExit;
     Sprite* fantomeGlow;
     Sprite* fadeOut;
     Timer optionTimer, exitTimer;
+    Music backgroundMusic;
+    Sound* selectionSFX, *choiceSFX;
 
     std::vector<std::shared_ptr<GameObject>> objectArray;
 

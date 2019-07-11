@@ -417,6 +417,13 @@ void FantomeState::Update()
     this->quitRequested = true;
   }
 
+  std::cout << "CameraX: " << Camera::pos.x << '\n';
+  /* If The Player Reaches the End of The Stage, Load EndState */
+  if(Camera::pos.x >= END_GAME_POSITION)
+  {
+    game->Push(new EndState());
+  }
+
   /* Calling Camera Update */
   Camera::Update(dt);
 

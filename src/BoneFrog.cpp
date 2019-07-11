@@ -17,8 +17,9 @@ BoneFrog::BoneFrog(GameObject* associated)
   this->restTimer.Restart();
   this->possessionTimer.Restart();
 
-  /* Initializing BoneFrog Standing Sprite & Collider */
-  this->boneFrogSprite = new Sprite(this->associated, "assets/img/bonefrog/wild/standingWildBoneFrog.png", 12, 0.1, 0);
+  /* Initializing BoneFrog Dying Sprite & Collider */
+  this->boneFrogSprite = new Sprite(this->associated, "assets/img/bonefrog/possessed/dyingBoneFrog.png", 12, 0.1, 0);
+  this->boneFrogSprite->SetFrame(11);
   this->associated->AddComponent(this->boneFrogSprite);
   this->associated->box.w = this->boneFrogSprite->GetHeight();
   this->associated->box.h = this->boneFrogSprite->GetWidth();
@@ -29,7 +30,6 @@ BoneFrog::BoneFrog(GameObject* associated)
   /* Loading Bone Frog Sounds */
   this->frogJump = new Sound(this->associated, "assets/SFX/frogjump.ogg");
   this->frogLand = new Sound(this->associated, "assets/SFX/frogland.ogg");
-
 }
 
 void BoneFrog::Update(float dt)
@@ -130,69 +130,84 @@ void BoneFrog::Update(float dt)
     }
 
     if(this->possessionTimer.Get() >= 1 && (!inputManager->KeyRelease(SDLK_SPACE)) &&
-    (!inputManager->KeyRelease(SDLK_w)))
+    (!inputManager->KeyRelease(SDLK_w)) && !isFalling)
     {
       GameObject* possession = new GameObject();
       possession->box.w = 30;
       possession->box.h = 30;
       possession->box.x = this->associated->box.x;
       possession->box.y = this->associated->box.y;
-      possession->GameObject::AddComponent(new Possession(possession,2));
+      possession->AddComponent(new Possession(possession,2));
       Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
-      possession->GameObject::AddComponent(possession_collider);
+      possession->AddComponent(possession_collider);
       Game::GetInstance()->GetCurrentState()->AddObject(possession);
       this->isPlaying = false;
       this->possessionTimer.Restart();
-      this->associated->RequestDelete();
     }
   }
 
   /* If BoneFrog Has Not Moved, Its Sprite State is STANDING */
   if(!hasBoneFrogMoved)
     this->spriteState = SpriteState::STANDING;
+
+  if(!this->isPlaying)
+    this->spriteState = SpriteState::DEAD;
+
     std::cout << "BONEFROG SS: " << this->spriteState << '\n';
-    /* Updating Fantome Sprite */
-    switch(this->spriteState)
-    {
-      case SpriteState::STANDING:
-        if(this->spriteState != lastSpriteState)
-        {
-          this->boneFrogSprite->Open("assets/img/bonefrog/wild/standingWildBoneFrog.png");
-          this->boneFrogSprite->SetFrameCount(12);
-          this->boneFrogSprite->SetFrameTime(0.1);
-          this->boneFrogSprite->ResetFreeze();
-        }
-        break;
-      case SpriteState::WALKING:
-        if(this->spriteState != lastSpriteState)
-        {
-          this->boneFrogSprite->Open("assets/img/bonefrog/wild/walkingWildBoneFrog.png");
-          this->boneFrogSprite->SetFrameCount(12);
-   		    this->boneFrogSprite->SetFrameTime(0.05);
-          this->boneFrogSprite->ResetFreeze();
-        }
-        break;
-      case SpriteState::JUMPING:
-        if(this->spriteState != lastSpriteState)
-        {
-          this->boneFrogSprite->Open("assets/img/bonefrog/wild/jumpingWildBoneFrog.png");
-          this->boneFrogSprite->SetFrameCount(12);
-     		  this->boneFrogSprite->SetFrameTime(0.05);
-          this->boneFrogSprite->ResetFreeze();
-          this->boneFrogSprite->FreezeFrame(11);
-        }
-        break;
-      case SpriteState::FALLING:
-        if(this->spriteState != lastSpriteState)
-        {
-          this->boneFrogSprite->Open("assets/img/bonefrog/wild/fallingWildBoneFrog.png");
-          this->boneFrogSprite->SetFrameCount(12);
-     		  this->boneFrogSprite->SetFrameTime(0.1);
-          this->boneFrogSprite->ResetFreeze();
-          this->boneFrogSprite->FreezeFrame(11);
-        }
-        break;
-    }
+
+  /* Updating BoneFrog Sprite */
+  switch(this->spriteState)
+  {
+    case SpriteState::STANDING:
+      if(this->spriteState != lastSpriteState)
+      {
+        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/standingBoneFrog.png");
+        this->boneFrogSprite->SetFrameCount(12);
+        this->boneFrogSprite->SetFrameTime(0.1);
+        this->boneFrogSprite->ResetFreeze();
+      }
+      break;
+    case SpriteState::WALKING:
+      if(this->spriteState != lastSpriteState)
+      {
+        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/walkingBoneFrog.png");
+        this->boneFrogSprite->SetFrameCount(12);
+ 		    this->boneFrogSprite->SetFrameTime(0.05);
+        this->boneFrogSprite->ResetFreeze();
+      }
+      break;
+    case SpriteState::JUMPING:
+      if(this->spriteState != lastSpriteState)
+      {
+        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/jumpingBoneFrog.png");
+        this->boneFrogSprite->SetFrameCount(12);
+        this->boneFrogSprite->SetFrame(6);
+   		  this->boneFrogSprite->SetFrameTime(0.05);
+        this->boneFrogSprite->ResetFreeze();
+        this->boneFrogSprite->FreezeFrame(11);
+      }
+      break;
+    case SpriteState::FALLING:
+      if(this->spriteState != lastSpriteState)
+      {
+        this->boneFrogSprite->Open("assets/img/bonefrog/wild/fallingWildBoneFrog.png");
+        this->boneFrogSprite->SetFrameCount(12);
+   		  this->boneFrogSprite->SetFrameTime(0.1);
+        this->boneFrogSprite->ResetFreeze();
+        this->boneFrogSprite->FreezeFrame(11);
+      }
+      break;
+    case SpriteState::DEAD:
+      if(this->spriteState != lastSpriteState && !this->isPlaying)
+      {
+        this->boneFrogSprite->Open("assets/img/bonefrog/possessed/dyingBoneFrog.png");
+        this->boneFrogSprite->SetFrameCount(12);
+   		  this->boneFrogSprite->SetFrameTime(0.1);
+        this->boneFrogSprite->ResetFreeze();
+        this->boneFrogSprite->FreezeFrame(11);
+      }
+      break;
+  }
 
 }
 

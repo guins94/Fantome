@@ -208,18 +208,7 @@ FantomeState::FantomeState(){
     goChainTail->AddComponent(chainTail);
     goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
     goChainTail->box.y = chainHead->GetLastChainPosition().y - goChainTail->box.h/2;
-    this->objectArray.emplace_back(goChainTail);
-
-    GameObject* holyLightGo = new GameObject();
-    holyLightGo->box.w = 500;
-    holyLightGo->box.h = 2000;
-    holyLightGo->box.x = 4300;
-    holyLightGo->box.y = 700;
-    HolyLight* holyLight = new HolyLight(holyLightGo,100,100,1);
-    holyLightGo->AddComponent(holyLight);
-    Collider* holyLightCollider = new Collider(holyLightGo, Vec2(1,1), Vec2(0,0));
-    holyLightGo->GameObject::AddComponent(holyLightCollider);
-    this->objectArray.emplace_back(holyLightGo);*/
+    this->objectArray.emplace_back(goChainTail);*/
 
     /* Adding SoulStone */ //TODO: fiz MIX HALT CHANNEL SEGFAULT
     /*GameObject* soulStoneGo = new GameObject();
@@ -315,6 +304,33 @@ FantomeState::FantomeState(){
     Sprite* lightSprite = new Sprite(particlesGo, "assets/img/bg/light.png", 27, 0.1, 0);
     particlesGo->AddComponent(lightSprite);
     this->objectArray.emplace_back(particlesGo);
+
+    /* Adding HolyLight */
+    //AddHolyLight(3000, 0); //TODO: Fantome State Not Loading Properly with Light Added
+}
+
+void FantomeState::AddHolyLight(int posX, int posY)
+{
+  GameObject* holyLightGo = new GameObject();
+  holyLightGo->box.x = posX;
+  holyLightGo->box.y = posY;
+  HolyLight* holyLight = new HolyLight(holyLightGo, true);
+  holyLightGo->AddComponent(holyLight);
+  this->objectArray.emplace_back(holyLightGo);
+
+  GameObject* holyLightGo1 = new GameObject();
+  holyLightGo1->box.x = holyLightGo->box.x;
+  holyLightGo1->box.y = holyLightGo->box.y + holyLightGo->box.h;
+  HolyLight* holyLight1 = new HolyLight(holyLightGo1, false);
+  holyLightGo1->AddComponent(holyLight1);
+  this->objectArray.emplace_back(holyLightGo1);
+
+  GameObject* holyLightGo2 = new GameObject();
+  holyLightGo2->box.x = holyLightGo1->box.x;
+  holyLightGo2->box.y = holyLightGo1->box.y + holyLightGo1->box.h;
+  HolyLight* holyLight2 = new HolyLight(holyLightGo2, false);
+  holyLightGo2->AddComponent(holyLight2);
+  this->objectArray.emplace_back(holyLightGo2);
 }
 
 FantomeState::~FantomeState(){

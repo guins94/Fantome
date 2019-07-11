@@ -63,6 +63,10 @@
   #define DEATH_GHOST_VISION_RANGE 500 // Maximum Distance (in pixels) that DeathGhost Can See
   #define DEATH_GHOST_PRESENCE 250 // Maximum Distance (in pixels) that DeathGhost Feels Fantome Presence
   #define DEATH_GHOST_ATTACK_RANGE 100 //Maximum Distance (in pixels) that DeathGhost Starts Charging its Attack
+
+  /* HolyLight Defines */
+  #define HOLYLIGHT_SOUND_COOLDOWN 6 // Time (in seconds) Between Holylight SFX
+  #define HOLYLIGHT_SFX_MIN_DISTANCE 500 // Minimum Distance (in pixels) To Start Playing the HolyLight SFX
 #endif
 
 #include "Vec2.h"

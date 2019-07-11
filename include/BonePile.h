@@ -8,7 +8,8 @@
 
 enum BoneState {MOVELEFT=1, MOVERIGHT =0, STOP = 2};
 
-class BonePile : public Component{
+class BonePile : public Component
+{
   private:
     Vec2 spawnBone = Vec2(0,0);
     int walkLimitRigth;
@@ -18,21 +19,16 @@ class BonePile : public Component{
     int hp;
     Timer* restTimer;
     Sound* frogJump;
+
   public:
     BonePile(GameObject* associated, int walkLimit);
-  public:
     ~BonePile();
-  public:
-    void Start();
-  public:
-    void Update(float dt);
-  public:
-    void Render();
-  public:
-    bool Is (std::string type);
-  public:
-    void NotifyCollision(GameObject& other);
 
+    void Start();
+    void Update(float dt);
+    void Render();
+    bool Is (std::string type);
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

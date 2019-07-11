@@ -12,7 +12,7 @@ class BoneFrog : public Component
     int hp;
     float fallingSpeed;
 
-    enum SpriteState {STANDING, WALKING, JUMPING, FALLING} sprtState;
+    enum SpriteState {STANDING, WALKING, JUMPING, FALLING, DEAD} sprtState;
     SpriteState spriteState;
 
     Sprite* boneFrogSprite;

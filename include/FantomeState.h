@@ -15,6 +15,12 @@ class FantomeState : public State
 		Sprite* bg;
 		bool started;
 		std::vector<std::shared_ptr<GameObject>> objectArray;
+
+    void StartArray();
+    void UpdateArray(float dt);
+    void RenderArray();
+    void Input();
+
 	public:
     Vec2 PlayerPosition = Vec2(0,0);
     bool fantomeExist = false;
@@ -24,40 +30,31 @@ class FantomeState : public State
     int teleportID = 0;
     OrbState leftOrbState = BLUE;
     OrbState rightOrbState = BLUE;
-  private:
-		void StartArray();
-	  void UpdateArray(float dt);
-		void RenderArray();
-    void Input();
+
 	public:
 		FantomeState();
-  public:
     ~FantomeState();
-  public:
+
     bool QuitRequested();
-  public:
+    bool PopRequested();
+
     void LoadAssets();
-  public:
     void Update();
-  public:
     void Render();
-	public:
 		void Start();
-	public:
 		void AddObject(int mouseX,int mouseY);
-	public:
-		std::weak_ptr< GameObject > AddObject(GameObject* go);
-	public:
-		std::weak_ptr< GameObject > GetObjectPtr(GameObject* go);
-	public:
-		bool PopRequested();
-	public:
+
+		std::weak_ptr<GameObject> AddObject(GameObject* go);
+		std::weak_ptr<GameObject> GetObjectPtr(GameObject* go);
+
+
 		void Pause ();
-	public:
 		void Resume ();
-  public:
+
     bool WillCollideWithGround(Rect& objectBox, float angleRad);
     bool WillCollideWithGrave(Rect& objectBox, float angleRad);
+
+    void AddHolyLight(int posX, int posY);
 };
 
 #endif

@@ -6,31 +6,24 @@
 #ifndef HOLYLIGHT_HEADER
 #define HOLYLIGHT_HEADER
 
-class HolyLight : public Component{
+class HolyLight : public Component
+{
   private:
-    Vec2 speed = Vec2(0,0);
-    Vec2 colliderSize = Vec2(0,0);
-    int hitTime;
-    bool falling;
-    int hp;
-    Timer* restTimer;
+    Timer soundCooldownTimer;
     GameObject* player;
     Sound* lightSound;
-  public:
-    HolyLight(GameObject* associated,int weigth,int height,int hitTime);
-  public:
-    ~HolyLight();
-  public:
-    void Start();
-  public:
-    void Update(float dt);
-  public:
-    void Render();
-  public:
-    bool Is (std::string type);
-  public:
-    void NotifyCollision(GameObject& other);
 
+    bool isSFXEnabled;
+
+  public:
+    HolyLight(GameObject* associated, bool isSFXEnabled);
+    ~HolyLight();
+
+    void Start();
+    void Update(float dt);
+    void Render();
+    bool Is (std::string type);
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

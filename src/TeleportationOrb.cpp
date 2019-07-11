@@ -15,6 +15,11 @@ TeleportationOrb::TeleportationOrb(GameObject* associated,int teleportID){
   this->restTimer = timer1;
   this->leftOrbPosition = Vec2(100,100);
   this->rightOrbPosition = Vec2(300,100);
+
+  this->boneFrogSprite = new Sprite(this->associated, "assets/img/portais/portal1_spritesheet.png", 16, 0.1, 0);
+  this->associated->AddComponent(this->boneFrogSprite);
+  this->associated->box.w = this->boneFrogSprite->GetHeight();
+  this->associated->box.h = this->boneFrogSprite->GetWidth();
 }
 
 TeleportationOrb::~TeleportationOrb(){
@@ -34,11 +39,63 @@ void TeleportationOrb::Update(float dt){
 
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
-  if(this->teleportID == 1)
-    std::cout << "orb -> "<< this->teleportID <<" State - >" << fantomeState->leftOrbState<<'\n';
 
-  if(this->teleportID == 2)
-    std::cout << "orb -> "<< this->teleportID <<" State - >" << fantomeState->rightOrbState<<'\n';
+
+
+  //Sprite* blueSprite = new Sprite(particlesGo, "assets/img/portais/portal1_spritesheet.png", 16, 0.2, 0);
+  //this->associated->AddComponent(blueSprite);
+
+  if(this->teleportID == 1){
+    switch(fantomeState->leftOrbState)
+    {
+      case 0:
+          this->boneFrogSprite->Open("assets/img/portais/portal1_spritesheet.png");
+          this->boneFrogSprite->SetFrameCount(16);
+          this->boneFrogSprite->SetFrameTime(0.1);
+          this->boneFrogSprite->ResetFreeze();
+        break;
+      case 1:
+          this->boneFrogSprite->Open("assets/img/portais/portal2_spritesheet.png");
+          this->boneFrogSprite->SetFrameCount(16);
+          this->boneFrogSprite->SetFrameTime(0.1);
+          this->boneFrogSprite->ResetFreeze();
+        break;
+      case 2:
+          this->boneFrogSprite->Open("assets/img/portais/portal3_spritesheet.png");
+          this->boneFrogSprite->SetFrameCount(16);
+          this->boneFrogSprite->SetFrameTime(0.1);
+          this->boneFrogSprite->ResetFreeze();
+          //this->boneFrogSprite->FreezeFrame();
+        break;
+    }
+  }
+    //std::cout << "orb -> "<< this->teleportID <<" State - >" << fantomeState->leftOrbState<<'\n';
+
+  if(this->teleportID == 2){
+    switch(fantomeState->rightOrbState)
+    {
+      case 0:
+          this->boneFrogSprite->Open("assets/img/portais/portal1_spritesheet.png");
+          this->boneFrogSprite->SetFrameCount(16);
+          this->boneFrogSprite->SetFrameTime(0.1);
+          this->boneFrogSprite->ResetFreeze();
+        break;
+      case 1:
+          this->boneFrogSprite->Open("assets/img/portais/portal2_spritesheet.png");
+          this->boneFrogSprite->SetFrameCount(16);
+          this->boneFrogSprite->SetFrameTime(0.1);
+          this->boneFrogSprite->ResetFreeze();
+        break;
+      case 2:
+          this->boneFrogSprite->Open("assets/img/portais/portal3_spritesheet.png");
+          this->boneFrogSprite->SetFrameCount(16);
+          this->boneFrogSprite->SetFrameTime(0.1);
+          this->boneFrogSprite->ResetFreeze();
+          //this->boneFrogSprite->FreezeFrame();
+        break;
+    }
+  }
+    //std::cout << "orb -> "<< this->teleportID <<" State - >" << fantomeState->rightOrbState<<'\n';
 
   if(fantomeState->leftOrbState == YELLOW && this->teleportID == 1){
     if(this->yellowTimer->Get() >= 5){

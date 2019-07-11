@@ -23,8 +23,8 @@ void Collider::Update(float dt)
   /* The Collider Copies the GameObject's Box and Adds Offset and Scale */
   this->box.x = this->associated->box.x + this->offset.x;
   this->box.y = this->associated->box.y + this->offset.y;
-  this->box.h = this->associated->box.h + this->scale.y;
-  this->box.w = this->associated->box.w + this->scale.x;
+  this->box.h = this->associated->box.h* this->scale.y;
+  this->box.w = this->associated->box.w* this->scale.x;
 
   /* Collider Angle is the Same as The GameObject's Angle */
   this->angleDeg = this->associated->angleDeg;

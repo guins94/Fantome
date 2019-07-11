@@ -20,7 +20,7 @@ class FantomeState : public State
     bool fantomeExist = false;
     bool isAlive = true;
 		int nSoulStone = 0;
-    int checkID = 0;
+    int checkPointID = 0;
     int teleportID = 0;
     OrbState leftOrbState = BLUE;
     OrbState rightOrbState = BLUE;

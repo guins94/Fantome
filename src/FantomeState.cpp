@@ -82,7 +82,7 @@ FantomeState::FantomeState(){
     gravesprite->Open("assets/img/tomb_1.png");
     gravesprite->SetClip(0,0, gravesprite->GetHeight(),gravesprite->GetWidth());
     grave->GameObject::AddComponent(gravesprite);
-    Collider* grave_collider = new Collider(grave, Vec2(0,-100), Vec2(1,1));
+    Collider* grave_collider = new Collider(grave, Vec2(1,1),Vec2(0,-100));
     grave->GameObject::AddComponent(grave_collider);
     this->objectArray.emplace_back(grave);
 
@@ -97,7 +97,7 @@ FantomeState::FantomeState(){
     gravesprite2->Open("assets/img/tomb_1.png");
     gravesprite2->SetClip(0,0, gravesprite2->Sprite::GetHeight(),gravesprite2->Sprite::GetWidth());
     grave2->GameObject::AddComponent(gravesprite2);
-    Collider* grave_collider2 = new Collider(grave2, Vec2(0,-100), Vec2(0,0));
+    Collider* grave_collider2 = new Collider(grave2, Vec2(1,1),Vec2(0,-100));
     grave2->GameObject::AddComponent(grave_collider2);
     this->objectArray.emplace_back(grave2);
 
@@ -112,11 +112,11 @@ FantomeState::FantomeState(){
     gravesprite3->Open("assets/img/tomb_1.png");
     gravesprite3->SetClip(0,0, gravesprite3->Sprite::GetHeight(),gravesprite3->Sprite::GetWidth());
     grave2->GameObject::AddComponent(gravesprite3);
-    Collider* grave_collider3 = new Collider(grave3, Vec2(0,-100), Vec2(0,0));
+    Collider* grave_collider3 = new Collider(grave3, Vec2(1,1),Vec2(0,-100));
     grave3->GameObject::AddComponent(grave_collider3);
     this->objectArray.emplace_back(grave3);
 
-    GameObject* grave4 = new GameObject();
+  /*  GameObject* grave4 = new GameObject();
     grave4->box.w = 130;
     grave4->box.h = 135;
     grave4->box.x = 600;
@@ -127,9 +127,9 @@ FantomeState::FantomeState(){
     gravesprite4->Open("assets/img/tomb_1.png");
     gravesprite4->SetClip(0,0, gravesprite4->Sprite::GetHeight(),gravesprite4->Sprite::GetWidth());
     grave4->GameObject::AddComponent(gravesprite4);
-    Collider* grave_collider4 = new Collider(grave4, Vec2(0,-100), Vec2(0,0));
+    Collider* grave_collider4 = new Collider(grave4, Vec2(1,1),Vec2(0,-100));
     grave4->GameObject::AddComponent(grave_collider4);
-    this->objectArray.emplace_back(grave4);
+    this->objectArray.emplace_back(grave4);*/
 
     GameObject* grave5 = new GameObject();
     grave5->box.w = 130;
@@ -143,7 +143,7 @@ FantomeState::FantomeState(){
     gravesprite5->SetClip(0,0, gravesprite5->Sprite::GetHeight(),gravesprite5->Sprite::GetWidth());
     grave5->GameObject::AddComponent(gravesprite5);
     Vec2 graveScale5 = Vec2(0,-100);
-    Collider* grave_collider5 = new Collider(grave5, Vec2(0,0), Vec2(1,1));
+    Collider* grave_collider5 = new Collider(grave5, Vec2(1,1), Vec2(1,1));
     grave5->GameObject::AddComponent(grave_collider5);
     this->objectArray.emplace_back(grave5);
 
@@ -195,7 +195,7 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(bonePileGo);
 
     /* Adding ChainHead (Beginning) */
-    GameObject* goChainHead = new GameObject();
+    /*GameObject* goChainHead = new GameObject();
     goChainHead->box.x = 500 - goChainHead->box.w/2;
     goChainHead->box.y = 450 - goChainHead->box.h/2;
     ChainHead* chainHead = new ChainHead(goChainHead, 5, 0);
@@ -203,7 +203,7 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(goChainHead);
 
     /* Adding ChainTail (End)*/
-    GameObject* goChainTail = new GameObject();
+    /*GameObject* goChainTail = new GameObject();
     ChainTail* chainTail = new ChainTail(goChainTail, goChainHead, chainHead->GetAngle());
     goChainTail->AddComponent(chainTail);
     goChainTail->box.x = chainHead->GetLastChainPosition().x + chainHead->GetChainWidth();
@@ -219,7 +219,7 @@ FantomeState::FantomeState(){
     holyLightGo->AddComponent(holyLight);
     Collider* holyLightCollider = new Collider(holyLightGo, Vec2(1,1), Vec2(0,0));
     holyLightGo->GameObject::AddComponent(holyLightCollider);
-    this->objectArray.emplace_back(holyLightGo);
+    this->objectArray.emplace_back(holyLightGo);*/
 
     /* Adding SoulStone */ //TODO: fiz MIX HALT CHANNEL SEGFAULT
     /*GameObject* soulStoneGo = new GameObject();
@@ -236,7 +236,7 @@ FantomeState::FantomeState(){
     teleportationOrb1->box.y = 1100;
     TeleportationOrb* teleportationOrb1_component = new TeleportationOrb(teleportationOrb1,1);
     teleportationOrb1->GameObject::AddComponent(teleportationOrb1_component);
-    Collider* teleportationOrb1_collider = new Collider(teleportationOrb1, Vec2(0,0), Vec2(1,1));
+    Collider* teleportationOrb1_collider = new Collider(teleportationOrb1, Vec2(1,1), Vec2(1,1));
     teleportationOrb1->GameObject::AddComponent(teleportationOrb1_collider);
     this->objectArray.emplace_back(teleportationOrb1);
 
@@ -247,48 +247,31 @@ FantomeState::FantomeState(){
     teleportationOrb2->box.y = 300;
     TeleportationOrb* teleportationOrb2_component = new TeleportationOrb(teleportationOrb2,2);
     teleportationOrb2->GameObject::AddComponent(teleportationOrb2_component);
-    Collider* teleportationOrb2_collider = new Collider(teleportationOrb2, Vec2(0,0), Vec2(1,1));
+    Collider* teleportationOrb2_collider = new Collider(teleportationOrb2, Vec2(1,1), Vec2(1,1));
     teleportationOrb2->GameObject::AddComponent(teleportationOrb2_collider);
     this->objectArray.emplace_back(teleportationOrb2);
 
-    GameObject* fireplace = new GameObject();
-    fireplace->box.w = 50;
-    fireplace->box.h = 50;
-    fireplace->box.x = 150;
-    fireplace->box.y = 600;
-    CheckPoint* fireplace_component = new CheckPoint(fireplace,0);
-    fireplace->GameObject::AddComponent(fireplace_component);
-    Collider* fireplace_collider = new Collider(fireplace, Vec2(1,1), Vec2(0,0));
-    //Vec2 offset_fireplace = Vec2(0,-60);
-    //fire_collider->SetOffset(offset_fireplace);
-    fireplace->GameObject::AddComponent(fireplace_collider);
-    this->objectArray.emplace_back(fireplace);
+    /* Adding Game CheckPoints */
+    GameObject* checkPointGo = new GameObject();
+    checkPointGo->box.x = 150;
+    checkPointGo->box.y = 500;
+    CheckPoint* checkPoint = new CheckPoint(checkPointGo, 0);
+    checkPointGo->AddComponent(checkPoint);
+    this->objectArray.emplace_back(checkPointGo);
 
-    GameObject* fireplace2 = new GameObject();
-    fireplace2->box.w = 50;
-    fireplace2->box.h = 50;
-    fireplace2->box.x = 3500;
-    fireplace2->box.y = 200;
-    CheckPoint* fireplace_component2 = new CheckPoint(fireplace2,1);
-    fireplace2->GameObject::AddComponent(fireplace_component2);
-    Collider* fireplace_collider2 = new Collider(fireplace2, Vec2(1,1), Vec2(0,0));
-    //Vec2 offset_fireplace = Vec2(0,-60);
-    //fire_collider->SetOffset(offset_fireplace);
-    fireplace2->GameObject::AddComponent(fireplace_collider2);
-    this->objectArray.emplace_back(fireplace2);
+    GameObject* checkPointGo2 = new GameObject();
+    checkPointGo2->box.x = 3500;
+    checkPointGo2->box.y = 70;
+    CheckPoint* checkPoint2 = new CheckPoint(checkPointGo2, 1);
+    checkPointGo2->AddComponent(checkPoint2);
+    this->objectArray.emplace_back(checkPointGo2);
 
-    GameObject* fireplace3 = new GameObject();
-    fireplace3->box.w = 50;
-    fireplace3->box.h = 50;
-    fireplace3->box.x = 6100;
-    fireplace3->box.y = 700;
-    CheckPoint* fireplace_component3 = new CheckPoint(fireplace3,2);
-    fireplace3->GameObject::AddComponent(fireplace_component3);
-    //Collider* fireplace_collider3 = new Collider(fireplace3);
-    //Vec2 offset_fireplace3 = Vec2(0,-60);
-    //fire_collider3->SetOffset(offset_fireplace3);
-    //fireplace3->GameObject::AddComponent(fireplace_collider3);
-    this->objectArray.emplace_back(fireplace3);
+    GameObject* checkPointGo3 = new GameObject();
+    checkPointGo3->box.x = 6400;
+    checkPointGo3->box.y = 500;
+    CheckPoint* checkPoint3 = new CheckPoint(checkPointGo3, 1);
+    checkPointGo3->AddComponent(checkPoint3);
+    this->objectArray.emplace_back(checkPointGo3);
 
     /*GameObject* initial = new GameObject();
     initial->box.w = 100;

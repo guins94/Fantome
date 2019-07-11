@@ -18,6 +18,7 @@ class TeleportationOrb : public Component{
     Vec2 leftOrbPosition;
     Vec2 rightOrbPosition;
     bool switchPlaces = true;
+    Sprite* boneFrogSprite;
   public:
     TeleportationOrb(GameObject* associated, int checkID);
   public:

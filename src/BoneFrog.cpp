@@ -23,7 +23,7 @@ BoneFrog::BoneFrog(GameObject* associated)
   this->associated->box.w = this->boneFrogSprite->GetHeight();
   this->associated->box.h = this->boneFrogSprite->GetWidth();
 
-  Collider* collider = new Collider(this->associated, Vec2(1,1), Vec2(0,0));
+  Collider* collider = new Collider(this->associated, Vec2(1,0.25), Vec2(0,this->associated->box.w));
   this->associated->AddComponent(collider);
 
   /* Loading Bone Frog Sounds */
@@ -207,11 +207,13 @@ bool BoneFrog::Is(std::string type){
 
 void BoneFrog::NotifyCollision(GameObject& other)
 {
+  /* Retrieving InputManager and Fantome State Instances */
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+  InputManager* inputManager = InputManager::GetInstance();
 
   /* Resolving BoneFrog Collision with Fantome */
 	if(this->possessionTimer.Get() >= 1 && other.GetComponent("Fantome"))
   {
-    InputManager* inputManager = InputManager::GetInstance();
     if(inputManager->KeyRelease(SDLK_SPACE) == false){
       this->isPlaying = true;
       Camera::Follow(this->associated);

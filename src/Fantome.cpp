@@ -194,7 +194,8 @@ bool Fantome::Is(std::string type)
   return (type == "Fantome");
 }
 
-void Fantome::NotifyCollision(GameObject& other){
+void Fantome::NotifyCollision(GameObject& other)
+{
   /* Retrieving InputManager and Fantome State Instances */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
   InputManager* inputManager = InputManager::GetInstance();

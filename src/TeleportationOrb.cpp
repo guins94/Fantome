@@ -147,8 +147,8 @@ void TeleportationOrb::Update(float dt)
     GameObject* possession = new GameObject();
     possession->box.w = 30;
     possession->box.h = 30;
-    possession->box.x = 1300;//respawnPosition.x;
-    possession->box.y = 500;//respawnPosition.y;
+    possession->box.x = 6100;//respawnPosition.x;
+    possession->box.y = 20;//respawnPosition.y;
     possession->GameObject::AddComponent(new Possession(possession,2));
     Collider* possession_collider = new Collider(possession,Vec2(1,1), Vec2(0,0));
     possession->GameObject::AddComponent(possession_collider);

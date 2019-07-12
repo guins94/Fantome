@@ -78,7 +78,7 @@ FantomeState::FantomeState(){
     grave->box.y = 100;
     Grave* grave_component = new Grave(grave);
     grave->GameObject::AddComponent(grave_component);
-    Collider* grave_collider = new Collider(grave, Vec2(1,1),Vec2(0,-100));
+    Collider* grave_collider = new Collider(grave, Vec2(1,1),Vec2(0,0));
     grave->GameObject::AddComponent(grave_collider);
     this->objectArray.emplace_back(grave);
 
@@ -89,7 +89,7 @@ FantomeState::FantomeState(){
     grave2->box.y = 380;
     Grave* grave_component2 = new Grave(grave2);
     grave2->GameObject::AddComponent(grave_component2);
-    Collider* grave_collider2 = new Collider(grave2, Vec2(1,1),Vec2(0,-100));
+    Collider* grave_collider2 = new Collider(grave2, Vec2(1,1),Vec2(0,0));
     grave2->GameObject::AddComponent(grave_collider2);
     this->objectArray.emplace_back(grave2);
 
@@ -111,7 +111,7 @@ FantomeState::FantomeState(){
     grave4->box.y = 480;
     Grave* grave_component4 = new Grave(grave4);
     grave4->GameObject::AddComponent(grave_component4);
-    Collider* grave_collider4 = new Collider(grave4, Vec2(1,1),Vec2(0,-100));
+    Collider* grave_collider4 = new Collider(grave4, Vec2(1,1),Vec2(0,0));
     grave4->GameObject::AddComponent(grave_collider4);
     this->objectArray.emplace_back(grave4);
 
@@ -129,7 +129,7 @@ FantomeState::FantomeState(){
     GameObject* grave6 = new GameObject();
     grave6->box.w = 130;
     grave6->box.h = 136;
-    grave6->box.x = 2600;
+    grave6->box.x = 2620;
     grave6->box.y = 380;
     Grave* grave_component6 = new Grave(grave6);
     grave6->GameObject::AddComponent(grave_component6);
@@ -140,7 +140,7 @@ FantomeState::FantomeState(){
     GameObject* grave7 = new GameObject();
     grave7->box.w = 130;
     grave7->box.h = 136;
-    grave7->box.x = 2600;
+    grave7->box.x = 2620;
     grave7->box.y = 180;
     Grave* grave_component7 = new Grave(grave7);
     grave7->GameObject::AddComponent(grave_component7);
@@ -151,15 +151,15 @@ FantomeState::FantomeState(){
     GameObject* boneFrog = new GameObject();
     boneFrog->box.w = 100;
     boneFrog->box.h = 30;
-    boneFrog->box.x = 1000;
-    boneFrog->box.y = 350;
+    boneFrog->box.x = 3500;
+    boneFrog->box.y = 1550;
     BoneFrog* boneFrog_component = new BoneFrog(boneFrog, false);
     boneFrog->GameObject::AddComponent(boneFrog_component);
     this->objectArray.emplace_back(boneFrog);
 
     GameObject* deathGhost = new GameObject();
     deathGhost->box.x = 800;
-    deathGhost->box.y = 500;
+    deathGhost->box.y = 450;
     DeathGhost* deathGhost_component = new DeathGhost(deathGhost,0);
     deathGhost->AddComponent(deathGhost_component);
     Collider* deathGhost_collider = new Collider(deathGhost, Vec2(1,1), Vec2(0,0));
@@ -213,7 +213,7 @@ FantomeState::FantomeState(){
 
     /* Adding SoulStone */ //TODO: fiz MIX HALT CHANNEL SEGFAULT
     GameObject* soulStoneGo = new GameObject();
-    soulStoneGo->box.x = 700;
+    soulStoneGo->box.x = 1000;
     soulStoneGo->box.y = 100;
     SoulStone* soulStoneComponent = new SoulStone(soulStoneGo);
     soulStoneGo->AddComponent(soulStoneComponent);
@@ -222,9 +222,16 @@ FantomeState::FantomeState(){
     GameObject* soulStoneGo2 = new GameObject();
     soulStoneGo2->box.x = 2900;
     soulStoneGo2->box.y = 1100;
-    SoulStone* soulStoneComponent2 = new SoulStone(soulStoneGo2);
-    soulStoneGo->AddComponent(soulStoneComponent2);
+    SoulStone* solaris = new SoulStone(soulStoneGo2);
+    soulStoneGo2->AddComponent(solaris);
     this->objectArray.emplace_back(soulStoneGo2);
+
+    GameObject* soulStoneGo3 = new GameObject();
+    soulStoneGo3->box.x = 6000;
+    soulStoneGo3->box.y = 50;
+    SoulStone* soulStoneComponent3 = new SoulStone(soulStoneGo3);
+    soulStoneGo3->AddComponent(soulStoneComponent3);
+    this->objectArray.emplace_back(soulStoneGo3);
 
     /*GameObject* teleportationOrb0 = new GameObject();
     teleportationOrb0->box.w = 100;

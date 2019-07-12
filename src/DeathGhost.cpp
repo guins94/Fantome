@@ -165,13 +165,19 @@ void DeathGhost::Update(float dt)
     case SpriteState::STANDING:
       if(this->spriteState != lastSpriteState)
       {
-        //TODO
+        this->deathGhostSprite->Open("assets/img/deathghost/standingDeathGhost.png");
+        this->deathGhostSprite->SetFrameCount(10);
+        this->deathGhostSprite->SetFrameTime(0.1);
+        this->deathGhostSprite->ResetFreeze();
       }
       break;
     case SpriteState::FOLLOWING:
       if(this->spriteState != lastSpriteState)
       {
-        //TODO'
+        this->deathGhostSprite->Open("assets/img/deathghost/walkingDeathGhost.png");
+        this->deathGhostSprite->SetFrameCount(12);
+        this->deathGhostSprite->SetFrameTime(0.1);
+        this->deathGhostSprite->ResetFreeze();
       }
       break;
   }
@@ -181,6 +187,15 @@ void DeathGhost::GhostAttack()
 {
   if(this->restTimer.Get() >= 2){
     //this->blade->Play(1);
+
+    /* Play DeathGhost Attack Sprite Sheet */
+    /*GameObject* ghostAttackGo = new GameObject();
+    Sprite* ghostAttack = new Sprite(ghostAttackGo, "assets/img/deathghost/attackingDeathGhost.png", 12, 0.1, 1.5);
+    ghostAttackGo->box.x = this->associated->box.x;
+    ghostAttackGo->box.y = this->associated->box.y;
+    ghostAttackGo->AddComponent(ghostAttack);
+    Game::GetInstance()->GetCurrentState()->AddObject(ghostAttackGo);*/
+
     GameObject* Attack = new GameObject();
 
     Attack->box.x = this->associated->box.x + 200;
@@ -194,10 +209,8 @@ void DeathGhost::GhostAttack()
     Blade* blade_component = new Blade(Attack,100,100,1);
     Attack->GameObject::AddComponent(blade_component);
 
-    Collider* holyLight_collider = new Collider(Attack, Vec2(1,1), Vec2(0,0));
-    //Vec2 offset = Vec2(200,-50);
-    //holyLight_collider->SetOffset(offset);
-    Attack->GameObject::AddComponent(holyLight_collider);
+    Collider* blade_collider = new Collider(Attack, Vec2(1,1), Vec2(0,0));
+    Attack->GameObject::AddComponent(blade_collider);
     Game::GetInstance()->GetCurrentState()->AddObject(Attack);
 
     std::cout << "ATAAAAAAAAAAAAAAQUE" << '\n';
@@ -210,7 +223,7 @@ void DeathGhost::Render()
 
 }
 
-bool DeathGhost::Is (std::string type)
+bool DeathGhost::Is(std::string type)
 {
   return (type == "DeathGhost");
 }

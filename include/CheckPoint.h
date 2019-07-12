@@ -17,7 +17,7 @@ class CheckPoint : public Component
     bool willActivate;
 
     Vec2 speed;
-    Vec2 respawnPosition = Vec2(300,290);
+    Vec2 respawnPosition = Vec2(300, 290);
     Timer restTimer;
     GameObject* player;
     Sound* fireSound;

@@ -9,8 +9,8 @@ DeathGhost::DeathGhost(GameObject* associated, int direction)
   this->isFantomeInSight = false;
 
   /* Adding DeathGhost Standing Animation Sprite */
-  this->deathGhostSprite = new Sprite(this->associated, "assets/img/bg character.png", 1, 1, 0);
-  //this->deathGhostSprite = new Sprite(this->associated, "assets/img/deathghost/standingDeathGhost.png", 10, 0.1, 0);
+  //this->deathGhostSprite = new Sprite(this->associated, "assets/img/bg character.png", 1, 1, 0);
+  this->deathGhostSprite = new Sprite(this->associated, "assets/img/deathghost/standingDeathGhost.png", 10, 0.1, 0);
   this->associated->AddComponent(this->deathGhostSprite);
   this->associated->box.w = this->deathGhostSprite->GetHeight();
   this->associated->box.h = this->deathGhostSprite->GetWidth();

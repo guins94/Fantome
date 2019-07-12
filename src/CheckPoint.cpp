@@ -9,7 +9,7 @@ CheckPoint::CheckPoint(GameObject* associated, int checkPointID)
   this->willActivate = false;
 
   /* Initializing Activation Sound */
-  Sound* sound = new Sound(this->associated,"assets/SFX/fire.ogg");
+  Sound* sound = new Sound(this->associated, "assets/SFX/checkpoint/checkPoint.ogg");
   this->fireSound = sound;
 
   /* Initializing Timer */
@@ -118,6 +118,8 @@ void CheckPoint::NotifyCollision(GameObject& other)
   if(other.GetComponent("Fantome"))
   {
     fantomeState->checkPointID = this->checkPointID;
+    if(!this->willActivate)
+      this->fireSound->Play(1);
     this->willActivate = true;
   }
 }

@@ -32,7 +32,7 @@ void Collider::Update(float dt)
 
 void Collider::Render()
 {
-  Vec2 center = this->box.GetCenter();
+  /*Vec2 center = this->box.GetCenter();
 
   SDL_Point points[5];
 
@@ -52,7 +52,7 @@ void Collider::Render()
   points[3] = {(int)point.x, (int)point.y};
 
   SDL_SetRenderDrawColor(Game::GetInstance()->GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
-  SDL_RenderDrawLines(Game::GetInstance()->GetRenderer(), points, 5);
+  SDL_RenderDrawLines(Game::GetInstance()->GetRenderer(), points, 5);*/
 }
 
 bool Collider::Is(std::string type)

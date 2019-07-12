@@ -152,7 +152,7 @@ void TeleportationOrb::Update(float dt)
     possession->GameObject::AddComponent(new Possession(possession,2));
     Collider* possession_collider = new Collider(possession,Vec2(1,1), Vec2(0,0));
     possession->GameObject::AddComponent(possession_collider);
-    //fantomeState->AddObject(possession);
+    Game::GetInstance()->GetCurrentState()->AddObject(possession);
     fantomeState->isAlive = true;
   }
   this->switchPlaces = false;
@@ -203,6 +203,14 @@ void TeleportationOrb::NotifyCollision(GameObject& other)
   }
 
   if(other.GetComponent("Blade"))
+  {
+    if(fantomeState->rightOrbState == BLUE)
+    {
+      fantomeState->rightOrbState = YELLOW;
+    }
+  }
+
+  if(other.GetComponent("DeathGhost"))
   {
     if(fantomeState->rightOrbState == BLUE)
     {

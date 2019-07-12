@@ -168,7 +168,7 @@ void TitleState::Update()
 
 void TitleState::Pause()
 {
-  this->backgroundMusic.Stop(1500);
+  //this->backgroundMusic.Stop(1500);
 }
 
 void TitleState::Resume()

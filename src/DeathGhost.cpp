@@ -91,6 +91,8 @@ void DeathGhost::Update(float dt)
       if(fabs(distanceFromFantome) <= DEATH_GHOST_ATTACK_RANGE)
       {
         this->restTimer.Update(dt);
+        if(this->restTimer.Get() >= 3)
+          GhostAttack();
       }
     }
   }
@@ -113,6 +115,8 @@ void DeathGhost::Update(float dt)
       if(fabs(distanceFromFantome) <= DEATH_GHOST_ATTACK_RANGE)
       {
         this->restTimer.Update(dt);
+        if(this->restTimer.Get() >= 3)
+          GhostAttack();
       }
     }
   }
@@ -202,9 +206,9 @@ void DeathGhost::GhostAttack()
     Attack->box.y = this->associated->box.y + 70;
     Attack->box.w = 100;
     Attack->box.h = 40;
-    Sprite* sprite = new Sprite(Attack);
-    sprite->Open("assets/img/penguin/penguin.png");
-    Attack->GameObject::AddComponent(sprite);
+    //Sprite* sprite = new Sprite(Attack);
+    //sprite->Open("assets/img/penguin/penguin.png");
+    //Attack->GameObject::AddComponent(sprite);
 
     Blade* blade_component = new Blade(Attack,100,100,1);
     Attack->GameObject::AddComponent(blade_component);
@@ -230,5 +234,8 @@ bool DeathGhost::Is(std::string type)
 
 void DeathGhost::NotifyCollision(GameObject& other)
 {
+  /* Retrieving InputManager and Fantome State Instances */
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+  InputManager* inputManager = InputManager::GetInstance();
 
 }

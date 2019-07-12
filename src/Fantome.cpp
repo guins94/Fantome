@@ -248,7 +248,7 @@ void Fantome::NotifyCollision(GameObject& other)
     }
   }
 
-  if(other.GetComponent("Blade"))
+  if(other.GetComponent("DeathGhost"))
   {
       Camera::Follow(nullptr);
       fantomeState->fantomeExist = false;

@@ -172,15 +172,32 @@ FantomeState::FantomeState(){
     this->objectArray.emplace_back(deathGhostSightGo);
 
     GameObject* deathGhost2 = new GameObject();
-    deathGhost2->box.w = 173;
-    deathGhost2->box.h = 158;
-    deathGhost2->box.x = 3400;
-    deathGhost2->box.y = 1100;
+    deathGhost2->box.x = 3350;
+    deathGhost2->box.y = 1000;
     DeathGhost* deathGhost_component2 = new DeathGhost(deathGhost2,0);
-    deathGhost2->GameObject::AddComponent(deathGhost_component2);
+    deathGhost2->AddComponent(deathGhost_component2);
     Collider* deathGhost_collider2 = new Collider(deathGhost2, Vec2(1,1), Vec2(0,0));
-    deathGhost2->GameObject::AddComponent(deathGhost_collider2);
+    deathGhost2->AddComponent(deathGhost_collider2);
     this->objectArray.emplace_back(deathGhost2);
+
+    GameObject* deathGhostSightGo2 = new GameObject;
+    DeathGhostSight* deathGhostSight2 = new DeathGhostSight(deathGhostSightGo2, deathGhost2, deathGhost2->box.w, deathGhost2->box.h);
+    deathGhostSightGo2->AddComponent(deathGhostSight2);
+    this->objectArray.emplace_back(deathGhostSightGo2);
+
+    GameObject* deathGhost3 = new GameObject();
+    deathGhost3->box.x = 8050;
+    deathGhost3->box.y = 200;
+    DeathGhost* deathGhost_component3 = new DeathGhost(deathGhost3,0);
+    deathGhost3->AddComponent(deathGhost_component3);
+    Collider* deathGhost_collider3 = new Collider(deathGhost3, Vec2(1,1), Vec2(0,0));
+    deathGhost3->AddComponent(deathGhost_collider3);
+    this->objectArray.emplace_back(deathGhost3);
+
+    GameObject* deathGhostSightGo3 = new GameObject;
+    DeathGhostSight* deathGhostSight3 = new DeathGhostSight(deathGhostSightGo3, deathGhost3, deathGhost3->box.w, deathGhost3->box.h);
+    deathGhostSightGo3->AddComponent(deathGhostSight3);
+    this->objectArray.emplace_back(deathGhostSightGo3);
 
     /*GameObject* bonePileGo = new GameObject();
     bonePileGo->box.w = 50;
@@ -284,7 +301,7 @@ FantomeState::FantomeState(){
     GameObject* checkPointGo3 = new GameObject();
     checkPointGo3->box.x = 6400;
     checkPointGo3->box.y = 500;
-    CheckPoint* checkPoint3 = new CheckPoint(checkPointGo3, 1);
+    CheckPoint* checkPoint3 = new CheckPoint(checkPointGo3, 2);
     checkPointGo3->AddComponent(checkPoint3);
     this->objectArray.emplace_back(checkPointGo3);
 

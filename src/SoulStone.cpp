@@ -84,7 +84,7 @@ void SoulStone::NotifyCollision(GameObject& other)
   /* Resolving Collision Between Fantome and this Soulstone */
   if(other.GetComponent("Fantome"))
   {
-    std::cout << "SOULSTONE" << '\n';
+    std::cout << "SOULSTONE\n\n\n" << '\n';
     /* If Fantome Collects this SoulStone, it Disappears */
     if(!inputManager->KeyRelease(SDLK_SPACE))
     {

@@ -73,8 +73,6 @@ void Grave::Update(float dt)
 
       }
       this->associated->futureBox = auxBox;
-
-      this->graveSprite->DisableFlip();
     }
     if(!inputManager->KeyRelease(SDLK_d)){
       this->associated->futureBox.x = this->associated->futureBox.x + dt * GameData::fantomeSpeed.x;
@@ -87,8 +85,6 @@ void Grave::Update(float dt)
         }
       }
       this->associated->futureBox = auxBox;
-
-      this->graveSprite->EnableFlip();
     }
 
     if(this->possessionTimer->Get() >= 1 && (inputManager->KeyRelease(SDLK_SPACE) == false) && (inputManager->KeyRelease(SDLK_w) == false)){

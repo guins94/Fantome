@@ -52,7 +52,7 @@
 
   /* BoneFrog Defines */
   #define BONEFROG_HITPOINTS 1 // BoneFrog Hit Points
-  #define BONEFROG_JUMP_SPEED 1050 // BoneFrog Speed When It Jumps
+  #define BONEFROG_JUMP_SPEED 1200 // BoneFrog Speed When It Jumps
   #define BONEFROG_JUMP_COOLDOWN 3  // BoneFrog Jump CoolDown (in seconds)
   #define WILD_BONEFROG_MAX_WALK_DISTANCE 200 // Wild BoneFrog Maximum Walk Distance
 

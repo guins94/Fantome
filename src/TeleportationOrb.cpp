@@ -1,6 +1,7 @@
 #include"TeleportationOrb.h"
 
-TeleportationOrb::TeleportationOrb(GameObject* associated,int teleportID){
+TeleportationOrb::TeleportationOrb(GameObject* associated, int teleportID)
+{
   this->associated = associated;
   this->teleportID = teleportID;
   //Sprite* sprite = new Sprite(this->associated);
@@ -16,21 +17,24 @@ TeleportationOrb::TeleportationOrb(GameObject* associated,int teleportID){
   this->leftOrbPosition = Vec2(100,100);
   this->rightOrbPosition = Vec2(300,100);
 
-  this->boneFrogSprite = new Sprite(this->associated, "assets/img/portais/portal1_spritesheet.png", 16, 0.1, 0);
+  this->boneFrogSprite = new Sprite(this->associated, "assets/img/portais/portal2_spritesheet.png", 16, 0.1, 0);
   this->associated->AddComponent(this->boneFrogSprite);
   this->associated->box.w = this->boneFrogSprite->GetHeight();
   this->associated->box.h = this->boneFrogSprite->GetWidth();
 }
 
-TeleportationOrb::~TeleportationOrb(){
+TeleportationOrb::~TeleportationOrb()
+{
 
 }
 
-void TeleportationOrb::Start(){
+void TeleportationOrb::Start()
+{
 
 }
 
-void TeleportationOrb::Update(float dt){
+void TeleportationOrb::Update(float dt)
+{
   /*this->restTimer->Update(dt);
 
   if(this->restTimer->Get() >= 1){
@@ -155,22 +159,29 @@ void TeleportationOrb::Update(float dt){
 
 }
 
-void TeleportationOrb::Render(){
+void TeleportationOrb::Render()
+{
 
 }
 
-bool TeleportationOrb::Is (std::string type){
+bool TeleportationOrb::Is (std::string type)
+{
   return (type == "TeleportationOrb");
 }
 
 
 
-void TeleportationOrb::NotifyCollision(GameObject& other){
+void TeleportationOrb::NotifyCollision(GameObject& other)
+{
+  /* Retrieving Fantome State and Input Manager Instances */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-  if(other.GetComponent("Fantome") != nullptr){
+  InputManager* inputManager = InputManager::GetInstance();
+
+  if(other.GetComponent("Fantome"))
+  {
     std::cout << "COLIDINDO COM FANTOME EM ORB" << '\n';
-    InputManager* inputManager = InputManager::GetInstance();
-    if(inputManager->KeyRelease(SDLK_SPACE) == false){
+    if(!inputManager->KeyRelease(SDLK_SPACE))
+    {
     //if(fantomeState->leftOrbState == BLUE||fantomeState->rightOrbState == BLUE){
       if(fantomeState->teleportID == 0){
         if(this->teleportID == 1)
@@ -181,14 +192,20 @@ void TeleportationOrb::NotifyCollision(GameObject& other){
       this->switchPlaces = true;
   }
 }
-  if(other.GetComponent("Grave") != nullptr){
-    if(fantomeState->leftOrbState == BLUE){
+
+  if(other.GetComponent("Grave"))
+  {
+    if(fantomeState->leftOrbState == BLUE)
+    {
       fantomeState->leftOrbState = YELLOW;
       //fantomeState->rightOrbState = YELLOW; //PARA TESTE REMOVER DEPOIS ESSA LINHA
     }
   }
-  if(other.GetComponent("Blade") != nullptr){
-    if(fantomeState->rightOrbState == BLUE){
+
+  if(other.GetComponent("Blade"))
+  {
+    if(fantomeState->rightOrbState == BLUE)
+    {
       fantomeState->rightOrbState = YELLOW;
     }
   }

@@ -8,7 +8,8 @@
 
 
 
-class TeleportationOrb : public Component{
+class TeleportationOrb : public Component
+{
   private:
     bool falling;
     Timer* yellowTimer;
@@ -19,19 +20,15 @@ class TeleportationOrb : public Component{
     Vec2 rightOrbPosition;
     bool switchPlaces = true;
     Sprite* boneFrogSprite;
+
   public:
     TeleportationOrb(GameObject* associated, int checkID);
-  public:
     ~TeleportationOrb();
-  public:
+
     void Start();
-  public:
     void Update(float dt);
-  public:
     void Render();
-  public:
-    bool Is (std::string type);
-  public:
+    bool Is(std::string type);
     void NotifyCollision(GameObject& other);
 
 };

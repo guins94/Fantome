@@ -8,46 +8,35 @@
 
 class State
 {
-	private:
-		bool quitRequested;
-		Music* music;
-		Sprite* bg;
-		bool started;
-		bool popRequested;
-		std::vector< std::shared_ptr<GameObject>> objectArray;
-  private:
-		void StartArray();
-	  void virtual UpdateArray(float dt) = 0;
-		void virtual RenderArray() = 0;
-    void Input();
+  protected:
+    bool popRequested;
+    bool quitRequested;
+    bool started;
+    std::vector<std::shared_ptr<GameObject>> objectArray;
+
+    void StartArray();
+    void virtual UpdateArray(float dt);
+    void virtual RenderArray();
+
 	public:
 		State();
-  public:
-    virtual ~State() = 0;
-  public:
+    virtual ~State();
+
     bool GetQuitRequested();
-  public:
+    bool GetPopRequested();
+
     void QuitRequested();
-  public:
-    void LoadAssets();
-  public:
-    void virtual Update() = 0;
-  public:
-    void virtual Render() = 0;
-	public:
-		void virtual Start() = 0;
-	public:
-		std::weak_ptr< GameObject > virtual AddObject(GameObject* go) = 0;
-	public:
-		std::weak_ptr< GameObject > virtual GetObjectPtr(GameObject* go)= 0;
-	public:
-		bool GetPopRequested();
-  public:
     void PopRequested();
-	public:
-		void virtual Pause () = 0;
-	public:
-		void virtual Resume () = 0;
+
+    void LoadAssets();
+
+		void virtual Start() = 0;
+    void virtual Update() = 0;
+    void virtual Render() = 0;
+		void virtual Pause() = 0;
+		void virtual Resume() = 0;
+    virtual std::weak_ptr<GameObject> AddObject(GameObject* go) = 0;
+    virtual std::weak_ptr<GameObject> GetObjectPtr(GameObject* go)= 0;
 };
 
 #endif

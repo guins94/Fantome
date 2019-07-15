@@ -1,66 +1,134 @@
 #include"CheckPoint.h"
 
-CheckPoint::CheckPoint(GameObject* associated,int checkID){
+CheckPoint::CheckPoint(GameObject* associated, int checkPointID)
+{
   this->associated = associated;
-  this->checkID = checkID;
-  //Sprite* sprite = new Sprite(this->associated);
-  //sprite->Open("assets/img/penguinface.png");
-  //associated->GameObject::AddComponent(sprite);
-  Sound* sound = new Sound(this->associated,"assets/SFX/fire.ogg");
-  //sound->Play(1);
+
+  /* Initializing Variables */
+  this->checkPointID = checkPointID;
+  this->willActivate = false;
+
+  /* Initializing Activation Sound */
+  Sound* sound = new Sound(this->associated, "assets/SFX/checkpoint/checkPoint.ogg");
   this->fireSound = sound;
-  Timer* timer = new Timer();
-  this->restTimer = timer;
+
+  /* Initializing Timer */
+  this->restTimer.Restart();
+
+  /* Initializing Sprite State */
+  this->spriteState = SpriteState::DEACTIVATED;
+
+  /* Initializing CheckPoint Sprite & Adding Collider */
+  this->checkPointSprite = new Sprite(this->associated, "assets/img/checkpoint/checkPoint.png", 21, 0.1, 0);
+  this->checkPointSprite->SetFrame(19);
+  this->checkPointSprite->FreezeFrame(20);
+  //TODO: fix the need to do the next two lines
+  this->associated->box.w = this->checkPointSprite->GetHeight();
+  this->associated->box.h = this->checkPointSprite->GetWidth();
+  this->associated->AddComponent(this->checkPointSprite);
+
+  Collider* checkPointCollider = new Collider(this->associated, Vec2(1,1), Vec2(0,0));
+  this->associated->AddComponent(checkPointCollider);
 }
 
-CheckPoint::~CheckPoint(){
+CheckPoint::~CheckPoint()
+{
 
 }
 
-void CheckPoint::Start(){
+void CheckPoint::ActivateCheckPoint()
+{
+  /* Play Activation Sound */
+  this->fireSound->Play(1);
+
+  /* Set Control Flag */
+  this->willActivate = true;
+}
+
+void CheckPoint::Start()
+{
 
 }
 
-void CheckPoint::Update(float dt){
-  /*this->restTimer->Update(dt);
-
-  if(this->restTimer->Get() >= 1){
-
-  }*/
+void CheckPoint::Update(float dt)
+{
+  /* Retrieving Fantome State Instance */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+
+  SpriteState lastSpriteState = this->spriteState;
+
+  std::cout << "CID: " << fantomeState->checkPointID << '\n';
+
+  if(this->willActivate)
+    this->spriteState = SpriteState::ACTIVATED;
+
+  if(fantomeState->checkPointID != this->checkPointID)
+    this->spriteState = SpriteState::DEACTIVATED;
+
   float distanceFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
-  if(fantomeState->isAlive == false && this->checkID == fantomeState->checkID){
+  if(fantomeState->isAlive == false && this->checkPointID == fantomeState->checkPointID){
     GameObject* possession = new GameObject();
     possession->box.w = 30;
     possession->box.h = 30;
     possession->box.x = this->associated->box.x;//respawnPosition.x;
     possession->box.y = this->associated->box.y;//respawnPosition.y;
     possession->GameObject::AddComponent(new Possession(possession,2));
-    Collider* possession_collider = new Collider(possession);
+    Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
     possession->GameObject::AddComponent(possession_collider);
     Game::GetInstance()->GetCurrentState()->AddObject(possession);
     fantomeState->isAlive = true;
     //game->GetCurrentState()->AddObject(minion_go)
   }
+  std::cout << "CP SS: " << this->spriteState << '\n';
+  /* Updating CheckPoint Sprite */
+  switch(this->spriteState)
+  {
+    case SpriteState::DEACTIVATED:
+      if(this->spriteState != lastSpriteState)
+      {
+        this->checkPointSprite->Open("assets/img/checkpoint/checkPoint.png");
+        this->checkPointSprite->SetFrameCount(21);
+        this->checkPointSprite->SetFrameTime(0.1);
+        this->checkPointSprite->ResetFreeze();
+        this->checkPointSprite->SetFrame(19);
+        this->checkPointSprite->FreezeFrame(20);
+      }
+      break;
+    case SpriteState::ACTIVATED:
+      if(this->spriteState != lastSpriteState)
+      {
+        this->checkPointSprite->Open("assets/img/checkpoint/checkPoint.png");
+        this->checkPointSprite->SetFrameCount(21);
+        this->checkPointSprite->SetFrameTime(0.05);
+        this->checkPointSprite->ResetFreeze();
+        this->checkPointSprite->SetFrame(0);
+      }
+      break;
+  }
 
 }
 
-void CheckPoint::Render(){
+void CheckPoint::Render()
+{
 
 }
 
-bool CheckPoint::Is (std::string type){
-  return (type == "Fantome");
+bool CheckPoint::Is (std::string type)
+{
+  return (type == "CheckPoint");
 }
 
+void CheckPoint::NotifyCollision(GameObject& other)
+{
+  /* Retrieving InputManager and Fantome State Instances */
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+  InputManager* inputManager = InputManager::GetInstance();
 
-
-void CheckPoint::NotifyCollision(GameObject& other){
-
-  if(other.GetComponent("Fantome") != nullptr){
-    FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-    //this->respawnPosition.x = fantomeState->PlayerPosition.x;
-    //this->respawnPosition.y = fantomeState->PlayerPosition.y;
-    fantomeState->checkID = this->checkID;
+  if(other.GetComponent("Fantome"))
+  {
+    fantomeState->checkPointID = this->checkPointID;
+    if(!this->willActivate)
+      this->fireSound->Play(1);
+    this->willActivate = true;
   }
 }

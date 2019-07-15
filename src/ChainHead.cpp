@@ -11,8 +11,9 @@ ChainHead::ChainHead(GameObject* associated, int nChains, float angleRad) : Comp
   this->travelCooldown = new Timer();
 
   /* Adding Chain Head Sprite */
-  Sprite* sprite = new Sprite(associated, 1, 0);
-  sprite->Open("assets/img/penguin/penguinface.png");
+  //Sprite* sprite = new Sprite(associated, 1, 0);
+  //sprite->Open("assets/img/penguin/penguinface.png");
+  Sprite* sprite = new Sprite(this->associated, "assets/img/chain/chainHead.png", 16, 0.1, 0);
   this->associated->box.w = sprite->GetHeight();
   this->associated->box.h = sprite->GetWidth();
   this->associated->AddComponent(sprite);
@@ -22,7 +23,7 @@ ChainHead::ChainHead(GameObject* associated, int nChains, float angleRad) : Comp
   this->associated->AddComponent(collider);
 
   /* Calculating and setting chainHead rotation */
-  this->angleRad = angleRad;
+  this->angleRad = -angleRad;
   this->associated->angleDeg = GameData::RadToDeg(this->angleRad);
 
   /* Storing Chain Width and Height */
@@ -92,6 +93,11 @@ float ChainHead::GetAngle()
   return this->angleRad;
 }
 
+float ChainHead::GetPlayingTimer()
+{
+  return this->playingTimer->Get();
+}
+
 void ChainHead::Update(float dt)
 {
   /* Updating Possession Timer */
@@ -123,9 +129,9 @@ void ChainHead::Update(float dt)
     possession->box.h = 30;
     possession->box.x = this->associated->box.x;
     possession->box.y = this->associated->box.y;
-    possession->GameObject::AddComponent(new Possession(possession,2));
-    Collider* possession_collider = new Collider(possession);
-    possession->GameObject::AddComponent(possession_collider);
+    possession->AddComponent(new Possession(possession,2));
+    Collider* possession_collider = new Collider(possession, Vec2(1,1), Vec2(0,0));
+    possession->AddComponent(possession_collider);
     fantomeState->AddObject(possession);
     this->playing = false;
     this->possessionTimer->Restart();
@@ -158,6 +164,13 @@ void ChainHead::Start()
     goChain->box.x = this->associated->box.x + this->associated->box.w + goChain->box.w * (i);
     goChain->box.y = this->associated->box.y + this->associated->box.h/2 - goChain->box.h/2;
 
+    //TODO: WHY THE +2 PIXELS COMPENSATION ON X?
+    /*if(i == 0)
+    {
+      goChain->box.x = this->associated->box.x + this->associated->box.w + 2;
+      goChain->box.y = this->associated->box.y + this->associated->box.h/2 - goChain->box.h/2;
+    }*/
+
     /* Rotating Chain Box */
     Vec2 associatedCenter = this->associated->box.GetCenter();
     Vec2 chainCenter = goChain->box.GetCenter();
@@ -177,11 +190,7 @@ void ChainHead::Start()
 
 bool ChainHead::Is(std::string type)
 {
-  if(type == "ChainHead"){
-    return true;
-  }
-  else
-    return false;
+  return (type == "ChainHead");
 }
 
 void ChainHead::NotifyCollision(GameObject& other)
@@ -197,14 +206,14 @@ void ChainHead::NotifyCollision(GameObject& other)
   {
     if(!inputManager->KeyRelease(SDLK_SPACE))
     {
-      if(this->playingTimer->Get() >= 1.5)
+      if(this->playingTimer->Get() >= PLAYING_TIMER_VALUE)
       {
         this->playing = true;
         this->playingTimer->Restart();
+        Camera::Follow(this->associated);
+        Sprite* sprite = (Sprite*) this->associated->GetComponent("Sprite");
+        sprite->SetScaleX(1.1); sprite->SetScaleY(1.1);
       }
-      Camera::Follow(this->associated);
-      Sprite* sprite = (Sprite*) this->associated->GetComponent("Sprite");
-      sprite->SetScaleX(1.1); sprite->SetScaleY(1.1);
     }
   }
 

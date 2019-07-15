@@ -24,19 +24,15 @@ void InputManager::Update(){
 
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
+      case SDL_QUIT:
+        this->quitRequested = true;
+        break;
       case SDL_KEYDOWN:
         if(event.key.repeat != 1){
-          //std::cout  << "entrando1"<<std::endl;
-
-          if( event.key.keysym.sym == SDLK_ESCAPE ) {
-  				   this->quitRequested = true;
-  			     }else{
-                keyStageState.erase(event.key.keysym.sym);
-                keyUpdate.erase(event.key.keysym.sym);
-                keyStageState.insert({event.key.keysym.sym,true});
-                keyUpdate.insert({event.key.keysym.sym,this->updateCounter});
-                //std::cout  << "button"<<std::endl;
-            }
+          keyStageState.erase(event.key.keysym.sym);
+          keyUpdate.erase(event.key.keysym.sym);
+          keyStageState.insert({event.key.keysym.sym,true});
+          keyUpdate.insert({event.key.keysym.sym,this->updateCounter});
         }
         break;
       case SDL_KEYUP:
@@ -81,10 +77,6 @@ void InputManager::Update(){
           break;
         }
         //std::cout  << "entrando4"<<std::endl;
-        break;
-      case SDL_QUIT:
-        this->quitRequested = true;
-        //std::cout  << "entrando5"<< std::endl;
         break;
       default:
         break;

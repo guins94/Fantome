@@ -57,7 +57,7 @@ int* TileMap::At(int x, int y, int z){
 	if(-1 >= x || x >= 50){
 		return nullptr;
 	}
-	if(-1 >= y || y >= 25){
+	if(-1 >= y || y >= 30){
 		return nullptr;
 	}
   z = z;
@@ -90,13 +90,13 @@ void TileMap::RenderLayer(int layer, int cameraX, int CameraY){
   int tileHeight = this->tileSet->GetTileHeight();
 
 	if(layer == 1){
-		for(i=0; i<=24; i++){
-			for(j=0;j<=24; j++){
+		for(i=0; i<=29; i++){
+			for(j=0;j<=29; j++){
 				index = At(i,j,0);
 				if(*(index) != (-1)){
 					//std::cout << "camada i: " << i<< "camadaj:"<<j <<std::endl;
 					this->tileSet->RenderTile(*(index),(j*tileWidth) + cameraX,(i*tileHeight) + CameraY);
-          if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX - 130, (i*tileHeight) + CameraY -30);
+          //if(this->createCollision) CreateCollider(*(index),(j*tileWidth) + cameraX - 130, (i*tileHeight) + CameraY -30);
         }
 			}
 		}
@@ -143,35 +143,33 @@ int ParallaxScolling(int layer){
 
 void TileMap::CreateCollider(unsigned index, float x, float y){
   /* Se o índice for renderizar um espaço vazio, não é necessário um Collider */
-  if(index >= this->tileSet->GetColumns()) return;
-  if(!(this->goCollider)){
+  if(index == -1) return;
+
+  if(!(this->goCollider))
+  {
     std::cout << "Tilemap.cpp: Invalid GameObject pointer. Exiting." << '\n';
     exit(-1);
   }
 
-  std::cout << "index: " << index << " counter: " << GameData::counter << '\n';
-
   /* O índice 0 indica o início do chão */
-  if(index == 0){
-    printf("OLHA O INDICE 0\n");
+  if(index == 0)
+  {
     this->goCollider->box.x = x;
     this->goCollider->box.y = y;
   }
 
-  if(index >= 0 && index <= this->tileSet->GetColumns() - 1){
+  if(index >= 0 && index <= this->tileSet->GetColumns() - 1)
+  {
     this->goCollider->box.w += this->tileSet->GetTileWidth();
     this->goCollider->box.h = this->tileSet->GetTileHeight();
   }
 
-std::cout << "BOX.W: " <<  this->goCollider->box.w << '\n';
   if(index == this->tileSet->GetColumns() - 1){
-    printf("OLHA O INDICE 2\n");
     /* O índice 2 indica o final do chão */
 
     /* Adicionando chão ao vetor de objetos */
-    printf("ADICIONANDO OBJETOOOO\n");
     this->createCollision = false;
-    Collider* tileCollider = new Collider(this->goCollider);
+    Collider* tileCollider = new Collider(this->goCollider, Vec2(1,1), Vec2(0,0));
     this->goCollider->AddComponent(tileCollider);
     Ground* tileGround = new Ground(this->goCollider);
     this->goCollider->AddComponent(tileGround);

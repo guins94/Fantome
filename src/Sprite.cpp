@@ -4,7 +4,7 @@ void Sprite::Open(std::string file){
 	this->texture = Resources::GetImage(file);
 	SDL_QueryTexture(this->texture, nullptr, nullptr,&this->height ,&this->width);
 	this->height = this->height/this->frameCount;
-	SetClip(0, 0, this->Sprite::GetHeight() ,this->Sprite::GetWidth());
+	SetClip(0, 0, this->Sprite::GetHeight(), this->Sprite::GetWidth());
 }
 
 Sprite::Sprite(){
@@ -16,6 +16,8 @@ Sprite::Sprite(){
 	this->frameTime = 1;
 	this->isRenderEnabled = true;
 	this->isFlipped = false;
+	this->willFreeze = false;
+	this->hasFreezed = false;
 }
 
 Sprite::Sprite(std::string file){
@@ -27,6 +29,9 @@ Sprite::Sprite(std::string file){
 	this->frameTime = 1;
 	this->isRenderEnabled = true;
 	this->isFlipped = false;
+	this->willFreeze = false;
+	this->hasFreezed = false;
+	this->fileName = file;
 	Open(file);
 }
 
@@ -40,10 +45,11 @@ Sprite::Sprite(GameObject* associated, int frameCount, float frameTime)
 	this->frameTime = frameTime;
 	this->currentFrame = 0;
 	this->timeElapsed = 0;
-///<<<<<<< HEAD
 	this->isRenderEnabled = true;
 	this->isFlipped = false;
 	this->secondsToSelfDestruct = 0;
+	this->willFreeze = false;
+	this->hasFreezed = false;
 }
 
 Sprite::Sprite(GameObject* associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct)
@@ -60,12 +66,10 @@ Sprite::Sprite(GameObject* associated, std::string file, int frameCount, float f
 	this->isFlipped = false;
   this->secondsToSelfDestruct = secondsToSelfDestruct;
   this->selfDestructCount.Restart();
+	this->willFreeze = false;
+	this->hasFreezed = false;
+	this->fileName = file;
   Open(file);
-//=======
-	this->frameTime = frameTime;
-	this->isRenderEnabled = true;
-	this->isFlipped = false;
-//>>>>>>> Develop_guins
 }
 
 
@@ -89,6 +93,7 @@ void Sprite::Render(){
 
 	if(SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, this->associated->angleDeg, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
+			std::cout << "File Name: " << this->fileName << '\n';
       exit(-1);
   }
 }
@@ -109,6 +114,7 @@ void Sprite::Render(float x, float y){
 
 	if (SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), this->texture, &this->clipRect, &dstrect, 0, nullptr, flipType) != 0) {
       SDL_Log("Unable to initialize SDL_RenderCopyEx: %s", SDL_GetError());
+			std::cout << "File Name: " << this->fileName << '\n';
       exit(-1);
   }
 }
@@ -117,29 +123,29 @@ void Sprite::Start(){
 
 }
 
-void Sprite::Update(float dt){
+void Sprite::Update(float dt)
+{
+	/* Retrieving Input Manager Instance */
 	InputManager* inputManager = InputManager::GetInstance();
-	/*if(inputManager->KeyRelease(SDLK_a) == false){
-    this->associated->box.x = this->associated->box.x + dt;
-  }
-  if(inputManager->KeyRelease(SDLK_d) == false){
-    this->associated->box.x = this->associated->box.x - dt;
-  }
-  if(inputManager->KeyRelease(SDLK_w) == false){
-    this->associated->box.y = this->associated->box.y + dt;
-  }
-  if(inputManager->KeyRelease(SDLK_s) == false){
-    this->associated->box.y = this->associated->box.y - dt;
-  }
-*/
+
 	this->timeElapsed = this->timeElapsed + dt;
 	if(this->timeElapsed >= this->frameTime){
 		this->timeElapsed = 0;
 		this->currentFrame++;
-		if(this->currentFrame >= this->frameCount){
+		if(this->currentFrame >= this->frameCount && !this->willFreeze)
+		{
 			this->currentFrame = 0;
 		}
-		SetClip(this->Sprite::GetHeight()*this->currentFrame, 0, this->Sprite::GetHeight() ,this->Sprite::GetWidth());
+		if(this->currentFrame == this->freezedFrame && this->willFreeze)
+		{
+			this->hasFreezed = true;
+			this->currentFrame = this->freezedFrame;
+		}
+		if(this->hasFreezed)
+		{
+			this->currentFrame = this->freezedFrame;
+		}
+		SetClip(this->Sprite::GetHeight()*this->currentFrame, 0, this->Sprite::GetHeight(), this->Sprite::GetWidth());
 	}
 
 	if(this->secondsToSelfDestruct > 0){
@@ -150,7 +156,7 @@ void Sprite::Update(float dt){
 	}
 }
 
-void Sprite::SetClip(int x, int y,int w,int h){
+void Sprite::SetClip(int x, int y, int w, int h){
 	clipRect.x = x;
 	clipRect.y = y;
 	clipRect.w = w;
@@ -174,12 +180,14 @@ bool Sprite::IsOpen(){
 	}
 }
 
-bool Sprite::Is(std::string type){
-	if(type == "Sprite"){
-		return true;
-	}else{
-		return false;
-	}
+bool Sprite::IsFlipped()
+{
+	return this->isFlipped;
+}
+
+bool Sprite::Is(std::string type)
+{
+	return (type == "Sprite");
 }
 
 void Sprite::EnableRender()
@@ -231,4 +239,17 @@ void Sprite::SetFrameCount(int frameCount){
 
 void Sprite::SetFrameTime(float frameTime){
 	this->frameTime = frameTime;
+}
+
+void Sprite::FreezeFrame(int freeze)
+{
+	this->willFreeze = true;
+	this->freezedFrame = freeze;
+}
+
+void Sprite::ResetFreeze()
+{
+	this->willFreeze = false;
+	this->hasFreezed = false;
+	this->freezedFrame = -1;
 }

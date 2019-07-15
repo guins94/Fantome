@@ -25,35 +25,29 @@ void Possession::Update(float dt){
 
   this->associated->box.y -= 5;
 
-  if(this->restTimer->Get() >= 1){
+  if(this->restTimer->Get() >= 1)
+  {
+    /* Retrieving Current State */
     FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
 
-    fantomeState->fantomeExist = true;
+    /* Creating New Fantome */
     GameObject* goFantome = new GameObject();
-
-    Sprite* sprite = new Sprite(goFantome, "assets/img/fantome/standingFantome.png", 6, 0.1, 0);
-    //Sprite* sprite = new Sprite(goFantome, 6, 0.1);
-    sprite->Open("assets/fan_img/FANTOME PARADO - quadro de  96 px.png");
-    goFantome->GameObject::AddComponent(sprite);
     goFantome->box.x = this->associated->box.x;
     goFantome->box.y = this->associated->box.y;
-    goFantome->box.w = sprite->GetHeight();
-    goFantome->box.h = sprite->GetWidth();
-    //goFantome->box.h = 50;
 
-    Fantome* fantome_component = new Fantome(goFantome);
-    goFantome->GameObject::AddComponent(fantome_component);
+    Fantome* fantome = new Fantome(goFantome);
+    goFantome->AddComponent(fantome);
 
-    Collider* fantome_collider = new Collider(goFantome);
-    //Vec2 offset = Vec2(0,120);
-    //fantome_collider->SetOffset(offset);
-    goFantome->GameObject::AddComponent(fantome_collider);
+    Collider* fantomeCollider = new Collider(goFantome, Vec2(1,1), Vec2(0,0));
+    goFantome->AddComponent(fantomeCollider);
 
-    Game::GetInstance()->GetCurrentState()->AddObject(goFantome);
+    fantomeState->AddObject(goFantome);
 
     this->restTimer->Restart();
-    Camera::Follow(goFantome);
     this->associated->RequestDelete();
+
+    /* Following Fantome */
+    Camera::Follow(goFantome);
   }
 
 }
@@ -63,7 +57,7 @@ void Possession::Render(){
 }
 
 bool Possession::Is (std::string type){
-  return (type == "Fantome");
+  return (type == "Possession");
 }
 
 

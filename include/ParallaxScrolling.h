@@ -6,34 +6,23 @@
 #ifndef PARALLAX_HEADER
 #define PARALLAX_HEADER
 
-class ParallaxScrolling : public Component{
+class ParallaxScrolling : public Component
+{
 	private:
-    std::vector<int> tileMatrix;
-		Sprite* tileSet;
-		int mapWidth;
-		int mapHeight;
-		int mapDepth;
+		Sprite* parallaxSprite;
     float multiplier;
+
 	public:
-		ParallaxScrolling(GameObject* associated,float multiplier,std::string sprite_file, std::string file);
-	public:
-    int* At(int x,int y, int z);
-  public:
-    void Load(std::string file);
-  public:
-    void RenderLayer(int layer, int cameraX, int CameraY);
-  public:
+		ParallaxScrolling(GameObject* associated,float multiplier,std::string sprite_file);
+    ParallaxScrolling(GameObject* associated, float multiplier, std::string sprite_file, int frameCount);
+
     void SetTileSet(Sprite* tileSet);
-  public:
-		void Render();
-	public:
+
 		void Start();
-	public:
 		void Update(float dx);
-	public:
+    void Render();
 		bool Is(std::string type);
-  public:
-    void RenderTile(unsigned index,float x,float y );
+    void NotifyCollision();
 };
 
 #endif

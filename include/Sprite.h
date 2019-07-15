@@ -6,7 +6,8 @@
 #ifndef SPRITE_HEADER
 #define SPRITE_HEADER
 
-class Sprite : public Component{
+class Sprite : public Component
+{
 	private:
 		SDL_Texture* texture;
 		int width;
@@ -14,11 +15,13 @@ class Sprite : public Component{
 		SDL_Rect clipRect;
 		Vec2 scale = Vec2(1,1);
 		int frameCount;
-		int currentFrame;
+		int currentFrame, freezedFrame;
 		float timeElapsed;
 		float frameTime;
 		Timer selfDestructCount;
-    bool isRenderEnabled, isFlipped;
+    bool isRenderEnabled, isFlipped, willFreeze, hasFreezed;
+    std::string fileName;
+
 	public:
 		float secondsToSelfDestruct;
 	public:
@@ -48,6 +51,7 @@ class Sprite : public Component{
 		int GetHeight();
 	public:
 		bool IsOpen();
+    bool IsFlipped();
 	public:
 		bool Is(std::string type);
     void EnableRender();
@@ -66,6 +70,9 @@ class Sprite : public Component{
 		 void SetFrameCount(int frameCount);
 	 public:
 		 void SetFrameTime(float frameTime);
+
+     void FreezeFrame(int freeze);
+     void ResetFreeze();
 };
 
 #endif

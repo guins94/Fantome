@@ -6,30 +6,33 @@
 #ifndef BONEFROG_HEADER
 #define BONEFROG_HEADER
 
-
-class BoneFrog : public Component{
+class BoneFrog : public Component
+{
   private:
-    bool falling;
     int hp;
-    Timer* restTimer;
-    Timer* possessionTimer;
-    float fallingSpeed;
-    float gravity;
+    bool isGoingRight, isWild;
+    float fallingSpeed, distanceWalked;
+
+    enum SpriteState {STANDING, WALKING, JUMPING, FALLING, DEAD} sprtState;
+    SpriteState spriteState;
+
+    Sprite* boneFrogSprite;
+    Timer restTimer;
+    Timer possessionTimer;
     Sound* frogJump;
     Sound* frogLand;
+
   public:
-    bool playing;
-  public:
-    BoneFrog(GameObject* associated);
-  public:
-    void Update(float dt);
-  public:
-    void Render();
-  public:
-    bool Is(std::string type);
-  public:
-    void NotifyCollision(GameObject& other);
-  public:
+    bool isPlaying;
+
+    BoneFrog(GameObject* associated, bool isWild);
+
+    void FlipWildBoneFrog();
+
     void Start();
+    void Update(float dt);
+    void Render();
+    bool Is(std::string type);
+    void NotifyCollision(GameObject& other);
 };
 #endif

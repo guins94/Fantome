@@ -1,27 +1,28 @@
 #include"BonePile.h"
 
-BonePile::BonePile(GameObject* associated,int walkLimit){
+BonePile::BonePile(GameObject* associated, int walkLimit)
+{
   this->associated = associated;
   this->spawnBone = Vec2(associated->box.x,associated->box.x);
   this->walkLimitRigth = associated->box.x + walkLimit;
   this->walkLimitLeft =  associated->box.x - walkLimit;
   this->direction = 0;
-  Sprite* sprite = new Sprite(this->associated);
-  sprite->Open("assets/img/penguin/minion.png");
-  this->associated->GameObject::AddComponent(sprite);
+  Sprite* sprite = new Sprite(this->associated, "assets/img/bonefrog/wild/walkingWildBoneFrog.png", 12, 0.05, 0);
+  this->associated->AddComponent(sprite);
   Timer* timer = new Timer();
   this->restTimer = timer;
 }
 
-BonePile::~BonePile(){
-
+BonePile::~BonePile()
+{
 }
 
-void BonePile::Start(){
-
+void BonePile::Start()
+{
 }
 
-void BonePile::Update(float dt){
+void BonePile::Update(float dt)
+{
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
   switch (this->direction) {
     case MOVERIGHT:
@@ -46,18 +47,22 @@ void BonePile::Update(float dt){
 
 }
 
-void BonePile::Render(){
+void BonePile::Render()
+{
 
 }
 
-bool BonePile::Is (std::string type){
+bool BonePile::Is (std::string type)
+{
   return (type == "BonePile");
 }
 
 
 
-void BonePile::NotifyCollision(GameObject& other){
-	if(other.GetComponent("Grave")){
+void BonePile::NotifyCollision(GameObject& other)
+{
+	if(other.GetComponent("Grave"))
+  {
     /*GameObject* boneFrog2 = new GameObject();
     boneFrog2->box.w = 100;
     boneFrog2->box.h = 30;

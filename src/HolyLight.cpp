@@ -1,48 +1,78 @@
 #include"HolyLight.h"
 
-HolyLight::HolyLight(GameObject* associated,int weigth,int height,int hitTime){
+HolyLight::HolyLight(GameObject* associated, bool isSFXEnabled)
+{
   this->associated = associated;
-  this->colliderSize = Vec2(weigth,height);
-  this->hitTime == hitTime;
-  Timer* timer = new Timer();
-  this->restTimer = timer;
+
+  /* Initializing Control Variables */
+  this->isSFXEnabled = isSFXEnabled;
+
+  /* Adding HolyLight Sprite & Collider */
+  Sprite* sprite = new Sprite(this->associated, "assets/img/holylight/holyLight.png", 22, 0.1, 0);
+  this->associated->box.w = sprite->GetHeight();
+  this->associated->box.h = sprite->GetWidth();
+  this->associated->AddComponent(sprite);
+
+  /* Adding HolyLight Collider */
+  Collider* holyLightCollider = new Collider(this->associated, Vec2(1,1), Vec2(0,0));
+  this->associated->AddComponent(holyLightCollider);
+
+  /* Initializing Timer */
+  this->soundCooldownTimer.Restart();
+
+  /* Initializing HolyLight Sound */
   Sound* sound = new Sound(this->associated,"assets/SFX/light.ogg");
   this->lightSound = sound;
 }
 
-HolyLight::~HolyLight(){
+HolyLight::~HolyLight()
+{
 
 }
 
-void HolyLight::Start(){
+void HolyLight::Start()
+{
 
 }
 
-void HolyLight::Update(float dt){
-  this->restTimer->Update(dt);
+void HolyLight::Update(float dt)
+{
+  /* Retrieving Fantome State Instance */
   FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
-  float distanceFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
-  std::cout << "FANTOME EXIST" <<fantomeState->fantomeExist << '\n';
-  if(fabs(distanceFantome) <= 300 && fantomeState->fantomeExist == true){
-    if(this->restTimer->Get() >= 6){
-      this->lightSound->Play(1);
-      this->restTimer->Restart();
+
+  /* Updating SFX Cooldown Timer */
+  this->soundCooldownTimer.Update(dt);
+
+  /* Calculating Distance Between the HolyLight & Fantome */
+  float distanceFromFantome = fantomeState->PlayerPosition.x - this->associated->box.x;
+
+  /* If Fantome is Close Enough, Play the HolyLight SFX */
+  if(fabs(distanceFromFantome) <= HOLYLIGHT_SFX_MIN_DISTANCE)
+  {
+    if(this->soundCooldownTimer.Get() >= HOLYLIGHT_SOUND_COOLDOWN)
+    {
+      if(this->isSFXEnabled)
+      {
+        this->lightSound->Play(1);
+        this->soundCooldownTimer.Restart();
+      }
     }
   }
 
 
 }
 
-void HolyLight::Render(){
+void HolyLight::Render()
+{
 
 }
 
-bool HolyLight::Is (std::string type){
+bool HolyLight::Is(std::string type)
+{
   return (type == "HolyLight");
 }
 
-
-
-void HolyLight::NotifyCollision(GameObject& other){
+void HolyLight::NotifyCollision(GameObject& other)
+{
 
 }

@@ -15,12 +15,14 @@ class Fantome : public Component
     int hp;
     float fallingSpeed;
     Timer* restTimer;
+    Timer resetTimer;
     GameObject* player;
 
   public:
     Fantome(GameObject* associated);
     ~Fantome();
 
+    void Reset();
     void KillFantome();
     void Possess();
 

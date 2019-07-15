@@ -11,6 +11,7 @@ enum OrbState {YELLOW=1,  BLUE=0, RED= 2};
 class FantomeState : public State
 {
 	private:
+    Timer resetTimer;
 		Music backgroundMusic;
 		Sprite* bg;
 		bool started;
@@ -48,8 +49,8 @@ class FantomeState : public State
 		std::weak_ptr<GameObject> GetObjectPtr(GameObject* go);
 
 
-		void Pause ();
-		void Resume ();
+		void Pause();
+		void Resume();
 
     bool WillCollideWithGround(Rect& objectBox, float angleRad);
     bool WillCollideWithGrave(Rect& objectBox, float angleRad);

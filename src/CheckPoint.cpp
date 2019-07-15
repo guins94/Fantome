@@ -36,6 +36,15 @@ CheckPoint::~CheckPoint()
 
 }
 
+void CheckPoint::ActivateCheckPoint()
+{
+  /* Play Activation Sound */
+  this->fireSound->Play(1);
+
+  /* Set Control Flag */
+  this->willActivate = true;
+}
+
 void CheckPoint::Start()
 {
 

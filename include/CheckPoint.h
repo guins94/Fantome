@@ -27,6 +27,8 @@ class CheckPoint : public Component
     CheckPoint(GameObject* associated, int checkID);
     ~CheckPoint();
 
+    void ActivateCheckPoint();
+
     void Start();
     void Update(float dt);
     void Render();

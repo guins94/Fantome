@@ -29,6 +29,38 @@ Fantome::~Fantome()
 
 }
 
+void Fantome::Reset()
+{
+  /* Retrieving Fantome State & InputManager Instances */
+  FantomeState* fantomeState = (FantomeState*) Game::GetInstance()->GetCurrentState();
+  InputManager* inputManager = InputManager::GetInstance();
+
+  /* Updating Timer If R Is Pressed */
+  if(!inputManager->KeyRelease(SDLK_r))
+  {
+    std::cout << "R PRESSED" << '\n';
+    this->resetTimer.Update(Game::GetInstance()->GetDeltaTime());
+  }
+  else
+  {
+    this->resetTimer.Restart();
+  }
+
+  /* If R Is Pressed For 5 Seconds Straight */
+  if(this->resetTimer.Get() >= TIME_TO_RESET)
+  {
+    /* Reset Fantome Position */
+    std::cout << "RESET\n\n\n\n" << '\n';
+    Camera::Follow(nullptr);
+    fantomeState->fantomeExist = false;
+    fantomeState->isAlive = false;
+    this->associated->RequestDelete();
+
+    /* Restart Reset Timer */
+    this->resetTimer.Restart();
+  }
+}
+
 /* Plays Fantome Death Sprite Sheet */
 void Fantome::KillFantome()
 {
@@ -76,6 +108,9 @@ void Fantome::Update(float dt)
     std::cout << "Fantome.cpp: Error retrieving fantome sprite. Exiting." << '\n';
     exit(-1);
   }
+
+  /* Check R Press to Reset */
+  Reset();
 
   /* Calculando eixo y da futura posição do Fantome */
   this->associated->futureBox.y = this->associated->futureBox.y + dt * this->fallingSpeed + FANTOME_FLOAT_HEIGHT;

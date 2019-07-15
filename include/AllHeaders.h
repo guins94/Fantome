@@ -40,6 +40,7 @@
   #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 
   /* Game Defines */
+  #define TIME_TO_RESET 5 // Time in Seconds to Reset Fantome 
   #define END_GAME_POSITION 8600 // Position (X Axis) to Reach to load EndState
 
   /* Menu Defines */

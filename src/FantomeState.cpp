@@ -288,6 +288,7 @@ FantomeState::FantomeState(){
     checkPointGo->box.x = 150;
     checkPointGo->box.y = 500;
     CheckPoint* checkPoint = new CheckPoint(checkPointGo, 0);
+    checkPoint->ActivateCheckPoint();
     checkPointGo->AddComponent(checkPoint);
     this->objectArray.emplace_back(checkPointGo);
 
@@ -460,7 +461,6 @@ void FantomeState::Update()
     this->quitRequested = true;
   }
 
-  std::cout << "CameraX: " << Camera::pos.x << " END: " << END_GAME_POSITION << '\n';
   /* If The Player Reaches the End of The Stage, Load EndState */
   if(-Camera::pos.x >= END_GAME_POSITION)
   {
